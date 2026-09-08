@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
-import '../../../core/app_provider/app_provider.dart';
-import '../../../core/theme/app_colors.dart';
+// import '../../../core/app_provider/app_provider.dart';
 import '../../../localization/app_localizations.dart';
-import '../../login/login_screen.dart';
 import 'onboarding2_screen.dart';
 
 class onBoarding1 extends StatelessWidget {
@@ -13,8 +10,8 @@ class onBoarding1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var provider = Provider.of<AppProvider>(context);
+    //var theme = Theme.of(context);
+    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -26,10 +23,7 @@ class onBoarding1 extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black,
-                  ],
+                  colors: [Colors.transparent, Colors.black],
                 ),
               ),
             ),
@@ -49,8 +43,9 @@ class onBoarding1 extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!
-                          .findYourNextFavoriteMovieHere,
+                      AppLocalizations.of(
+                        context,
+                      )!.findYourNextFavoriteMovieHere,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
@@ -62,8 +57,9 @@ class onBoarding1 extends StatelessWidget {
                     const SizedBox(height: 14),
 
                     Text(
-                      AppLocalizations.of(context)!
-                          .findYourNextFavoriteMovieHereDescription,
+                      AppLocalizations.of(
+                        context,
+                      )!.findYourNextFavoriteMovieHereDescription,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,

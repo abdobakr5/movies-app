@@ -1,13 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/modules/onBoarding/screens/onboarding5_screen.dart';
-import 'package:provider/provider.dart';
-
-import '../../../core/app_provider/app_provider.dart';
-import '../../../core/theme/app_colors.dart';
+// import 'package:provider/provider.dart';
+// import '../../../core/app_provider/app_provider.dart';
 import '../../../localization/app_localizations.dart';
-import '../../login/login_screen.dart';
-import 'onboarding2_screen.dart';
 import 'onboarding3_screen.dart';
 
 class onBoarding4 extends StatelessWidget {
@@ -15,19 +10,20 @@ class onBoarding4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var provider = Provider.of<AppProvider>(context);
+    //var theme = Theme.of(context);
+    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-            'assets/onboarding4.png',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.topCenter),
+              'assets/onboarding4.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

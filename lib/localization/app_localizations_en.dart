@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'app_localizations.dart';
-import 'package:intl/intl.dart' as intl;
 
 // ignore_for_file: type=lint
 
@@ -26,7 +25,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   // TODO: implement createWatchlistDescription
-  String get createWatchlistDescription => "Save movies to your watchlist to keep track of what you want to watch next. Enjoy films in various qualities and genres.";
+  String get createWatchlistDescription =>
+      "Save movies to your watchlist to keep track of what you want to watch next. Enjoy films in various qualities and genres.";
 
   @override
   // TODO: implement discoverMovies
@@ -34,7 +34,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   // TODO: implement discoverMoviesDescription
-  String get discoverMoviesDescription => "Explore a vast collection of movies in all qualities and genres. Find your next favorite film with ease.";
+  String get discoverMoviesDescription =>
+      "Explore a vast collection of movies in all qualities and genres. Find your next favorite film with ease.";
 
   @override
   // TODO: implement exploreAllGenres
@@ -42,15 +43,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   // TODO: implement exploreAllGenresDescription
-  String get exploreAllGenresDescription => "Discover movies from every genre, in all available qualities. Find something new and exciting to watch every day.";
+  String get exploreAllGenresDescription =>
+      "Discover movies from every genre, in all available qualities. Find something new and exciting to watch every day.";
 
   @override
   // TODO: implement findYourNextFavoriteMovieHere
-  String get findYourNextFavoriteMovieHere => "Find Your Next\n Favorite Movie Here";
+  String get findYourNextFavoriteMovieHere =>
+      "Find Your Next\n Favorite Movie Here";
 
   @override
   // TODO: implement findYourNextFavoriteMovieHereDescription
-  String get findYourNextFavoriteMovieHereDescription => "Get access to a huge library of movies\n to suit all tastes. You will surely like it.";
+  String get findYourNextFavoriteMovieHereDescription =>
+      "Get access to a huge library of movies\n to suit all tastes. You will surely like it.";
 
   @override
   // TODO: implement rateReviewAndLearn
@@ -58,7 +62,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   // TODO: implement rateReviewAndLearnDescription
-  String get rateReviewAndLearnDescription => "Share your thoughts on the movies you've watched. Dive deep into film details and help others discover great movies with your reviews.";
+  String get rateReviewAndLearnDescription =>
+      "Share your thoughts on the movies you've watched. Dive deep into film details and help others discover great movies with your reviews.";
 
   @override
   // TODO: implement startWatchingNow

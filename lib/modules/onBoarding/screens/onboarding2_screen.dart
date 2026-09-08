@@ -1,41 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/modules/onBoarding/screens/onboarding3_screen.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
-import '../../../core/app_provider/app_provider.dart';
-import '../../../core/theme/app_colors.dart';
+// import '../../../core/app_provider/app_provider.dart';
 import '../../../localization/app_localizations.dart';
-import '../../login/login_screen.dart';
-import 'onboarding2_screen.dart';
 
 class onBoarding2 extends StatelessWidget {
   const onBoarding2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var provider = Provider.of<AppProvider>(context);
+    //var theme = Theme.of(context);
+    //  var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-            'assets/onboarding2.png',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.topCenter),
+              'assets/onboarding2.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.teal,
-                  ],
+                  colors: [Colors.transparent, Colors.teal],
                 ),
               ),
             ),
@@ -55,8 +49,7 @@ class onBoarding2 extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!
-                          .discoverMovies,
+                      AppLocalizations.of(context)!.discoverMovies,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
@@ -68,8 +61,7 @@ class onBoarding2 extends StatelessWidget {
                     const SizedBox(height: 14),
 
                     Text(
-                      AppLocalizations.of(context)!
-                          .discoverMoviesDescription,
+                      AppLocalizations.of(context)!.discoverMoviesDescription,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,
@@ -100,8 +92,7 @@ class onBoarding2 extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!
-                             .next ,
+                          AppLocalizations.of(context)!.next,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

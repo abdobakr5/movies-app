@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding2_screen.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding3_screen.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding4_screen.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding5_screen.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding6_screen.dart';
 import 'package:provider/provider.dart';
 import 'core/app_provider/app_provider.dart';
 import 'localization/app_localizations.dart';
-import 'modules/onBoarding/screens/onboarding1_screen.dart';
+import 'modules/splashScreen/splash_screen.dart';
 
 void main() {
   runApp(
@@ -30,7 +25,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
 
-      home: const onBoarding1(),
+      home: const SplashScreen(),
     );
   }
 }

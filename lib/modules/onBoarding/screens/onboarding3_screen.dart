@@ -1,32 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/modules/onBoarding/screens/onboarding4_screen.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
-import '../../../core/app_provider/app_provider.dart';
-import '../../../core/theme/app_colors.dart';
+// import '../../../core/app_provider/app_provider.dart';
 import '../../../localization/app_localizations.dart';
-import '../../login/login_screen.dart';
 import 'onboarding2_screen.dart';
 
 class onBoarding3 extends StatelessWidget {
-   const onBoarding3({super.key});
+  const onBoarding3({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var provider = Provider.of<AppProvider>(context);
+    //var theme = Theme.of(context);
+    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-                'assets/onboarding3.png',
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter),
+              'assets/onboarding3.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -113,9 +111,7 @@ class onBoarding3 extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) =>  onBoarding2(),
-                            ),
+                            MaterialPageRoute(builder: (_) => onBoarding2()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
