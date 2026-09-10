@@ -6,12 +6,12 @@ import 'modules/splashScreen/splash_screen.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MyApp()),
+    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MoviesApp()),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MoviesApp extends StatelessWidget{
+  const MoviesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
