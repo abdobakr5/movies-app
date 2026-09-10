@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'core/app_provider/app_provider.dart';
 import 'localization/app_localizations.dart';
 import 'modules/splashScreen/splash_screen.dart';
-
+import 'modules/resetpassword/reset_password.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(create: (_) => AppProvider(), child: const MyApp()),
