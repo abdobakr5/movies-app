@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
-import 'features/profile/presentation/screens/update_profile_screen.dart';
-void main(){
-  runApp(const MoviesApp());
+import 'package:provider/provider.dart';
+import 'core/app_provider/app_provider.dart';
+import 'localization/app_localizations.dart';
+import 'modules/splashScreen/splash_screen.dart';
 
+void main() {
+  runApp(
+    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MoviesApp()),
+  );
 }
+
 class MoviesApp extends StatelessWidget{
   const MoviesApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Movies app',
       theme: ThemeData(
-        useMaterial3: true
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xff1E1E1E),
       ),
-      home: UpdateProfileScreen(),
+
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+
+      home: const SplashScreen(),
     );
   }
 }
