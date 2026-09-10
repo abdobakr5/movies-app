@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/app_provider/app_provider.dart';
 import 'localization/app_localizations.dart';
+import 'modules/register/register_screen.dart';
 import 'modules/splashScreen/splash_screen.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MyApp()),
+    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MoviesApp()),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MoviesApp extends StatelessWidget{
+  const MoviesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
 
       home: const SplashScreen(),
+      //home: const RegisterScreen()
     );
   }
 }
