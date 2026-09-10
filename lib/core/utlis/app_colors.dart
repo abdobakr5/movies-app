@@ -6,5 +6,7 @@ class AppColors {
   static const Color primaryYellow=Color(0xffF6BD00);
   static const Color red=Color(0xffE82626);
   static const Color textWhite=Color(0xffFFFFFF);
+  static const Color inputFill = Color(0xFF282A28);
+  static const Color black=Color(0xff000000);
 
 }
