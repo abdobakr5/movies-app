@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/app_provider/app_provider.dart';
-import 'localization/app_localizations.dart';
-import 'modules/register/register_screen.dart';
-import 'modules/splashScreen/splash_screen.dart';
+import 'core/localization/app_localizations.dart';
+import 'features/splash/presentation/views/splash_screen.dart';
 
 void main() {
   runApp(
@@ -27,7 +26,6 @@ class MoviesApp extends StatelessWidget{
       supportedLocales: AppLocalizations.supportedLocales,
 
       home: const SplashScreen(),
-      //home: const RegisterScreen()
     );
   }
 }

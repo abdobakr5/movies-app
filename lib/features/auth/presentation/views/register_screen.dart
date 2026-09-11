@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../core/utlis/app_assets.dart';
-import '../../core/utlis/app_colors.dart';
-import '../../features/profile/presentation/widgets/avatar_selector.dart';
-import '../../features/profile/presentation/widgets/custom_button.dart';
-import '../../features/profile/presentation/widgets/custom_text_field.dart';
-import '../../features/profile/presentation/widgets/language_toggle.dart';
-import '../../features/profile/presentation/widgets/password_text_field.dart';
+import '../../../../core/app_routes/app_routes.dart';
+import '../../../../core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../profile/presentation/widgets/avatar_selector.dart';
+import '../../../profile/presentation/widgets/custom_button.dart';
+import '../../../profile/presentation/widgets/custom_text_field.dart';
+import '../../../profile/presentation/widgets/language_toggle.dart';
+import '../../../profile/presentation/widgets/password_text_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -63,7 +64,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
 
-                      _buildLoginRow(),
+                      _buildLoginRow(context),
                       const SizedBox(height: 20),
 
                       Center(
@@ -108,7 +109,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginRow() {
+  Widget _buildLoginRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -117,7 +118,9 @@ class RegisterScreen extends StatelessWidget {
           style: TextStyle(color: AppColors.textWhite),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushReplacement(context, AppRoutes.login());
+          },
           child: const Text(
             'Login',
             style: TextStyle(

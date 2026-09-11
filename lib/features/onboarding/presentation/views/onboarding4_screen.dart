@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import '../../../../core/app_routes/app_routes.dart';
+import '../../../../core/localization/app_localizations.dart';
 
-// import '../../../core/app_provider/app_provider.dart';
-import '../../../localization/app_localizations.dart';
-import 'onboarding2_screen.dart';
-
-class onBoarding1 extends StatelessWidget {
-  const onBoarding1({super.key});
+class Onboarding4Screen extends StatelessWidget {
+  const Onboarding4Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //var theme = Theme.of(context);
-    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset('assets/onboarding1.jpg', fit: BoxFit.cover),
+            Image.asset(
+              'assets/onboarding4.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+            ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -43,9 +44,7 @@ class onBoarding1 extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(
-                        context,
-                      )!.findYourNextFavoriteMovieHere,
+                      AppLocalizations.of(context)!.createWatchlist,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
@@ -57,9 +56,7 @@ class onBoarding1 extends StatelessWidget {
                     const SizedBox(height: 14),
 
                     Text(
-                      AppLocalizations.of(
-                        context,
-                      )!.findYourNextFavoriteMovieHereDescription,
+                      AppLocalizations.of(context)!.createWatchlistDescription,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,
@@ -76,9 +73,7 @@ class onBoarding1 extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding2(),
-                            ),
+                            AppRoutes.onboarding5(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -89,9 +84,39 @@ class onBoarding1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text(
-                          'Explore Now',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.next,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff121312),
+                          foregroundColor: const Color(0xffF6BD00),
+
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(
+                              color: Color(0xffF6BD00),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.back,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

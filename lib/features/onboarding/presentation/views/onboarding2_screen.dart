@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import '../../../../core/app_routes/app_routes.dart';
+import '../../../../core/localization/app_localizations.dart';
 
-// import '../../../core/app_provider/app_provider.dart';
-import '../../../localization/app_localizations.dart';
-import 'onboarding2_screen.dart';
-
-class onBoarding6 extends StatelessWidget {
-  const onBoarding6({super.key});
+class Onboarding2Screen extends StatelessWidget {
+  const Onboarding2Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //var theme = Theme.of(context);
-    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/onboarding6.png',
+              'assets/onboarding2.png',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black],
+                  colors: [Colors.transparent, Colors.teal],
                 ),
               ),
             ),
@@ -49,12 +44,23 @@ class onBoarding6 extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.startWatchingNow,
+                      AppLocalizations.of(context)!.discoverMovies,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
+                      ),
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    Text(
+                      AppLocalizations.of(context)!.discoverMoviesDescription,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white70,
                       ),
                     ),
 
@@ -67,9 +73,7 @@ class onBoarding6 extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding2(),
-                            ),
+                            AppRoutes.onboarding3(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -81,7 +85,7 @@ class onBoarding6 extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!.finish,
+                          AppLocalizations.of(context)!.next,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -96,18 +100,10 @@ class onBoarding6 extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding6(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff121312),
-                          foregroundColor: Color(0xffF6BD00),
-
+                          foregroundColor: const Color(0xffF6BD00),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

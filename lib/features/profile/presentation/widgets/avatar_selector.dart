@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utlis/app_colors.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class AvatarSelector extends StatefulWidget {
   final List<String> avatarPaths;

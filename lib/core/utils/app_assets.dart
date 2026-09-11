@@ -1,4 +1,8 @@
 class AppAssets {
+  static const String appLogo = 'assets/logo/app_logo.png';
+  static const String routeLogo = 'assets/logo/route_logo.png';
+  static const String google = 'assets/logo/google_logo.png';
+
   static const String avatar1="assets/images/avatar1.png";
   static const String avatar2="assets/images/avatar2.png";
   static const String avatar3="assets/images/avatar3.png";

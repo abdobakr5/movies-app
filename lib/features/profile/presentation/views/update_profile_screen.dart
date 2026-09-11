@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/utlis/app_assets.dart';
-import '../../../../core/utlis/app_colors.dart';
-import '../../../../core/utlis/app_strings.dart';
-import '../../../../core/utlis/app_styles.dart';
+import 'package:movies_app/core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../../../core/utils/app_styles.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -50,7 +50,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ),
             itemCount: avatars.length,
             itemBuilder: (context, index) {
-              final bool isSelected=selectedAvatar==avatars[index];
+              final bool isSelected = selectedAvatar == avatars[index];
               return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -60,10 +60,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: isSelected?AppColors.primaryYellow.withOpacity(0.4):AppColors.surfaceColor,
+                    color: isSelected ? AppColors.primaryYellow.withValues(alpha: 0.4) : AppColors.surfaceColor,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color:AppColors.primaryYellow,
+                      color: AppColors.primaryYellow,
                       width: 1,
                     ),
                   ),
@@ -100,16 +100,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
         ),
         title: TextButton(
-                onPressed: _showAvatarBottomSheet,
-                child: const Text(
-                  AppStrings.pickAvatar,
-                  style: TextStyle(
-                    color: AppColors.primaryYellow,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-        //Text(AppStrings.pickAvatar, style: AppStyles.titleStyle),
+          onPressed: _showAvatarBottomSheet,
+          child: const Text(
+            AppStrings.pickAvatar,
+            style: TextStyle(
+              color: AppColors.primaryYellow,
+              fontSize: 16,
+            ),
+          ),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -117,15 +116,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              
               CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage(selectedAvatar),
-                
-
               ),
               const SizedBox(height: 8),
-              
               const SizedBox(height: 30),
               CustomTextField(
                 controller: nameController,
@@ -148,7 +143,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 ),
                 child: const Text(AppStrings.resetPassword, style: AppStyles.bodyStyle),
               ),
-              
               const SizedBox(height: 260),
               CustomButton(
                 backgroundColor: AppColors.red,

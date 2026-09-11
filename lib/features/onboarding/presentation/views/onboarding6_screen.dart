@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding3_screen.dart';
-// import 'package:provider/provider.dart';
+import '../../../../core/app_routes/app_routes.dart';
+import '../../../../core/localization/app_localizations.dart';
 
-// import '../../../core/app_provider/app_provider.dart';
-import '../../../localization/app_localizations.dart';
-
-class onBoarding2 extends StatelessWidget {
-  const onBoarding2({super.key});
+class Onboarding6Screen extends StatelessWidget {
+  const Onboarding6Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //var theme = Theme.of(context);
-    //  var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/onboarding2.png',
+              'assets/onboarding6.png',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.teal],
+                  colors: [Colors.transparent, Colors.black],
                 ),
               ),
             ),
@@ -49,23 +44,12 @@ class onBoarding2 extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.discoverMovies,
+                      AppLocalizations.of(context)!.startWatchingNow,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
-                      ),
-                    ),
-
-                    const SizedBox(height: 14),
-
-                    Text(
-                      AppLocalizations.of(context)!.discoverMoviesDescription,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white70,
                       ),
                     ),
 
@@ -76,11 +60,9 @@ class onBoarding2 extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding3(),
-                            ),
+                            AppRoutes.login(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -92,7 +74,37 @@ class onBoarding2 extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!.next,
+                          AppLocalizations.of(context)!.finish,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff121312),
+                          foregroundColor: const Color(0xffF6BD00),
+
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(
+                              color: Color(0xffF6BD00),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.back,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

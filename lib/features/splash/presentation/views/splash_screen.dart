@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:movies_app/core/app_assets/app_assets.dart';
+import '../../../../core/app_assets/app_assets.dart';
+import '../../../../core/app_routes/app_routes.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -28,19 +29,9 @@ class SplashScreen extends StatelessWidget {
               onFinish: (direction) {
                 Future.delayed(const Duration(seconds: 1), () {
                   if (context.mounted) {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SplashScreen();
-                        },
-                      ),
-                      // TODO: Implement navigation to the next screen after the splash screen.
-                      // MaterialPageRoute(
-                      //   builder: (context) {
-                      //     return const OnboardingScreen();
-                      //   },
-                      // ),
+                      AppRoutes.onboarding1(),
                     );
                   }
                 });
