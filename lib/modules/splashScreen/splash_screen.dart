@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:movies_app/core/app_assets/app_assets.dart';
+import 'package:movies_app/modules/login/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -32,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const SplashScreen();
+                          return const LoginScreen();
                         },
                       ),
                       // TODO: Implement navigation to the next screen after the splash screen.
