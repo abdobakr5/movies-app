@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding4_screen.dart';
-import 'package:movies_app/modules/onBoarding/screens/onboarding6_screen.dart';
-// import 'package:provider/provider.dart';
+import '../../../../core/app_routes/app_routes.dart';
+import '../../../../core/localization/app_localizations.dart';
 
-// import '../../../core/app_provider/app_provider.dart';
-import '../../../localization/app_localizations.dart';
-
-class onBoarding5 extends StatelessWidget {
-  const onBoarding5({super.key});
+class Onboarding5Screen extends StatelessWidget {
+  const Onboarding5Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //var theme = Theme.of(context);
-    //var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -26,7 +20,7 @@ class onBoarding5 extends StatelessWidget {
               alignment: Alignment.topCenter,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -81,9 +75,7 @@ class onBoarding5 extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding6(),
-                            ),
+                            AppRoutes.onboarding6(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -110,17 +102,10 @@ class onBoarding5 extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const onBoarding4(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff121312),
-                          foregroundColor: Color(0xffF6BD00),
+                          foregroundColor: const Color(0xffF6BD00),
 
                           elevation: 0,
                           shape: RoundedRectangleBorder(
