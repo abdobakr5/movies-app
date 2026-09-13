@@ -5,11 +5,13 @@ import 'custom_text_field.dart';
 class PasswordTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String hintText;
+  final String? Function(String?)? validator;
 
   const PasswordTextField({
     super.key,
     this.controller,
     required this.hintText,
+    this.validator,
   });
 
   @override
@@ -28,6 +30,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       hintText: widget.hintText,
       icon: Icons.lock,
       obscureText: _isObscured,
+      validator: widget.validator,
       suffixIcon: IconButton(
         icon: Icon(
           _isObscured ? Icons.visibility_off : Icons.visibility,
