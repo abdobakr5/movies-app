@@ -1,10 +1,22 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/features/profile/domain/usecases/delete_account_usecase.dart';
+import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
+import '../manager/profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../manager/profile_state.dart';
+
+
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -28,9 +40,22 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     AppAssets.avatar8,
     AppAssets.avatar9,
   ];
+
   
   String selectedAvatar = AppAssets.avatar1;
 
+  void _showNotificationMessage({
+    required String message,
+    required Color color,
+  })
+  {
+    SnackBar(content: Text(message),
+    backgroundColor: color,
+    
+    );
+  }
+
+  
   void _showAvatarBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -88,9 +113,36 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     phoneController.dispose();
     super.dispose();
   }
+@override 
+Widget build(BuildContext context){
+  
+   return BlocProvider<ProfileCubit>(create: (context) => getIt<ProfileCubit>(),
+   child: BlocConsumer<ProfileCubit,ProfileState>(
+   listener: (context, state) {
+    print("Current state is $state");
+     if(state is ProfileSuccess){
+        _showNotificationMessage(
+          message: AppStrings.profileUpdatedSuccess,
+          color: AppColors.green);
+     }
+     else if(state is ProfileDeleted){
+      _showNotificationMessage(
+        message: AppStrings.accountDeletedSuccess, 
+        color:AppColors.red );
+     }
+     else if(state is ProfileError){
+      print("Error message ${state.message}");
+      _showNotificationMessage(
+        
+        message: state.message, 
+        color: AppColors.red);
+     }
+   },
+  
+   builder: (context,state){
 
-  @override
-  Widget build(BuildContext context) {
+  
+
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
@@ -146,14 +198,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               const SizedBox(height: 260),
               CustomButton(
                 backgroundColor: AppColors.red,
-                onPressed: () {},
+                onPressed: () {
+                  context.read<ProfileCubit>().deleteAccount();
+                },
                 text: AppStrings.deleteAccount,
                 textColor: AppColors.textWhite,
               ),
               const SizedBox(height: 16),
               CustomButton(
                 backgroundColor: AppColors.primaryYellow,
-                onPressed: () {},
+                onPressed: () {
+                  context.read<ProfileCubit>().updateProfile(
+                    name: nameController.text, 
+                    phone: phoneController.text, 
+                    avatar: selectedAvatar);
+                },
                 text: AppStrings.updateData,
                 textColor: AppColors.surfaceColor,
               ),
@@ -163,4 +222,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       ),
     );
   }
+   ),
+   );
+}
 }
