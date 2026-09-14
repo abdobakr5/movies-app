@@ -8,6 +8,10 @@ class AppStrings {
   //Default User Data
   static const  String defaultName="John Safwat";
   static const  String defaultPhone="01200000000";
+  //states
+  static const String profileUpdatedSuccess='Profile Updated Successfully!';
+  static const String accountDeletedSuccess='Account Deleted Successfully!';
+
 
 
 }
