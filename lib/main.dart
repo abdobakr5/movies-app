@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/views/update_profile_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'core/app_provider/app_provider.dart';
 import 'localization/app_localizations.dart';
 import 'modules/splashScreen/splash_screen.dart';
 import 'modules/resetpassword/reset_password.dart';
-void main() {
+
+import 'core/localization/app_localizations.dart';
+import 'features/splash/presentation/views/splash_screen.dart';
+import 'core/services/services_locator.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ServicesLocator();
+  await Firebase.initializeApp();
+
+
   runApp(
-    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MyApp()),
+    ChangeNotifierProvider(
+      create: (_) => AppProvider(),
+      child: const MoviesApp(),
+    ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MoviesApp extends StatelessWidget {
+  const MoviesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +40,15 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xff1E1E1E),
       ),
-
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-
-      home: const SplashScreen(),
+      home: 
+      // BlocProvider(
+      //   create: (context)=>getIt<ProfileCubit>(),
+        
+      //   child: 
+        const SplashScreen(),
+        // ),
     );
   }
 }
