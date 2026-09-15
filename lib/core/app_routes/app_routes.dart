@@ -11,6 +11,7 @@ import '../../features/onboarding/presentation/views/onboarding4_screen.dart';
 import '../../features/onboarding/presentation/views/onboarding5_screen.dart';
 import '../../features/onboarding/presentation/views/onboarding6_screen.dart';
 import '../../features/profile/presentation/views/update_profile_screen.dart';
+import '../../features/main_layout/presentation/views/main_layout_screen.dart';
 
 class AppRoutes {
   static Route onboarding1() =>
@@ -46,4 +47,7 @@ class AppRoutes {
 
   static Route updateProfile() =>
       MaterialPageRoute(builder: (_) => const UpdateProfileScreen());
+
+  static Route mainLayout() =>
+      MaterialPageRoute(builder: (_) => const MainLayoutScreen());
 }

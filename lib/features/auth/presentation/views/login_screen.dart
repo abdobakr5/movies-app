@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'Login',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                       Navigator.push(context, AppRoutes.updateProfile());
+                      Navigator.pushReplacement(context, AppRoutes.mainLayout());
                     }
                   },
                 ),
