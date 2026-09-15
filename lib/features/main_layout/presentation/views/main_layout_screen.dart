@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../cubit/main_layout_cubit.dart';
+import '../cubit/main_layout_state.dart';
+import '../widgets/custom_bottom_nav_bar.dart';
+
+class MainLayoutScreen extends StatelessWidget {
+  const MainLayoutScreen({super.key});
+
+  static const List<Widget> _screens = [
+    Center(
+      child: Text(
+        'Home Screen',
+        style: TextStyle(
+          color: AppColors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    Center(
+      child: Text(
+        'Search Screen',
+        style: TextStyle(
+          color: AppColors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    Center(
+      child: Text(
+        'Explore Screen',
+        style: TextStyle(
+          color: AppColors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    Center(
+      child: Text(
+        'Profile Screen',
+        style: TextStyle(
+          color: AppColors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MainLayoutCubit(),
+      child: BlocBuilder<MainLayoutCubit, MainLayoutState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldBackground,
+            extendBody: true,
+            body: IndexedStack(
+              index: state.currentIndex,
+              children: _screens,
+            ),
+            bottomNavigationBar: CustomBottomNavBar(
+              currentIndex: state.currentIndex,
+              onTap: (index) {
+                context.read<MainLayoutCubit>().changeIndex(index);
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
