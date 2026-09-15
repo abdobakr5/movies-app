@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
-import 'package:movies_app/features/profile/presentation/views/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/app_provider/app_provider.dart';
@@ -9,13 +6,11 @@ import 'core/localization/app_localizations.dart';
 import 'features/splash/presentation/views/splash_screen.dart';
 import 'core/services/services_locator.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   ServicesLocator();
   await Firebase.initializeApp();
-
 
   runApp(
     ChangeNotifierProvider(
@@ -38,13 +33,13 @@ class MoviesApp extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: 
-      // BlocProvider(
-      //   create: (context)=>getIt<ProfileCubit>(),
-        
-      //   child: 
-        const SplashScreen(),
-        // ),
+      home:
+          // BlocProvider(
+          //   create: (context)=>getIt<ProfileCubit>(),
+
+          //   child:
+          const SplashScreen(),
+      // ),
     );
   }
 }
