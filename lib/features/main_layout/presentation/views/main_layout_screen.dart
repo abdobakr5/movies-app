@@ -4,21 +4,14 @@ import '../../../../core/theme/app_colors.dart';
 import '../cubit/main_layout_cubit.dart';
 import '../cubit/main_layout_state.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
+import '../../../home/presentation/views/home_screen.dart';
+
 
 class MainLayoutScreen extends StatelessWidget {
   const MainLayoutScreen({super.key});
 
   static const List<Widget> _screens = [
-    Center(
-      child: Text(
-        'Home Screen',
-        style: TextStyle(
-          color: AppColors.white,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
+    const HomeScreen(),
     Center(
       child: Text(
         'Search Screen',
