@@ -18,6 +18,19 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeError(e.toString()));
     }
   }
+
+  void selectMovie(MovieEntity movie) {
+    if (state is HomeSuccess) {
+      final currentState = state as HomeSuccess;
+
+      emit(
+        HomeSuccess(
+          currentState.movies,
+          selectedMovie: movie,
+        ),
+      );
+    }
+  }
 }
 
 abstract class HomeState {}
@@ -28,8 +41,12 @@ class HomeLoading extends HomeState {}
 
 class HomeSuccess extends HomeState {
   final List<MovieEntity> movies;
+  final MovieEntity? selectedMovie;
 
-  HomeSuccess(this.movies);
+  HomeSuccess(
+      this.movies, {
+        this.selectedMovie,
+      });
 }
 
 class HomeError extends HomeState {
