@@ -6,10 +6,13 @@ import '../cubit/main_layout_cubit.dart';
 import '../cubit/main_layout_state.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 
+
 class MainLayoutScreen extends StatelessWidget {
   const MainLayoutScreen({super.key});
   static const List<Widget> _screens = [
+
     HomeTabBody(),
+
     Center(
       child: Text(
         'Search Screen',
