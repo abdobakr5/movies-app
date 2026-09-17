@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
-import '../../data/models/movie_model.dart';
-import '../widgets/action_movies_list.dart';
-import '../widgets/banner_carousel.dart';
-import '../widgets/section_header.dart';
+import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
+    as ui_model;
+import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
 
-class HomeTabBody extends StatefulWidget {
-  final List<MovieModel> bannerMovies;
-  final List<MovieModel> actionMovies;
-
-  const HomeTabBody({
-    super.key,
-    this.bannerMovies = const [],
-    this.actionMovies = const [],
-  });
-
-  @override
-  State<HomeTabBody> createState() => _HomeTabBodyState();
-}
-
-class _HomeTabBodyState extends State<HomeTabBody> {
-  int _selectedBannerIndex = 1;
+class HomeTabBody extends StatelessWidget {
+  const HomeTabBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final banners = widget.bannerMovies.isNotEmpty
-        ? widget.bannerMovies
-        : MovieModel.dummyBannerMovies;
+    return BlocProvider(
+      create: (_) => getIt<HomeCubit>()..getMovies(),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is HomeSuccess) {
+            final uiMovies = state.movies.map((movie) {
+              return ui_model.MovieModel(
+                id: movie.id.toString(),
+                imageUrl: movie.largeCoverImage,
+                rating: movie.rating.toStringAsFixed(1),
+                title: movie.title,
+                backgroundUrl: movie.backgroundImage,
+                genres: movie.genres,
+              );
+            }).toList();
 
-    final actions = widget.actionMovies.isNotEmpty
-        ? widget.actionMovies
-        : MovieModel.dummyActionMovies;
+            return _buildHomeContent(uiMovies);
+          }
 
-    final activeMovie =
-        banners[_selectedBannerIndex.clamp(0, banners.length - 1)];
+          return _buildHomeContent([]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildHomeContent(List<ui_model.MovieModel> movies) {
+    final banners =
+        movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
+
+    final actions = movies.isNotEmpty
+        ? movies.where((movie) {
+      return movie.genres.any(
+            (genre) => genre.toLowerCase() == 'action',
+      );
+    }).toList()
+        : ui_model.MovieModel.dummyActionMovies;
 
     return SafeArea(
       child: Scaffold(
@@ -43,27 +59,24 @@ class _HomeTabBodyState extends State<HomeTabBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 2. Banner Area With Asset Background Image & Gradient Blend
               Stack(
                 children: [
-                  // Asset Background Image
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: const AssetImage(
-                              'assets/home_tab_images/home_background-2.png'),
+                            'assets/home_tab_images/home_background-2.png',
+                          ),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.55),
+                            Colors.black.withValues(alpha: 0.55),
                             BlendMode.darken,
                           ),
                         ),
                       ),
                     ),
                   ),
-
-                  // Gradient Overlay blend into screen background
                   Positioned.fill(
                     child: Container(
                       decoration: const BoxDecoration(
@@ -80,28 +93,18 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                       ),
                     ),
                   ),
-
-                  // Content Layer
                   Column(
                     children: [
                       const SizedBox(height: 10),
-
-                      // "Available Now" Styled Header
                       _buildHeaderGraphic(
                         assetPath: AppAssets.availableNow,
                         height: 55,
                       ),
-
                       const SizedBox(height: 12),
-
-                      // Carousel
                       BannerCarousel(
                         movies: banners,
                       ),
-
                       const SizedBox(height: 16),
-
-                      // "Watch Now" Styled Header
                       _buildHeaderGraphic(
                         assetPath: AppAssets.watchNow,
                         height: 65,
@@ -110,20 +113,13 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
-
-              // 3. Category Header: Action
               SectionHeader(
                 title: 'Action',
                 onSeeMoreTap: () {},
               ),
-
               const SizedBox(height: 12),
-
-              // 4. Action Movies List
               ActionMoviesList(movies: actions),
-
               const SizedBox(height: 24),
             ],
           ),
@@ -132,10 +128,8 @@ class _HomeTabBodyState extends State<HomeTabBody> {
     );
   }
 
-  // ودجت لعرض صورة النص "Available Now / Watch Now" المطابقة لـ text.png
   Widget _buildHeaderGraphic({
     required String assetPath,
-    //required String fallbackText,
     required double height,
   }) {
     return Center(
@@ -143,12 +137,6 @@ class _HomeTabBodyState extends State<HomeTabBody> {
         assetPath,
         height: height,
         fit: BoxFit.contain,
-        // errorBuilder: (context, error, stackTrace) {
-        //   return Image.asset(
-        //     AppAssets.availableNow,
-        //     height: height,
-        //   );
-        // },
       ),
     );
   }
