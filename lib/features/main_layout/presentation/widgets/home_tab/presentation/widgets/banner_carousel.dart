@@ -4,10 +4,12 @@ import 'movie_card.dart';
 
 class BannerCarousel extends StatefulWidget {
   final List<MovieModel> movies;
+  final ValueChanged<MovieModel>? onMovieChanged;
 
   const BannerCarousel({
     super.key,
     required this.movies,
+    this.onMovieChanged,
   });
 
   @override
@@ -21,10 +23,19 @@ class _BannerCarouselState extends State<BannerCarousel> {
   @override
   void initState() {
     super.initState();
+
     _bannerController = PageController(
       viewportFraction: 0.58,
       initialPage: _currentBannerPage,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.movies.isNotEmpty) {
+        widget.onMovieChanged?.call(
+          widget.movies[_currentBannerPage],
+        );
+      }
+    });
   }
 
   @override
@@ -43,6 +54,10 @@ class _BannerCarouselState extends State<BannerCarousel> {
           setState(() {
             _currentBannerPage = index;
           });
+
+          widget.onMovieChanged?.call(
+            widget.movies[index],
+          );
         },
         itemCount: widget.movies.length,
         itemBuilder: (context, index) {
@@ -50,6 +65,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
             animation: _bannerController,
             builder: (context, child) {
               double value = 1.0;
+
               if (_bannerController.position.haveDimensions) {
                 value = _bannerController.page! - index;
                 value = (1 - (value.abs() * 0.22)).clamp(0.78, 1.0);
