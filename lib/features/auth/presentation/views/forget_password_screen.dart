@@ -1,49 +1,86 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+// --------------------------------- Colors -----------------------------------------
+const Color kBackgroundColor = Color(0xFF1E1E1E);
+const Color kYellowColor = Color(0xFFF5C518);
+const Color kFieldColor = Color(0xFF2B2B2B);
+const Color kHintColor = Color(0xFF9A9A9A);
+
+
+class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _isLoading = false;
+
+// --------------------------------- Dispose ---------------------------------
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: kBackgroundColor,
       appBar: buildAppBar(context),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 10),
-              buildImage(),
-              const SizedBox(height: 50),
-              buildEmailField(),
-              const SizedBox(height: 16),
-              buildVerifyButton(),
-              const SizedBox(height: 20),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 10),
+
+                buildImage(),
+
+                const SizedBox(height: 50),
+
+                buildEmailField(),
+
+                const SizedBox(height: 16),
+
+                buildVerifyButton(),
+
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
   // --------------------------------------------- App Bar -----------------------------------------
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: kBackgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
+        icon: const Icon(Icons.arrow_back, color: kYellowColor),
         onPressed: () => Navigator.pop(context),
       ),
       title: const Text(
         'Forget Password',
         style: TextStyle(
-          color: AppColors.primaryYellow,
+          color: kYellowColor,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -57,30 +94,97 @@ class ForgetPasswordScreen extends StatelessWidget {
       'assets/Forgot password-bro 1.png',
       height: 450,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => const SizedBox(
-        height: 200,
-        child: Icon(Icons.lock_reset, size: 100, color: AppColors.primaryYellow),
-      ),
     );
   }
 
   // ---------------------------------------- Email Field ----------------------------------------
+
   Widget buildEmailField() {
-    return TextField(
+    return TextFormField(
+      controller: _emailController,
+
       keyboardType: TextInputType.emailAddress,
-      cursorColor: AppColors.primaryYellow,
-      style: const TextStyle(color: Colors.white, fontSize: 15),
+
+      textInputAction: TextInputAction.done,
+
+      cursorColor: kYellowColor,
+
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+      ),
+
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Please enter your email';
+        }
+
+        final emailRegex = RegExp(
+          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+        );
+
+        if (!emailRegex.hasMatch(value.trim())) {
+          return 'Please enter a valid email';
+        }
+
+        return null;
+      },
+
       decoration: InputDecoration(
         hintText: 'Email',
-        hintStyle: const TextStyle(color: AppColors.hintColor, fontSize: 15),
+
+        hintStyle: const TextStyle(
+          color: kHintColor,
+          fontSize: 15,
+        ),
+
         filled: true,
-        fillColor: AppColors.fieldColor,
-        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+
+        fillColor: kFieldColor,
+
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 18,
+        ),
+
         prefixIcon: buildEmailIcon(),
-        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+
+        prefixIconConstraints: const BoxConstraints(
+          minWidth: 0,
+          minHeight: 0,
+        ),
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
+        ),
+
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: kYellowColor,
+            width: 1,
+          ),
+        ),
+
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
+        ),
+
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
         ),
       ),
     );
@@ -95,7 +199,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: const Icon(Icons.email, size: 18, color: AppColors.darkBackground),
+      child: const Icon(Icons.email, size: 18, color: kBackgroundColor),
     );
   }
 
@@ -104,22 +208,140 @@ class ForgetPasswordScreen extends StatelessWidget {
     return SizedBox(
       height: 55,
       child: ElevatedButton(
-        onPressed: () {
-          // TODO: add your logic here
-        },
+        onPressed: _isLoading ? null : _sendResetEmail,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryYellow,
+          backgroundColor: kYellowColor,
+          disabledBackgroundColor:
+          kYellowColor.withOpacity(0.6),
           foregroundColor: Colors.black,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: const Text(
+        child: _isLoading
+            ? const SizedBox(
+          height: 24,
+          width: 24,
+          child: CircularProgressIndicator(
+            strokeWidth: 2.5,
+            color: Colors.black,
+          ),
+        )
+            : const Text(
           'Verify Email',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
+  }
+
+
+// --------------------------------- Firebase Logic ---------------------------------
+
+  Future<void> _sendResetEmail() async {
+    // Validate form
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    final email = _emailController.text.trim();
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Send password reset email
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      // Success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Password reset email sent! Check your inbox.',
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      // Optional: go back after successful request
+      await Future.delayed(
+        const Duration(seconds: 2),
+      );
+
+      if (!mounted) return;
+
+      Navigator.pop(context);
+
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      String message;
+
+      switch (e.code) {
+        case 'invalid-email':
+          message = 'The email address is invalid.';
+          break;
+
+        case 'user-not-found':
+          message = 'No account was found with this email.';
+          break;
+
+        case 'network-request-failed':
+          message = 'Please check your internet connection.';
+          break;
+
+        case 'too-many-requests':
+          message =
+          'Too many requests. Please try again later.';
+          break;
+
+        default:
+          message =
+              e.message ?? 'Something went wrong. Please try again.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Something went wrong. Please try again.',
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }
