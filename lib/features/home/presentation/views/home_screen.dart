@@ -12,9 +12,6 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<HomeCubit>()..getMovies(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Movies'),
-        ),
         body: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeLoading) {
@@ -30,23 +27,66 @@ class HomeScreen extends StatelessWidget {
             }
 
             if (state is HomeSuccess) {
-              return ListView.builder(
-                itemCount: state.movies.length,
-                itemBuilder: (context, index) {
-                  final movie = state.movies[index];
+              final selectedMovie =
+                  state.selectedMovie ?? state.movies.first;
 
-                  return ListTile(
-                    leading: Image.network(
-                      movie.mediumCoverImage,
-                      width: 60,
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.network(
+                      selectedMovie.backgroundImageOriginal,
                       fit: BoxFit.cover,
                     ),
-                    title: Text(movie.title),
-                    subtitle: Text(
-                      '${movie.year} • ⭐ ${movie.rating}',
+                  ),
+
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.5),
                     ),
-                  );
-                },
+                  ),
+
+                  PageView.builder(
+                    itemCount: state.movies.length,
+                    onPageChanged: (index) {
+                      context.read<HomeCubit>().selectMovie(
+                        state.movies[index],
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      final movie = state.movies[index];
+
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.network(
+                              movie.largeCoverImage,
+                              height: 400,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              movie.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '${movie.year} • ⭐ ${movie.rating}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               );
             }
 
