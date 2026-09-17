@@ -4,13 +4,20 @@ import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
-    as ui_model;
+as ui_model;
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
 
-class HomeTabBody extends StatelessWidget {
+class HomeTabBody extends StatefulWidget {
   const HomeTabBody({super.key});
+
+  @override
+  State<HomeTabBody> createState() => _HomeTabBodyState();
+}
+
+class _HomeTabBodyState extends State<HomeTabBody> {
+  ui_model.MovieModel? selectedMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,7 @@ class HomeTabBody extends StatelessWidget {
                 imageUrl: movie.largeCoverImage,
                 rating: movie.rating.toStringAsFixed(1),
                 title: movie.title,
-                backgroundUrl: movie.backgroundImage,
+                backgroundUrl: movie.largeCoverImage,
                 genres: movie.genres,
               );
             }).toList();
@@ -41,7 +48,7 @@ class HomeTabBody extends StatelessWidget {
 
   Widget _buildHomeContent(List<ui_model.MovieModel> movies) {
     final banners =
-        movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
+    movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
 
     final actions = movies.isNotEmpty
         ? movies.where((movie) {
@@ -50,6 +57,10 @@ class HomeTabBody extends StatelessWidget {
       );
     }).toList()
         : ui_model.MovieModel.dummyActionMovies;
+
+    if (movies.isNotEmpty && selectedMovie == null) {
+      selectedMovie = movies[0];
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -62,19 +73,22 @@ class HomeTabBody extends StatelessWidget {
               Stack(
                 children: [
                   Positioned.fill(
+                    child: selectedMovie != null
+                        ? Image.network(
+                      selectedMovie!.backgroundUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) {
+                        return const SizedBox();
+                      },
+                    )
+                        : Image.asset(
+                      'assets/home_tab_images/home_background-2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned.fill(
                     child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: const AssetImage(
-                            'assets/home_tab_images/home_background-2.png',
-                          ),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            Colors.black.withValues(alpha: 0.55),
-                            BlendMode.darken,
-                          ),
-                        ),
-                      ),
+                      color: Colors.black.withValues(alpha: 0.55),
                     ),
                   ),
                   Positioned.fill(
@@ -103,6 +117,11 @@ class HomeTabBody extends StatelessWidget {
                       const SizedBox(height: 12),
                       BannerCarousel(
                         movies: banners,
+                        onMovieChanged: (movie) {
+                          setState(() {
+                            selectedMovie = movie;
+                          });
+                        },
                       ),
                       const SizedBox(height: 16),
                       _buildHeaderGraphic(
