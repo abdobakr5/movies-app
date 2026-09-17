@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  http: ^1.5.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -77,7 +78,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/onboarding1.jpg
+    - assets/onboarding1.jpeg
     - assets/onboarding2.png
     - assets/onboarding3.png
     - assets/onboarding4.png
