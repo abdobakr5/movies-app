@@ -9,7 +9,7 @@ import '../../../profile/presentation/widgets/custom_text_field.dart';
 import '../../../profile/presentation/widgets/language_toggle.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
-
+import '../views/forget_password_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -104,7 +104,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: AlignmentDirectional.centerEnd,
                       child: GestureDetector(
-                        onTap: isLoading ? null : cubit.sendPasswordResetEmail,
+                        onTap:() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgetPasswordScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Forget Password ?',
                           style: TextStyle(
