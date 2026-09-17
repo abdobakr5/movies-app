@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import '../../../../core/app_assets/app_assets.dart';
-import '../../../../core/app_routes/app_routes.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/utils/app_assets.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
