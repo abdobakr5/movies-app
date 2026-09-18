@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../cubit/home_cubit.dart';
-import '../../../../core/services/services_locator.dart';
+import 'package:movies_app/core/services/services_locator.dart';
+import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -27,8 +26,7 @@ class HomeScreen extends StatelessWidget {
             }
 
             if (state is HomeSuccess) {
-              final selectedMovie =
-                  state.selectedMovie ?? state.movies.first;
+              final selectedMovie = state.selectedMovie ?? state.movies.first;
 
               return Stack(
                 children: [
@@ -38,19 +36,17 @@ class HomeScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-
                   Positioned.fill(
                     child: Container(
                       color: Colors.black.withValues(alpha: 0.5),
                     ),
                   ),
-
                   PageView.builder(
                     itemCount: state.movies.length,
                     onPageChanged: (index) {
                       context.read<HomeCubit>().selectMovie(
-                        state.movies[index],
-                      );
+                            state.movies[index],
+                          );
                     },
                     itemBuilder: (context, index) {
                       final movie = state.movies[index];
