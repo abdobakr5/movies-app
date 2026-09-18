@@ -1,8 +1,7 @@
 import 'dart:convert';
-
-import '../../../../core/network/api_constants.dart';
-import '../../../../core/network/api_manager.dart';
-import '../models/movie_model.dart';
+import 'package:movies_app/core/network/api_constants.dart';
+import 'package:movies_app/core/network/api_manager.dart';
+import 'package:movies_app/features/home/data/models/movie_model.dart';
 
 class MovieRemoteDataSource {
   final ApiManager apiManager;
@@ -19,9 +18,7 @@ class MovieRemoteDataSource {
 
       final movies = data['data']['movies'] as List;
 
-      return movies
-          .map((movie) => MovieModel.fromJson(movie))
-          .toList();
+      return movies.map((movie) => MovieModel.fromJson(movie)).toList();
     } else {
       throw Exception('Failed to load movies');
     }

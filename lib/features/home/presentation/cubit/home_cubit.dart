@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../domain/entities/movie_entity.dart';
-import '../../domain/usecases/get_movies_usecase.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final GetMoviesUseCase getMoviesUseCase;
@@ -44,9 +43,9 @@ class HomeSuccess extends HomeState {
   final MovieEntity? selectedMovie;
 
   HomeSuccess(
-      this.movies, {
-        this.selectedMovie,
-      });
+    this.movies, {
+    this.selectedMovie,
+  });
 }
 
 class HomeError extends HomeState {

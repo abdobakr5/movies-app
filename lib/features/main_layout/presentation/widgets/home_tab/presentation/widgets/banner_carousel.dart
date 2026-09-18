@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/models/movie_model.dart';
+import 'package:movies_app/features/home/data/models/movie_model.dart';
 import 'movie_card.dart';
 
 class BannerCarousel extends StatefulWidget {
