@@ -1,5 +1,5 @@
-import '../entities/movie_entity.dart';
-import '../repositories/movie_repository.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/home/domain/repositories/movie_repository.dart';
 
 class GetMoviesUseCase {
   final MovieRepository repository;

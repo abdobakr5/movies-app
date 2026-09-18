@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/features/home/data/models/movie_model.dart'
+    as home_model;
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
-as ui_model;
+    as ui_model;
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
@@ -37,26 +39,52 @@ class _HomeTabBodyState extends State<HomeTabBody> {
               );
             }).toList();
 
-            return _buildHomeContent(uiMovies);
+            final homeMovies = state.movies.map((movie) {
+              return home_model.MovieModel(
+                id: movie.id,
+                titleEnglish: movie.titleEnglish,
+                titleLong: movie.titleLong,
+                title: movie.title,
+                year: movie.year,
+                runtime: movie.runtime,
+                rating: movie.rating,
+                summary: movie.summary,
+                descriptionFull: movie.descriptionFull,
+                genres: movie.genres,
+                backgroundImage: movie.backgroundImage,
+                backgroundImageOriginal: movie.backgroundImageOriginal,
+                smallCoverImage: movie.smallCoverImage,
+                mediumCoverImage: movie.mediumCoverImage,
+                largeCoverImage: movie.largeCoverImage,
+              );
+            }).toList();
+
+            return _buildHomeContent(uiMovies, homeMovies);
           }
 
-          return _buildHomeContent([]);
+          return _buildHomeContent(
+            [],
+            const <home_model.MovieModel>[],
+          );
         },
       ),
     );
   }
 
-  Widget _buildHomeContent(List<ui_model.MovieModel> movies) {
-    final banners =
-    movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
+  Widget _buildHomeContent(
+    List<ui_model.MovieModel> movies,
+    List<home_model.MovieModel> homeMovies,
+  ) {
+    final List<home_model.MovieModel> banners =
+        homeMovies.isNotEmpty ? homeMovies : const <home_model.MovieModel>[];
 
-    final actions = movies.isNotEmpty
-        ? movies.where((movie) {
-      return movie.genres.any(
-            (genre) => genre.toLowerCase() == 'action',
-      );
-    }).toList()
-        : ui_model.MovieModel.dummyActionMovies;
+    final actions = homeMovies.isNotEmpty
+        ? homeMovies.where((movie) {
+            return movie.genres.any(
+              (genre) => genre.toLowerCase() == 'action',
+            );
+          }).toList()
+        : const <home_model.MovieModel>[];
 
     if (movies.isNotEmpty && selectedMovie == null) {
       selectedMovie = movies[0];
@@ -75,16 +103,16 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                   Positioned.fill(
                     child: selectedMovie != null
                         ? Image.network(
-                      selectedMovie!.backgroundUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) {
-                        return const SizedBox();
-                      },
-                    )
+                            selectedMovie!.backgroundUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) {
+                              return const SizedBox();
+                            },
+                          )
                         : Image.asset(
-                      'assets/home_tab_images/home_background-2.png',
-                      fit: BoxFit.cover,
-                    ),
+                            'assets/home_tab_images/home_background-2.png',
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Positioned.fill(
                     child: Container(
@@ -118,9 +146,14 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                       BannerCarousel(
                         movies: banners,
                         onMovieChanged: (movie) {
-                          setState(() {
-                            selectedMovie = movie;
-                          });
+                          final selected = movies.where(
+                            (uiMovie) => uiMovie.id == movie.id.toString(),
+                          );
+                          if (selected.isNotEmpty) {
+                            setState(() {
+                              selectedMovie = selected.first;
+                            });
+                          }
                         },
                       ),
                       const SizedBox(height: 16),

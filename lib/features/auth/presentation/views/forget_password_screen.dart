@@ -7,16 +7,14 @@ const Color kYellowColor = Color(0xFFF5C518);
 const Color kFieldColor = Color(0xFF2B2B2B);
 const Color kHintColor = Color(0xFF9A9A9A);
 
-
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
 
   @override
   State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
 }
+
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-
-
   final TextEditingController _emailController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -30,8 +28,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     _emailController.dispose();
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +43,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 10),
-
                 buildImage(),
-
                 const SizedBox(height: 50),
-
                 buildEmailField(),
-
                 const SizedBox(height: 16),
-
                 buildVerifyButton(),
-
                 const SizedBox(height: 20),
               ],
             ),
@@ -66,6 +56,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       ),
     );
   }
+
   // --------------------------------------------- App Bar -----------------------------------------
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
@@ -102,18 +93,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   Widget buildEmailField() {
     return TextFormField(
       controller: _emailController,
-
       keyboardType: TextInputType.emailAddress,
-
       textInputAction: TextInputAction.done,
-
       cursorColor: kYellowColor,
-
       style: const TextStyle(
         color: Colors.white,
         fontSize: 15,
       ),
-
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'Please enter your email';
@@ -129,40 +115,30 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
         return null;
       },
-
       decoration: InputDecoration(
         hintText: 'Email',
-
         hintStyle: const TextStyle(
           color: kHintColor,
           fontSize: 15,
         ),
-
         filled: true,
-
         fillColor: kFieldColor,
-
         contentPadding: const EdgeInsets.symmetric(
           vertical: 18,
         ),
-
         prefixIcon: buildEmailIcon(),
-
         prefixIconConstraints: const BoxConstraints(
           minWidth: 0,
           minHeight: 0,
         ),
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -170,7 +146,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             width: 1,
           ),
         ),
-
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -178,7 +153,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             width: 1,
           ),
         ),
-
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -211,8 +185,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         onPressed: _isLoading ? null : _sendResetEmail,
         style: ElevatedButton.styleFrom(
           backgroundColor: kYellowColor,
-          disabledBackgroundColor:
-          kYellowColor.withOpacity(0.6),
+          disabledBackgroundColor: kYellowColor.withValues(alpha: 0.6),
           foregroundColor: Colors.black,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -221,24 +194,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         ),
         child: _isLoading
             ? const SizedBox(
-          height: 24,
-          width: 24,
-          child: CircularProgressIndicator(
-            strokeWidth: 2.5,
-            color: Colors.black,
-          ),
-        )
+                height: 24,
+                width: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: Colors.black,
+                ),
+              )
             : const Text(
-          'Verify Email',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+                'Verify Email',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }
-
 
 // --------------------------------- Firebase Logic ---------------------------------
 
@@ -285,7 +257,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       if (!mounted) return;
 
       Navigator.pop(context);
-
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
 
@@ -309,13 +280,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           break;
 
         case 'too-many-requests':
-          message =
-          'Too many requests. Please try again later.';
+          message = 'Too many requests. Please try again later.';
           break;
 
         default:
-          message =
-              e.message ?? 'Something went wrong. Please try again.';
+          message = e.message ?? 'Something went wrong. Please try again.';
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -325,7 +294,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-
     } catch (e) {
       if (!mounted) return;
 
