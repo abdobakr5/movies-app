@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/utils/app_styles.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -36,8 +36,8 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       style: AppStyles.bodyStyle,
       decoration: InputDecoration(
-        prefixIcon: (prefixIcon != null || icon != null) 
-            ? Icon(prefixIcon ?? icon, color: AppColors.textWhite) 
+        prefixIcon: (prefixIcon != null || icon != null)
+            ? Icon(prefixIcon ?? icon, color: AppColors.textWhite)
             : null,
         suffixIcon: suffixIcon,
         hintText: hintText,

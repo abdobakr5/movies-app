@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/utils/app_styles.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -25,17 +25,19 @@ class CustomButton extends StatelessWidget {
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          )
-        ),
-        onPressed: onPressed, 
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            )),
+        onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (iconPath != null) ...[
-              Image.asset(iconPath!, height: 24, errorBuilder: (context, error, stackTrace) => const SizedBox.shrink()),
+              Image.asset(iconPath!,
+                  height: 24,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const SizedBox.shrink()),
               const SizedBox(width: 8),
             ],
             Text(
