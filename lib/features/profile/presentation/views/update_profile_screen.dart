@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/services/services_locator.dart';
-import 'package:movies_app/core/utils/app_assets.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text_field.dart';
-import '../manager/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../manager/profile_state.dart';
+import 'package:movies_app/core/services/services_locator.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/core/utils/app_strings.dart';
+import 'package:movies_app/core/utils/app_styles.dart';
+import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/manager/profile_state.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_text_field.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -111,7 +111,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       create: (context) => getIt<ProfileCubit>(),
       child:
           BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
-        print("Current state is $state");
         if (state is ProfileSuccess) {
           _showNotificationMessage(
               message: AppStrings.profileUpdatedSuccess,
@@ -120,7 +119,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           _showNotificationMessage(
               message: AppStrings.accountDeletedSuccess, color: AppColors.red);
         } else if (state is ProfileError) {
-          print("Error message ${state.message}");
           _showNotificationMessage(
               message: state.message, color: AppColors.red);
         }

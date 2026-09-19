@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/app_routes/app_routes.dart';
-
-import '../../../../core/localization/app_localizations.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding6Screen extends StatelessWidget {
@@ -54,9 +53,7 @@ class Onboarding6Screen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-
                     const SizedBox(height: 18),
-
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -89,9 +86,7 @@ class Onboarding6Screen extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 18),
-
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -100,7 +95,6 @@ class Onboarding6Screen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff121312),
                           foregroundColor: const Color(0xffF6BD00),
-
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

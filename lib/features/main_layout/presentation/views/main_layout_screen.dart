@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_cubit.dart';
+import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_state.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/pages/home_tab_body.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../cubit/main_layout_cubit.dart';
-import '../cubit/main_layout_state.dart';
-import '../widgets/custom_bottom_nav_bar.dart';
-
 
 class MainLayoutScreen extends StatelessWidget {
   const MainLayoutScreen({super.key});
   static const List<Widget> _screens = [
-
     HomeTabBody(),
-
     Center(
       child: Text(
         'Search Screen',
