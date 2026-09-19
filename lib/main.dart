@@ -4,9 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'core/app_provider/app_provider.dart';
 import 'core/localization/app_localizations.dart';
 import 'features/splash/presentation/views/splash_screen.dart';
+import 'core/services/services_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  servicesLocator();
   await Firebase.initializeApp();
 
   runApp(
@@ -30,7 +33,13 @@ class MoviesApp extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const SplashScreen(),
+      home:
+          // BlocProvider(
+          //   create: (context)=>getIt<ProfileCubit>(),
+
+          //   child:
+          const SplashScreen(),
+      // ),
     );
   }
 }
