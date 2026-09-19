@@ -4,7 +4,7 @@ import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
-as ui_model;
+    as ui_model;
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
@@ -18,6 +18,30 @@ class HomeTabBody extends StatefulWidget {
 
 class _HomeTabBodyState extends State<HomeTabBody> {
   ui_model.MovieModel? selectedMovie;
+  bool isBackgroundReady = false;
+
+  Future<void> _prepareBackground(
+    BuildContext context,
+    ui_model.MovieModel movie,
+  ) async {
+    try {
+      await precacheImage(
+        NetworkImage(movie.backgroundUrl),
+        context,
+      );
+      if (!mounted) return;
+      setState(() {
+        selectedMovie = movie;
+        isBackgroundReady = true;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        selectedMovie = movie;
+        isBackgroundReady = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,32 +60,40 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                 genres: movie.genres,
               );
             }).toList();
-
+            if (uiMovies.isNotEmpty && selectedMovie == null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted && selectedMovie == null) {
+                  _prepareBackground(context, uiMovies.first);
+                }
+              });
+            }
             return _buildHomeContent(uiMovies);
           }
-
-          return _buildHomeContent([]);
+          return const Scaffold(
+            backgroundColor: Color(0xFF121318),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         },
       ),
     );
   }
 
   Widget _buildHomeContent(List<ui_model.MovieModel> movies) {
-    final banners =
-    movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
-
-    final actions = movies.isNotEmpty
-        ? movies.where((movie) {
-      return movie.genres.any(
-            (genre) => genre.toLowerCase() == 'action',
+    if (selectedMovie == null || !isBackgroundReady) {
+      return const Scaffold(
+        backgroundColor: Color(0xFF121318),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
-    }).toList()
-        : ui_model.MovieModel.dummyActionMovies;
-
-    if (movies.isNotEmpty && selectedMovie == null) {
-      selectedMovie = movies[0];
     }
-
+    final banners =
+        movies.isNotEmpty ? movies : ui_model.MovieModel.dummyBannerMovies;
+    final actions = movies.isNotEmpty
+        ? movies.take(10).toList()
+        : ui_model.MovieModel.dummyActionMovies;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFF121318),
@@ -73,16 +105,8 @@ class _HomeTabBodyState extends State<HomeTabBody> {
               Stack(
                 children: [
                   Positioned.fill(
-                    child: selectedMovie != null
-                        ? Image.network(
+                    child: Image.network(
                       selectedMovie!.backgroundUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) {
-                        return const SizedBox();
-                      },
-                    )
-                        : Image.asset(
-                      'assets/home_tab_images/home_background-2.png',
                       fit: BoxFit.cover,
                     ),
                   ),

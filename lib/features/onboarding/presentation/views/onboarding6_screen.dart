@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/app_routes/app_routes.dart';
+
 import '../../../../core/localization/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding6Screen extends StatelessWidget {
   const Onboarding6Screen({super.key});
@@ -59,7 +61,12 @@ class Onboarding6Screen extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('onboarding_seen', true);
+
+                          if (!context.mounted) return;
+
                           Navigator.pushReplacement(
                             context,
                             AppRoutes.login(),
