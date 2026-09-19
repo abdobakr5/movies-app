@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/app_routes/app_routes.dart';
-import '../../../../core/utils/app_assets.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../profile/presentation/widgets/avatar_selector.dart';
-import '../../../profile/presentation/widgets/custom_button.dart';
-import '../../../profile/presentation/widgets/custom_text_field.dart';
-import '../../../profile/presentation/widgets/language_toggle.dart';
-import '../../../profile/presentation/widgets/password_text_field.dart';
-import '../cubit/register_cubit.dart';
-import '../cubit/register_state.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:movies_app/features/auth/presentation/cubit/register_state.dart';
+import 'package:movies_app/features/profile/presentation/widgets/avatar_selector.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_text_field.dart';
+import 'package:movies_app/features/profile/presentation/widgets/language_toggle.dart';
+import 'package:movies_app/features/profile/presentation/widgets/password_text_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -61,7 +61,6 @@ class RegisterScreen extends StatelessWidget {
                                 onAvatarSelected: cubit.selectAvatar,
                               ),
                               const SizedBox(height: 24),
-
                               CustomTextField(
                                 controller: cubit.nameController,
                                 hintText: 'Name',
@@ -74,7 +73,6 @@ class RegisterScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 16),
-
                               CustomTextField(
                                 controller: cubit.emailController,
                                 hintText: 'Email',
@@ -84,7 +82,8 @@ class RegisterScreen extends StatelessWidget {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Please enter your email';
                                   }
-                                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                       .hasMatch(value)) {
                                     return 'Please enter a valid email';
                                   }
@@ -92,7 +91,6 @@ class RegisterScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 16),
-
                               PasswordTextField(
                                 controller: cubit.passwordController,
                                 hintText: 'Password',
@@ -104,7 +102,6 @@ class RegisterScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 16),
-
                               PasswordTextField(
                                 controller: cubit.confirmPasswordController,
                                 hintText: 'Confirm Password',
@@ -116,7 +113,6 @@ class RegisterScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 16),
-
                               CustomTextField(
                                 controller: cubit.phoneController,
                                 hintText: 'Phone Number',
@@ -130,24 +126,21 @@ class RegisterScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 28),
-
                               state is RegisterLoading
                                   ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryYellow,
-                                ),
-                              )
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.primaryYellow,
+                                      ),
+                                    )
                                   : CustomButton(
-                                text: 'Create Account',
-                                backgroundColor: AppColors.primaryYellow,
-                                textColor: AppColors.black,
-                                onPressed: cubit.registerUser,
-                              ),
+                                      text: 'Create Account',
+                                      backgroundColor: AppColors.primaryYellow,
+                                      textColor: AppColors.black,
+                                      onPressed: cubit.registerUser,
+                                    ),
                               const SizedBox(height: 16),
-
                               _buildLoginRow(context),
                               const SizedBox(height: 20),
-
                               Center(
                                 child: LanguageToggleButton(
                                   leftFlagPath: AppAssets.flagLeft,

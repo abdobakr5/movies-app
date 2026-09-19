@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/models/movie_model.dart';
+import 'package:movies_app/features/home/data/models/movie_model.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
@@ -19,7 +19,7 @@ class MovieCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.network(
-            movie.imageUrl,
+            movie.largeCoverImage,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(
               color: Colors.grey[800],
@@ -39,7 +39,7 @@ class MovieCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    movie.rating,
+                    '${movie.rating}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
