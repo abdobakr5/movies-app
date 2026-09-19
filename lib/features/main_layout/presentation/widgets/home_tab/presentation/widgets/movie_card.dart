@@ -19,7 +19,7 @@ class MovieCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.network(
-            movie.backgroundImageOriginal,
+            movie.largeCoverImage,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(
               color: Colors.grey[800],
