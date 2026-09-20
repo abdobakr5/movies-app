@@ -10,6 +10,12 @@ import 'package:movies_app/features/profile/domain/repositories/profile_reposito
 import 'package:movies_app/features/profile/domain/usecases/delete_account_usecase.dart';
 import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
+import 'package:movies_app/features/movie_details/data/datasources/movie_details_remote_data_source.dart';
+import 'package:movies_app/features/movie_details/data/repositories/movie_details_repository_impl.dart';
+import 'package:movies_app/features/movie_details/domain/repositories/movie_details_repository.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_details_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_suggestions_usecase.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 
 import '../network/api_manager.dart';
 
@@ -50,6 +56,30 @@ void servicesLocator() {
     () => ProfileCubit(
       updateProfileUsecase: getIt(),
       deleteAccountUseCase: getIt(),
+    ),
+  );
+
+  // Movie Details
+  getIt.registerLazySingleton<MovieDetailsRemoteDataSource>(
+    () => MovieDetailsRemoteDataSource(getIt()),
+  );
+
+  getIt.registerLazySingleton<MovieDetailsRepository>(
+    () => MovieDetailsRepositoryImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton<GetMovieDetailsUseCase>(
+    () => GetMovieDetailsUseCase(getIt()),
+  );
+
+  getIt.registerLazySingleton<GetMovieSuggestionsUseCase>(
+    () => GetMovieSuggestionsUseCase(getIt()),
+  );
+
+  getIt.registerFactory<MovieDetailsCubit>(
+    () => MovieDetailsCubit(
+      getMovieDetailsUseCase: getIt(),
+      getMovieSuggestionsUseCase: getIt(),
     ),
   );
 }
