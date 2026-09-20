@@ -1,56 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/app_routes/app_routes.dart';
-import 'package:movies_app/features/home/data/models/movie_model.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
-class MovieCard extends StatelessWidget {
-  final MovieModel movie;
-  final double borderRadius;
-  final VoidCallback? onTap;
+class SimilarMovieCard extends StatelessWidget {
+  final MovieEntity movie;
+  final VoidCallback onTap;
 
-  const MovieCard({
+  const SimilarMovieCard({
     super.key,
     required this.movie,
-    this.borderRadius = 16,
-    this.onTap,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ??
-          () {
-            Navigator.push(
-              context,
-              AppRoutes.movieDetails(movie.id),
-            );
-          },
+      onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(16),
         child: Stack(
           fit: StackFit.expand,
           children: [
             Image.network(
-              movie.largeCoverImage,
+              movie.largeCoverImage.isNotEmpty
+                  ? movie.largeCoverImage
+                  : movie.mediumCoverImage,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey[800],
-                child: const Icon(Icons.movie, color: Colors.white54, size: 40),
+                color: const Color(0xFF282828),
+                child: const Icon(
+                  Icons.movie,
+                  color: Colors.white38,
+                  size: 40,
+                ),
               ),
             ),
+            // Top-left rating badge
             Positioned(
               top: 10,
               left: 10,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.65),
+                  color: Colors.black.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${movie.rating}',
+                      movie.rating.toStringAsFixed(1),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
