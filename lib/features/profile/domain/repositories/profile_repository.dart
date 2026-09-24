@@ -1,3 +1,5 @@
+import 'package:movies_app/features/profile/domain/entities/user_entity.dart';
+
 abstract class ProfileRepository {
 Future<void> UpdateProfile({
   required String name,
@@ -5,4 +7,5 @@ Future<void> UpdateProfile({
   required String avatar,
 });
 Future<void>deleteAccount();
+Future<UserEntity> getUserData();
 }

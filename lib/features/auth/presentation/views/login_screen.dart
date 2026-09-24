@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/app_routes/app_routes.dart';
 import '../../../../core/utils/app_assets.dart';
@@ -105,6 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: 'Login',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      FirebaseAuth.instance.signInWithEmailAndPassword(email: 
+                      _emailController.text, password: _passwordController.text);
                        Navigator.push(context, AppRoutes.updateProfile());
                     }
                   },
