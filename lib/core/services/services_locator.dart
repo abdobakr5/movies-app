@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:movies_app/features/profile/domain/usecases/get_user_data_usecase.dart';
 
 import '../../features/profile/data/datasources/profile_remote_data_source.dart';
 import '../../features/profile/domain/repositories/profile_repo_implementation.dart';
@@ -14,9 +15,11 @@ void ServicesLocator(){
   getIt.registerLazySingleton<ProfileRepository>(()=>ProfileRepoImplementation(getIt()));
   getIt.registerLazySingleton(() => UpdateProfileUsecase(getIt()));
   getIt.registerLazySingleton(() => DeleteAccountUsecase(getIt()));
+  getIt.registerLazySingleton(()=> GetUserDataUsecase(getIt()));
   getIt.registerFactory(() => ProfileCubit(
     updateProfileUsecase: getIt(),
     deleteAccountUseCase: getIt(),
+    getUserDataUsecase: getIt(),
   ));
 
 

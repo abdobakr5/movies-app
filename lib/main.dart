@@ -38,13 +38,7 @@ class MoviesApp extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: 
-      // BlocProvider(
-      //   create: (context)=>getIt<ProfileCubit>(),
-        
-      //   child: 
-        const SplashScreen(),
-        // ),
+      home: const SplashScreen(),
     );
   }
 }
