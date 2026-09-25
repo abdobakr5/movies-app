@@ -1,5 +1,4 @@
 PODS:
-<<<<<<< HEAD
   - abseil/algorithm (1.20240722.0):
     - abseil/algorithm/algorithm (= 1.20240722.0)
     - abseil/algorithm/container (= 1.20240722.0)
@@ -1411,6 +1410,9 @@ PODS:
   - PromisesSwift (2.4.1):
     - PromisesObjC (= 2.4.1)
   - RecaptchaInterop (101.0.0)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -1418,6 +1420,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -1458,6 +1461,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
@@ -1490,24 +1495,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 752c3227f599e3467650e47ea36f433eeb10c273
   PromisesSwift: 217dea0fd5d2ad65222a109c48698add13cc1c5b
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
+  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
 
-PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
+PODFILE CHECKSUM: cbb07885f352841c8718752e91be4f6845f7786c
 
 COCOAPODS: 1.16.2
-=======
-  - Flutter (1.0.0)
-
-DEPENDENCIES:
-  - Flutter (from `Flutter`)
-
-EXTERNAL SOURCES:
-  Flutter:
-    :path: Flutter
-
-SPEC CHECKSUMS:
-  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-
-PODFILE CHECKSUM: 07b98559a67e58a4a7b4f93599291ddf3f93d42d
-
-COCOAPODS: 1.17.0
->>>>>>> daf20ae7d8536a9f00e35edaae334fd45b4ac38e
