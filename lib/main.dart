@@ -9,13 +9,11 @@ import 'core/localization/app_localizations.dart';
 import 'features/splash/presentation/views/splash_screen.dart';
 import 'core/services/services_locator.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   ServicesLocator();
   await Firebase.initializeApp();
-
 
   runApp(
     ChangeNotifierProvider(
@@ -38,13 +36,13 @@ class MoviesApp extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: 
-      // BlocProvider(
-      //   create: (context)=>getIt<ProfileCubit>(),
-        
-      //   child: 
-        const SplashScreen(),
-        // ),
+      home:
+          // BlocProvider(
+          //   create: (context)=>getIt<ProfileCubit>(),
+
+          //   child:
+          const SplashScreen(),
+      // ),
     );
   }
 }
