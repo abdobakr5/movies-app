@@ -1,4 +1,5 @@
 PODS:
+<<<<<<< HEAD
   - abseil/algorithm (1.20240722.0):
     - abseil/algorithm/algorithm (= 1.20240722.0)
     - abseil/algorithm/container (= 1.20240722.0)
@@ -1493,3 +1494,20 @@ SPEC CHECKSUMS:
 PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
 
 COCOAPODS: 1.16.2
+=======
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+
+PODFILE CHECKSUM: 07b98559a67e58a4a7b4f93599291ddf3f93d42d
+
+COCOAPODS: 1.17.0
+>>>>>>> daf20ae7d8536a9f00e35edaae334fd45b4ac38e

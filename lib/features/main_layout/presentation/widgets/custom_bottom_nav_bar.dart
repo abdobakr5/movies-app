@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/app_assets/app_icons.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:movies_app/core/app_assets/app_icons.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;

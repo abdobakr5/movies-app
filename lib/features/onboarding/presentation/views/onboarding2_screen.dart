@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/app_routes/app_routes.dart';
-import '../../../../core/localization/app_localizations.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 
 class Onboarding2Screen extends StatelessWidget {
   const Onboarding2Screen({super.key});
@@ -52,9 +52,7 @@ class Onboarding2Screen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-
                     const SizedBox(height: 14),
-
                     Text(
                       AppLocalizations.of(context)!.discoverMoviesDescription,
                       textAlign: TextAlign.center,
@@ -63,9 +61,7 @@ class Onboarding2Screen extends StatelessWidget {
                         color: Colors.white70,
                       ),
                     ),
-
                     const SizedBox(height: 18),
-
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -93,9 +89,7 @@ class Onboarding2Screen extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 18),
-
                     SizedBox(
                       width: double.infinity,
                       height: 50,
