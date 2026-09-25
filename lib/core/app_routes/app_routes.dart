@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../features/auth/presentation/cubit/login_cubit.dart';
-import '../../features/auth/presentation/cubit/register_cubit.dart';
-import '../../features/auth/presentation/views/forget_password_screen.dart';
-import '../../features/auth/presentation/views/login_screen.dart';
-import '../../features/auth/presentation/views/register_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding1_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding2_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding3_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding4_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding5_screen.dart';
-import '../../features/onboarding/presentation/views/onboarding6_screen.dart';
-import '../../features/profile/presentation/views/update_profile_screen.dart';
-import '../../features/main_layout/presentation/views/main_layout_screen.dart';
+import 'package:movies_app/core/services/services_locator.dart';
+import 'package:movies_app/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:movies_app/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:movies_app/features/auth/presentation/views/forget_password_screen.dart';
+import 'package:movies_app/features/auth/presentation/views/login_screen.dart';
+import 'package:movies_app/features/auth/presentation/views/register_screen.dart';
+import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:movies_app/features/home/presentation/views/home_screen.dart';
+import 'package:movies_app/features/main_layout/presentation/views/main_layout_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding1_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding2_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding3_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding4_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding5_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/views/onboarding6_screen.dart';
+import 'package:movies_app/features/profile/presentation/views/update_profile_screen.dart';
 
 class AppRoutes {
   static Route onboarding1() =>
@@ -34,24 +37,31 @@ class AppRoutes {
       MaterialPageRoute(builder: (_) => const Onboarding6Screen());
 
   static Route login() => MaterialPageRoute(
-    builder: (_) => BlocProvider(
-      create: (context) => LoginCubit(),
-      child: const LoginScreen(),
-    ),
-  );
+        builder: (_) => BlocProvider(
+          create: (context) => LoginCubit(),
+          child: const LoginScreen(),
+        ),
+      );
 
   static Route register() => MaterialPageRoute(
-    builder: (_) => BlocProvider(
-      create: (context) => RegisterCubit(),
-      child: const RegisterScreen(),
-    ),
-  );
+        builder: (_) => BlocProvider(
+          create: (context) => RegisterCubit(),
+          child: const RegisterScreen(),
+        ),
+      );
 
   static Route forgetPassword() =>
       MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
 
   static Route updateProfile() =>
       MaterialPageRoute(builder: (_) => const UpdateProfileScreen());
+
+  static Route home() => MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) => getIt<HomeCubit>(),
+          child: const HomeScreen(),
+        ),
+      );
 
   static Route mainLayout() =>
       MaterialPageRoute(builder: (_) => const MainLayoutScreen());

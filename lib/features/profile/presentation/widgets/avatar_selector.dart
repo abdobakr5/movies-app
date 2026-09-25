@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 
 class AvatarSelector extends StatefulWidget {
   final List<String> avatarPaths;
@@ -34,7 +34,7 @@ class _AvatarSelectorState extends State<AvatarSelector> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: List.generate(
             widget.avatarPaths.length > 3 ? 3 : widget.avatarPaths.length,
-                (index) {
+            (index) {
               final bool isSelected = index == _selectedIndex;
 
               return Padding(

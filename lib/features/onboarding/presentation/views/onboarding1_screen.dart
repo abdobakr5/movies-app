@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/app_routes/app_routes.dart';
-import '../../../../core/localization/app_localizations.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 
 class Onboarding1Screen extends StatelessWidget {
   const Onboarding1Screen({super.key});
@@ -12,7 +12,7 @@ class Onboarding1Screen extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset('assets/onboarding1.jpg', fit: BoxFit.cover),
+            Image.asset('assets/onboarding1.jpeg', fit: BoxFit.cover),
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -40,7 +40,8 @@ class Onboarding1Screen extends StatelessWidget {
                     Text(
                       AppLocalizations.of(
                         context,
-                      )!.findYourNextFavoriteMovieHere,
+                      )!
+                          .findYourNextFavoriteMovieHere,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
@@ -48,22 +49,19 @@ class Onboarding1Screen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-
                     const SizedBox(height: 14),
-
                     Text(
                       AppLocalizations.of(
                         context,
-                      )!.findYourNextFavoriteMovieHereDescription,
+                      )!
+                          .findYourNextFavoriteMovieHereDescription,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white70,
                       ),
                     ),
-
                     const SizedBox(height: 18),
-
                     SizedBox(
                       width: double.infinity,
                       height: 50,

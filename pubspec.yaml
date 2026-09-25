@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  http: ^1.5.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -47,6 +48,7 @@ dependencies:
   firebase_core: ^4.14.0
   get_it: ^7.6.7
   google_sign_in: ^7.2.0
+  shared_preferences: ^2.5.5
   
 
 dev_dependencies:
@@ -77,15 +79,17 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/onboarding1.jpg
+    - assets/onboarding1.jpeg
     - assets/onboarding2.png
     - assets/onboarding3.png
     - assets/onboarding4.png
     - assets/onboarding5.png
     - assets/onboarding6.png
     - assets/logo/
+    - assets/Forgot password-bro 1.png
     - assets/flags/
     - assets/icons/
+    - assets/home_tab_images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
