@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
@@ -97,28 +98,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const ForgetPasswordScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Forget Password ?',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                CustomButton(
+                  text: 'Login',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      FirebaseAuth.instance.signInWithEmailAndPassword(email: 
+                      _emailController.text, password: _passwordController.text);
+                       Navigator.push(context, AppRoutes.updateProfile());
+                    }
+                  },
+                ),
+                const SizedBox(height: 22),
+
+                // ───── Don't Have Account ? Create One ─────
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't Have Account ? ",
+                      style: TextStyle(color: AppColors.white, fontSize: 14),
                     ),
                     const SizedBox(height: 32),
                     if (isLoading)

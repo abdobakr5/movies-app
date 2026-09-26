@@ -10,6 +10,7 @@ import 'package:movies_app/features/profile/presentation/manager/profile_state.d
 import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
 import 'package:movies_app/features/profile/presentation/widgets/custom_text_field.dart';
 
+
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
@@ -20,7 +21,8 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-
+  bool isLoading=true;
+  
   final List<String> avatars = [
     AppAssets.avatar1,
     AppAssets.avatar2,
@@ -35,6 +37,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   String selectedAvatar = AppAssets.avatar1;
 
+  
   void _showNotificationMessage({
     required String message,
     required Color color,
@@ -97,6 +100,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       },
     );
   }
+  @override
+  void initState() {
+    super.initState();
+    getIt.get<ProfileCubit>().fetchUserData();
+  }
 
   @override
   void dispose() {
@@ -104,33 +112,57 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     phoneController.dispose();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<ProfileCubit>(
-      create: (context) => getIt<ProfileCubit>(),
-      child:
-          BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
-        if (state is ProfileSuccess) {
-          _showNotificationMessage(
+@override 
+Widget build(BuildContext context){
+  
+   return BlocProvider<ProfileCubit>(
+    create: (context) => getIt<ProfileCubit>()..fetchUserData(),
+    child: Builder(
+     builder: (context) {
+       return BlocConsumer<ProfileCubit,ProfileState>(
+       listener: (context, state) {
+         if(state is ProfileSuccess){
+         
+           _showNotificationMessage(
               message: AppStrings.profileUpdatedSuccess,
               color: AppColors.green);
-        } else if (state is ProfileDeleted) {
+         }
+         else if(state is ProfileDeleted){
           _showNotificationMessage(
-              message: AppStrings.accountDeletedSuccess, color: AppColors.red);
-        } else if (state is ProfileError) {
+            message: AppStrings.accountDeletedSuccess, 
+            color:AppColors.red );
+         }
+         else if(state is ProfileError){
           _showNotificationMessage(
-              message: state.message, color: AppColors.red);
-        }
-      }, builder: (context, state) {
+            
+            message: state.message, 
+            color: AppColors.red);
+         }
+       },
+         
+       builder: (context,state){
+       
+         if (state is ProfileLoading) {
+           return Scaffold(
+            backgroundColor: AppColors.darkBackground,
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+           );
+         }
+       
+         if (state is ProfileSuccess) {
+           nameController.text=state.user!.name;
+           phoneController.text=state.user!.phone;
+         }
+       
         return Scaffold(
           backgroundColor: AppColors.darkBackground,
           appBar: AppBar(
             backgroundColor: AppColors.darkBackground,
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon:
-                  const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
+              icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
             ),
             title: TextButton(
               onPressed: _showAvatarBottomSheet,
@@ -169,14 +201,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   const SizedBox(height: 16),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     decoration: BoxDecoration(
                       color: AppColors.darkBackground,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(AppStrings.resetPassword,
-                        style: AppStyles.bodyStyle),
+                    child: const Text(AppStrings.resetPassword, style: AppStyles.bodyStyle),
                   ),
                   const SizedBox(height: 260),
                   CustomButton(
@@ -192,9 +222,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     backgroundColor: AppColors.primaryYellow,
                     onPressed: () {
                       context.read<ProfileCubit>().updateProfile(
-                          name: nameController.text,
-                          phone: phoneController.text,
-                          avatar: selectedAvatar);
+                        name: nameController.text, 
+                        phone: phoneController.text, 
+                        avatar: selectedAvatar);
                     },
                     text: AppStrings.updateData,
                     textColor: AppColors.surfaceColor,
@@ -204,7 +234,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ),
           ),
         );
-      }),
-    );
-  }
+         }
+       );
+     }
+   ),
+   );
 }
