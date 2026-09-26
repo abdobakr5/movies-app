@@ -1,22 +1,14 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/services/services_locator.dart';
-import 'package:movies_app/core/utils/app_assets.dart';
-import 'package:movies_app/features/profile/domain/usecases/delete_account_usecase.dart';
-import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text_field.dart';
-import '../manager/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../manager/profile_state.dart';
-
-
+import 'package:movies_app/core/services/services_locator.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/core/utils/app_strings.dart';
+import 'package:movies_app/core/utils/app_styles.dart';
+import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/manager/profile_state.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
+import 'package:movies_app/features/profile/presentation/widgets/custom_text_field.dart';
 
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -43,22 +35,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     AppAssets.avatar9,
   ];
 
-  
   String selectedAvatar = AppAssets.avatar1;
 
   
   void _showNotificationMessage({
     required String message,
     required Color color,
-  })
-  {
-    SnackBar(content: Text(message),
-    backgroundColor: color,
-    
+  }) {
+    SnackBar(
+      content: Text(message),
+      backgroundColor: color,
     );
   }
 
-  
   void _showAvatarBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -88,7 +77,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primaryYellow.withValues(alpha: 0.4) : AppColors.surfaceColor,
+                    color: isSelected
+                        ? AppColors.primaryYellow.withValues(alpha: 0.4)
+                        : AppColors.surfaceColor,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: AppColors.primaryYellow,
@@ -248,5 +239,4 @@ Widget build(BuildContext context){
      }
    ),
    );
-}
 }

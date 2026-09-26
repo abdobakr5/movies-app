@@ -1,5 +1,6 @@
-
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/profile/domain/usecases/delete_account_usecase.dart';
+import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -19,8 +20,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     required this.getUserDataUsecase
   }) : super(ProfileIntial());
 
- 
-
   void fetchUserData()async{
     emit(ProfileLoading());
     try {
@@ -32,7 +31,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> updateProfile({
-    
     required String name,
     required String phone,
     required String avatar,
@@ -40,9 +38,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileLoading());
     try {
       await updateProfileUsecase.call(
-        name:name,
-        phone:phone,
-        avatar:avatar,
+        name: name,
+        phone: phone,
+        avatar: avatar,
       );
       emit(ProfileSuccess());
     } catch (e) {
@@ -58,6 +56,5 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(ProfileError(e.toString()));
     }
-  }
-  
+  }  
 }
