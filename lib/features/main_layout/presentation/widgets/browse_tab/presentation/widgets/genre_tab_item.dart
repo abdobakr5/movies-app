@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 
 class GenreTabItem extends StatelessWidget {
-  final String title;
+  final String genre;
   final bool isSelected;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   const GenreTabItem({
     super.key,
-    required this.title,
+    required this.genre,
     required this.isSelected,
-    this.onTap,
+    required this.onTap,
   });
 
   @override
@@ -19,22 +19,23 @@ class GenreTabItem extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          color: isSelected ? AppColors.genreSelected : AppColors.transparent,
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: AppColors.primaryColor,
-            width: 2,
+            color: AppColors.genreSelected,
+            width: 1.5,
           ),
         ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? AppColors.black : AppColors.primaryColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        child: Center(
+          child: Text(
+            genre,
+            style: TextStyle(
+              color: isSelected ? AppColors.black : AppColors.genreSelected,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              fontSize: 14,
+            ),
           ),
         ),
       ),
