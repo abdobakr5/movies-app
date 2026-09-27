@@ -5,21 +5,13 @@ import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_c
 import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_state.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/pages/home_tab_body.dart';
+import 'package:movies_app/features/search/presentation/views/search_tab.dart';
 
 class MainLayoutScreen extends StatelessWidget {
   const MainLayoutScreen({super.key});
   static const List<Widget> _screens = [
     HomeTabBody(),
-    Center(
-      child: Text(
-        'Search Screen',
-        style: TextStyle(
-          color: AppColors.white,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
+    SearchTab(),
     Center(
       child: Text(
         'Explore Screen',
