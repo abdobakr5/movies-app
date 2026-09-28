@@ -11,6 +11,8 @@ import 'package:movies_app/features/profile/domain/usecases/delete_account_useca
 import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
 
+import '../../features/profile/domain/usecases/get_user_data_usecase.dart';
+import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../network/api_manager.dart';
 
 final getIt = GetIt.instance;
@@ -34,12 +36,20 @@ void servicesLocator() {
     () => HomeCubit(getIt()),
   );
 
+  getIt.registerFactory<SearchCubit>(
+        () => SearchCubit(getIt()),
+  );
+
   getIt.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSource(),
   );
 
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepoImplementation(getIt()),
+  );
+
+  getIt.registerLazySingleton<GetUserDataUsecase>(
+        () => GetUserDataUsecase(getIt()),
   );
 
   getIt.registerLazySingleton(() => UpdateProfileUsecase(getIt()));
@@ -50,6 +60,7 @@ void servicesLocator() {
     () => ProfileCubit(
       updateProfileUsecase: getIt(),
       deleteAccountUseCase: getIt(),
+      getUserDataUsecase: getIt(),
     ),
   );
 }
