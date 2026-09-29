@@ -21,4 +21,11 @@ class AppColors {
   static const Color hintColor = Color(0xFF9A9A9A);
   static const Color black = Color(0xFF000000);
   static const Color green = Color(0xFF008000);
+
+
+
+//profile
+  static const Color darkGrey = Color(0xFF212121);
+  static const Color grey = Colors.grey;
+  static const Color op70black = Color(0xB3121312); // black with 70% opacity
 }
