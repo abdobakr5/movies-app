@@ -90,6 +90,8 @@ flutter:
     - assets/flags/
     - assets/icons/
     - assets/home_tab_images/
+    - assets/profile_images/Empty 1.png
+    - assets/profile_images/gamer (1).png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
