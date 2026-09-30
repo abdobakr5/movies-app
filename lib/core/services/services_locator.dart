@@ -17,12 +17,18 @@ import 'package:movies_app/features/movie_details/domain/usecases/get_movie_deta
 import 'package:movies_app/features/movie_details/domain/usecases/get_movie_suggestions_usecase.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 
+import 'package:movies_app/features/movie_details/data/datasources/watchlist_remote_data_source.dart';
+
 import '../network/api_manager.dart';
 
 final getIt = GetIt.instance;
 
 void servicesLocator() {
   getIt.registerLazySingleton<ApiManager>(() => ApiManager());
+
+  getIt.registerLazySingleton<WatchlistRemoteDataSource>(
+    () => WatchlistRemoteDataSource(),
+  );
 
   getIt.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSource(getIt()),

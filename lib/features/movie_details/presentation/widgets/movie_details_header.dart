@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/features/movie_details/data/datasources/watchlist_remote_data_source.dart';
 import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
 
 class MovieDetailsHeader extends StatefulWidget {
@@ -16,6 +19,105 @@ class MovieDetailsHeader extends StatefulWidget {
 
 class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
   bool isBookmarked = false;
+  bool isLoadingStatus = true;
+  bool isToggling = false;
+
+  late final WatchlistRemoteDataSource _watchlistRemoteDataSource;
+
+  @override
+  void initState() {
+    super.initState();
+    _watchlistRemoteDataSource = getIt<WatchlistRemoteDataSource>();
+    _checkBookmarkStatus();
+  }
+
+  @override
+  void didUpdateWidget(covariant MovieDetailsHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.movie.id != widget.movie.id) {
+      _checkBookmarkStatus();
+    }
+  }
+
+  Future<void> _checkBookmarkStatus() async {
+    setState(() {
+      isLoadingStatus = true;
+    });
+
+    final bookmarked =
+        await _watchlistRemoteDataSource.isBookmarked(widget.movie.id);
+
+    if (mounted) {
+      setState(() {
+        isBookmarked = bookmarked;
+        isLoadingStatus = false;
+      });
+    }
+  }
+
+  Future<void> _toggleBookmark() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please log in to bookmark movies'),
+          backgroundColor: AppColors.red,
+        ),
+      );
+      return;
+    }
+
+    if (isToggling) return;
+
+    setState(() {
+      isToggling = true;
+    });
+
+    try {
+      if (isBookmarked) {
+        await _watchlistRemoteDataSource.removeBookmark(widget.movie.id);
+        if (mounted) {
+          setState(() {
+            isBookmarked = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Removed from Watchlist'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      } else {
+        await _watchlistRemoteDataSource.addBookmark(widget.movie);
+        if (mounted) {
+          setState(() {
+            isBookmarked = true;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Added to Watchlist'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update bookmark: ${e.toString()}'),
+            backgroundColor: AppColors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isToggling = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +217,24 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
                     onPressed: () => Navigator.maybePop(context),
                   ),
                   IconButton(
-                    icon: Icon(
-                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                      color: isBookmarked ? AppColors.yellow : Colors.white,
-                      size: 26,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isBookmarked = !isBookmarked;
-                      });
-                    },
+                    icon: isToggling
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.yellow,
+                            ),
+                          )
+                        : Icon(
+                            isBookmarked
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                            color:
+                                isBookmarked ? AppColors.yellow : Colors.white,
+                            size: 26,
+                          ),
+                    onPressed: _toggleBookmark,
                   ),
                 ],
               ),
