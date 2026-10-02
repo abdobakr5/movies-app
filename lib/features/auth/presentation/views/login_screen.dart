@@ -21,7 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleState(BuildContext context, LoginState state) {
     if (state is LoginSuccess) {
-      Navigator.pushReplacement(context, AppRoutes.mainLayout());
+      Navigator.pushReplacement(
+        context,
+        AppRoutes.mainLayout(),
+      );
     } else if (state is PasswordResetEmailSent) {
       _showMessage(
         context,
@@ -29,15 +32,26 @@ class _LoginScreenState extends State<LoginScreen> {
         AppColors.primary,
       );
     } else if (state is LoginFailure) {
-      _showMessage(context, state.errorMessage, AppColors.red);
+      _showMessage(
+        context,
+        state.errorMessage,
+        AppColors.red,
+      );
     }
   }
 
-  void _showMessage(BuildContext context, String message, Color color) {
+  void _showMessage(
+    BuildContext context,
+    String message,
+    Color color,
+  ) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(content: Text(message), backgroundColor: color),
+        SnackBar(
+          content: Text(message),
+          backgroundColor: color,
+        ),
       );
   }
 
@@ -51,7 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
           builder: (context, state) {
             final LoginCubit cubit = context.read<LoginCubit>();
             final bool isLoading = state is LoginLoading;
-
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Form(
@@ -85,9 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       textInputAction: TextInputAction.done,
                       validator: cubit.validatePassword,
                       suffixIcon: IconButton(
-                        onPressed: () => setState(
-                          () => _isPasswordHidden = !_isPasswordHidden,
-                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordHidden = !_isPasswordHidden;
+                          });
+                        },
                         icon: Icon(
                           _isPasswordHidden
                               ? Icons.visibility_off
@@ -114,8 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const Text(
                           "Don't Have Account ? ",
-                          style:
-                              TextStyle(color: AppColors.white, fontSize: 14),
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                          ),
                         ),
                         GestureDetector(
                           onTap: isLoading
@@ -139,16 +156,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       children: const [
                         Expanded(
-                            child: Divider(color: AppColors.primaryYellow)),
+                          child: Divider(
+                            color: AppColors.primaryYellow,
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             'OR',
-                            style: TextStyle(color: AppColors.primaryYellow),
+                            style: TextStyle(
+                              color: AppColors.primaryYellow,
+                            ),
                           ),
                         ),
                         Expanded(
-                            child: Divider(color: AppColors.primaryYellow)),
+                          child: Divider(
+                            color: AppColors.primaryYellow,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 28),
