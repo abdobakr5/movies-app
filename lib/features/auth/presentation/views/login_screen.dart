@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
@@ -6,7 +5,6 @@ import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/login_state.dart';
-import 'package:movies_app/features/auth/presentation/views/forget_password_screen.dart';
 import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
 import 'package:movies_app/features/profile/presentation/widgets/custom_text_field.dart';
 import 'package:movies_app/features/profile/presentation/widgets/language_toggle.dart';
@@ -97,30 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: AppColors.white,
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
-
-                CustomButton(
-                  text: 'Login',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      FirebaseAuth.instance.signInWithEmailAndPassword(email: 
-                      _emailController.text, password: _passwordController.text);
-                       Navigator.push(context, AppRoutes.updateProfile());
-                    }
-                  },
-                ),
-                const SizedBox(height: 22),
-
-                // ───── Don't Have Account ? Create One ─────
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't Have Account ? ",
-                      style: TextStyle(color: AppColors.white, fontSize: 14),
                     ),
                     const SizedBox(height: 32),
                     if (isLoading)
