@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:movies_app/features/profile/domain/usecases/wishlist_usecase.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/app_provider/app_provider.dart';
@@ -9,8 +12,21 @@ import 'core/services/services_locator.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  servicesLocator();
-  await Firebase.initializeApp();
+   await Firebase.initializeApp();
+
+   servicesLocator();
+
+   //test the logic of profile screen
+
+   try {
+     final WishlistUsecase=getIt<GetWishlistUsecase>();
+     final result =await WishlistUsecase.call();
+     print(" success");
+     print(result);
+   } catch (e) {
+     print("Error:$e");
+   }
+ 
 
   runApp(
     ChangeNotifierProvider(

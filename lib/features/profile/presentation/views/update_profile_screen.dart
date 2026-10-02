@@ -5,6 +5,8 @@ import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/core/utils/app_strings.dart';
 import 'package:movies_app/core/utils/app_styles.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/profile/domain/usecases/history_usecase.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_state.dart';
 import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';
@@ -229,6 +231,45 @@ Widget build(BuildContext context){
                     text: AppStrings.updateData,
                     textColor: AppColors.surfaceColor,
                   ),
+
+                  ////////////////////////////////////
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    backgroundColor: AppColors.primaryYellow,
+                    onPressed: () async {
+                      GetHistoryUsecase usecase = getIt<GetHistoryUsecase>();
+                      List<MovieEntity> result = await usecase();
+                      print('${result}');
+                    },
+                    text: 'Get History',
+                    textColor: AppColors.surfaceColor,
+                  ),
+
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    backgroundColor: AppColors.primaryYellow,
+                    onPressed: () {
+                      context.read<ProfileCubit>().updateProfile(
+                        name: nameController.text, 
+                        phone: phoneController.text, 
+                        avatar: selectedAvatar);
+                    },
+                    text: AppStrings.updateData,
+                    textColor: AppColors.surfaceColor,
+                  ),
+
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    backgroundColor: AppColors.primaryYellow,
+                    onPressed: () {
+                      context.read<ProfileCubit>().updateProfile(
+                        name: nameController.text, 
+                        phone: phoneController.text, 
+                        avatar: selectedAvatar);
+                    },
+                    text: AppStrings.updateData,
+                    textColor: AppColors.surfaceColor,
+                  ),
                 ],
               ),
             ),
@@ -239,4 +280,5 @@ Widget build(BuildContext context){
      }
    ),
    );
+}
 }
