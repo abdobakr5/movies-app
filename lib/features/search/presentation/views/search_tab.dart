@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
@@ -24,9 +25,11 @@ class SearchTab extends StatefulWidget {
 
 class _SearchTabState extends State<SearchTab> {
   final TextEditingController _searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -50,7 +53,16 @@ class _SearchTabState extends State<SearchTab> {
                     TextField(
                       controller: _searchController,
                       onChanged: (query) {
-                        context.read<SearchCubit>().searchMovies(query);
+                        if (_debounce?.isActive ?? false) {
+                          _debounce!.cancel();
+                        }
+
+                        _debounce = Timer(
+                          const Duration(milliseconds: 500),
+                              () {
+                            context.read<SearchCubit>().searchMovies(query);
+                          },
+                        );
                       },
                       style: const TextStyle(
                         color: AppColors.white,
