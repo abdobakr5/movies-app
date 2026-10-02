@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart';
 import 'movie_card.dart';
 
 class BannerCarousel extends StatefulWidget {
   final List<MovieModel> movies;
   final ValueChanged<MovieModel>? onMovieChanged;
+  final ValueChanged<MovieModel>? onMovieTap;
 
   const BannerCarousel({
     super.key,
     required this.movies,
     this.onMovieChanged,
+    this.onMovieTap,
   });
 
   @override
@@ -61,6 +64,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
         },
         itemCount: widget.movies.length,
         itemBuilder: (context, index) {
+          final movie = widget.movies[index];
           return AnimatedBuilder(
             animation: _bannerController,
             builder: (context, child) {
@@ -82,8 +86,18 @@ class _BannerCarouselState extends State<BannerCarousel> {
               );
             },
             child: MovieCard(
-              movie: widget.movies[index],
+              movie: movie,
               borderRadius: 24,
+              onTap: () {
+                if (widget.onMovieTap != null) {
+                  widget.onMovieTap!(movie);
+                } else {
+                  Navigator.push(
+                    context,
+                    AppRoutes.movieDetails(movie.id),
+                  );
+                }
+              },
             ),
           );
         },
