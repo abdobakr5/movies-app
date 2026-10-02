@@ -1,22 +1,44 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:movies_app/features/home/data/models/movie_model.dart';
 
-class ProfileRemoteDataSource {
-  final FirebaseAuth _auth=FirebaseAuth.instance;
-  final FirebaseFirestore _firestore=FirebaseFirestore.instance;
 
-  // I will use A unified function for profile operation
-   Future<void> excuteAccountAction({
+abstract class ProfileRemoteDataSource {
+  Future<List<MovieModel>> getWishlist();
+  Future<List<MovieModel>> getHistory();
+  Future<void> logout();
+  Future<void> excuteAccountAction({
+    required bool isDelete,
+    String?name,
+    String?phone,
+    String?avatar,
+
+  });
+}
+   
+class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
+  final FirebaseFirestore firestore;
+  final FirebaseAuth auth;
+
+  ProfileRemoteDataSourceImpl({
+
+    
+    required this.auth,
+    required this.firestore
+    });
+
+    @override
+     Future<void> excuteAccountAction({
     // IsDelete function => to know we will update or delete.
     required bool isDelete,
     String?name,
     String?phone,
     String?avatar,
    })async{
-    final user=_auth.currentUser;
+    final user=auth.currentUser;
     // Guard Clause 
     if(user==null)throw Exception("No User Loged In");
-    final userRef=_firestore.collection('users').doc(user.uid);
+    final userRef=firestore.collection('users').doc(user.uid);
     if(isDelete){
     // if variable of(isDelete) is true => this is meaning that the user click on delete button.
       await userRef.delete();
@@ -38,5 +60,32 @@ class ProfileRemoteDataSource {
     }
    }
 
+
+    @override
+    Future<List<MovieModel>>getHistory()async{
+    final userId=FirebaseAuth.instance.currentUser?.uid;
+    final result=await FirebaseFirestore.instance.
+    collection('users').
+    doc(userId).
+    collection('history'). 
+    get();
+    return result.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
+   }
+
+    @override
+   Future<List<MovieModel>> getWishlist()async {
+    final userId=FirebaseAuth.instance.currentUser?.uid;
+    final result=await FirebaseFirestore.instance.
+    collection('users').
+    doc(userId).
+    collection('wishlist'). 
+    get();
+    return result.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
+   }
+
+   @override
+    Future<void>logout()async{
+    await FirebaseAuth.instance.signOut();
+   }
   
 }

@@ -1,5 +1,6 @@
 import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
+
 class MovieModel extends MovieEntity {
   MovieModel({
     required super.id,
@@ -18,6 +19,26 @@ class MovieModel extends MovieEntity {
     required super.mediumCoverImage,
     required super.largeCoverImage,
   });
+
+  MovieEntity toEntity() {
+    return MovieEntity(
+      id: id,
+      title: title,
+      titleEnglish: titleEnglish,
+      titleLong: titleLong,
+      year: year,
+      rating: rating,
+      runtime: runtime,
+      genres: genres,
+      summary: summary,
+      descriptionFull: descriptionFull,
+      backgroundImage: backgroundImage,
+      backgroundImageOriginal: backgroundImageOriginal,
+      smallCoverImage: smallCoverImage,
+      mediumCoverImage: mediumCoverImage,
+      largeCoverImage: largeCoverImage,
+    );
+  }
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
