@@ -37,7 +37,7 @@ class MovieDetailsModel extends MovieDetailsEntity {
     final rawCast = json['cast'] as List<dynamic>? ?? [];
     final castList = rawCast
         .whereType<Map<String, dynamic>>()
-        .map((c) => CastModel.fromJson(c))
+        .map((c) => CastModel.fromJson(c).toEntity())
         .toList();
 
     return MovieDetailsModel(
@@ -58,6 +58,28 @@ class MovieDetailsModel extends MovieDetailsEntity {
       largeCoverImage: json['large_cover_image'] ?? '',
       screenshots: screenshotsList,
       cast: castList,
+    );
+  }
+
+  MovieDetailsEntity toEntity() {
+    return MovieDetailsEntity(
+      id: id,
+      title: title,
+      titleEnglish: titleEnglish,
+      titleLong: titleLong,
+      year: year,
+      rating: rating,
+      runtime: runtime,
+      likeCount: likeCount,
+      genres: genres,
+      summary: summary,
+      descriptionFull: descriptionFull,
+      backgroundImage: backgroundImage,
+      smallCoverImage: smallCoverImage,
+      mediumCoverImage: mediumCoverImage,
+      largeCoverImage: largeCoverImage,
+      screenshots: screenshots,
+      cast: cast,
     );
   }
 }
