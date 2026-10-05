@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 
 // --------------------------------- Colors -----------------------------------------
@@ -60,6 +61,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   // --------------------------------------------- App Bar -----------------------------------------
   AppBar buildAppBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppBar(
       backgroundColor: kBackgroundColor,
       elevation: 0,
@@ -69,9 +72,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         icon: const Icon(Icons.arrow_back, color: kYellowColor),
         onPressed: () => Navigator.pop(context),
       ),
-      title: const Text(
-        'Forget Password',
-        style: TextStyle(
+      title: Text(
+        l10n.forgetPassword,
+        style: const TextStyle(
           color: kYellowColor,
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -92,6 +95,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   // ---------------------------------------- Email Field ----------------------------------------
 
   Widget buildEmailField() {
+    final l10n = AppLocalizations.of(context)!;
+
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
@@ -103,7 +108,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return 'Please enter your email';
+          return l10n.pleaseEnterEmail;
         }
 
         final emailRegex = RegExp(
@@ -111,13 +116,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         );
 
         if (!emailRegex.hasMatch(value.trim())) {
-          return 'Please enter a valid email';
+          return l10n.pleaseEnterValidEmail;
         }
 
         return null;
       },
       decoration: InputDecoration(
-        hintText: 'Email',
+        hintText: l10n.email,
         hintStyle: const TextStyle(
           color: kHintColor,
           fontSize: 15,
@@ -180,6 +185,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   // ----------------------------------------- Verify Button -------------------------------------
   Widget buildVerifyButton() {
+    final l10n = AppLocalizations.of(context)!;
+
     return SizedBox(
       height: 55,
       child: ElevatedButton(
@@ -202,9 +209,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   color: AppColors.black,
                 ),
               )
-            : const Text(
-                'Verify Email',
-                style: TextStyle(
+            : Text(
+                l10n.verifyEmail,
+                style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
@@ -216,7 +223,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 // --------------------------------- Firebase Logic ---------------------------------
 
   Future<void> _sendResetEmail() async {
-    // Validate form
+    final l10n = AppLocalizations.of(context)!;
+
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -228,7 +236,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     });
 
     try {
-      // Send password reset email
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: email,
       );
@@ -239,18 +246,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         _isLoading = false;
       });
 
-      // Success message
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Password reset email sent! Check your inbox.',
+            l10n.passwordResetEmailSent,
           ),
           backgroundColor: AppColors.green,
           behavior: SnackBarBehavior.floating,
         ),
       );
 
-      // Optional: go back after successful request
       await Future.delayed(
         const Duration(seconds: 2),
       );
@@ -269,23 +274,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
       switch (e.code) {
         case 'invalid-email':
-          message = 'The email address is invalid.';
+          message = l10n.invalidEmailAddress;
           break;
 
         case 'user-not-found':
-          message = 'No account was found with this email.';
+          message = l10n.userNotFound;
           break;
 
         case 'network-request-failed':
-          message = 'Please check your internet connection.';
+          message = l10n.networkError;
           break;
 
         case 'too-many-requests':
-          message = 'Too many requests. Please try again later.';
+          message = l10n.tooManyRequests;
           break;
 
         default:
-          message = e.message ?? 'Something went wrong. Please try again.';
+          message = e.message ?? l10n.somethingWentWrong;
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -303,9 +308,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Something went wrong. Please try again.',
+            l10n.somethingWentWrong,
           ),
           backgroundColor: AppColors.red,
           behavior: SnackBarBehavior.floating,

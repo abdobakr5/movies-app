@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/auth/presentation/cubit/register_cubit.dart';
@@ -27,8 +28,8 @@ class RegisterScreen extends StatelessWidget {
               listener: (context, state) {
                 if (state is RegisterSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Account Created Successfully!'),
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!.accountCreatedSuccessfully),
                       backgroundColor: AppColors.green,
                     ),
                   );
@@ -44,6 +45,7 @@ class RegisterScreen extends StatelessWidget {
               },
               builder: (context, state) {
                 final cubit = BlocProvider.of<RegisterCubit>(context);
+                final l10n = AppLocalizations.of(context)!;
 
                 return Column(
                   children: [
@@ -63,11 +65,11 @@ class RegisterScreen extends StatelessWidget {
                               const SizedBox(height: 24),
                               CustomTextField(
                                 controller: cubit.nameController,
-                                hintText: 'Name',
+                                hintText: l10n.name,
                                 icon: Icons.badge,
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
-                                    return 'Please enter your name';
+                                    return l10n.pleaseEnterName;
                                   }
                                   return null;
                                 },
@@ -75,17 +77,17 @@ class RegisterScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               CustomTextField(
                                 controller: cubit.emailController,
-                                hintText: 'Email',
+                                hintText: l10n.email,
                                 icon: Icons.email,
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
-                                    return 'Please enter your email';
+                                    return l10n.pleaseEnterEmail;
                                   }
                                   if (!RegExp(
                                           r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                       .hasMatch(value)) {
-                                    return 'Please enter a valid email';
+                                    return l10n.pleaseEnterValidEmail;
                                   }
                                   return null;
                                 },
@@ -93,10 +95,10 @@ class RegisterScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               PasswordTextField(
                                 controller: cubit.passwordController,
-                                hintText: 'Password',
+                                hintText: l10n.password,
                                 validator: (value) {
                                   if (value == null || value.length < 6) {
-                                    return 'Password must be at least 6 characters';
+                                    return l10n.passwordMinLength;
                                   }
                                   return null;
                                 },
@@ -104,10 +106,10 @@ class RegisterScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               PasswordTextField(
                                 controller: cubit.confirmPasswordController,
-                                hintText: 'Confirm Password',
+                                hintText: l10n.confirmPassword,
                                 validator: (value) {
                                   if (value != cubit.passwordController.text) {
-                                    return 'Passwords do not match';
+                                    return l10n.passwordsDoNotMatch;
                                   }
                                   return null;
                                 },
@@ -115,12 +117,12 @@ class RegisterScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               CustomTextField(
                                 controller: cubit.phoneController,
-                                hintText: 'Phone Number',
+                                hintText: l10n.phoneNumber,
                                 icon: Icons.phone,
                                 keyboardType: TextInputType.phone,
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
-                                    return 'Please enter your phone number';
+                                    return l10n.pleaseEnterPhone;
                                   }
                                   return null;
                                 },
@@ -133,7 +135,7 @@ class RegisterScreen extends StatelessWidget {
                                       ),
                                     )
                                   : CustomButton(
-                                      text: 'Create Account',
+                                      text: l10n.createAccount,
                                       backgroundColor: AppColors.primaryYellow,
                                       textColor: AppColors.black,
                                       onPressed: cubit.registerUser,
@@ -164,17 +166,19 @@ class RegisterScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       children: [
         IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
           icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
         ),
-        const Expanded(
+        Expanded(
           child: Center(
             child: Text(
-              'Register',
-              style: TextStyle(
+              l10n.register,
+              style: const TextStyle(
                 color: AppColors.primaryYellow,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -188,20 +192,22 @@ class RegisterScreen extends StatelessWidget {
   }
 
   Widget _buildLoginRow(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Already Have Account ? ',
-          style: TextStyle(color: AppColors.textWhite),
+        Text(
+          l10n.alreadyHaveAccount,
+          style: const TextStyle(color: AppColors.textWhite),
         ),
         GestureDetector(
           onTap: () {
             Navigator.pushReplacement(context, AppRoutes.login());
           },
-          child: const Text(
-            'Login',
-            style: TextStyle(
+          child: Text(
+            l10n.login,
+            style: const TextStyle(
               color: AppColors.primaryYellow,
               fontWeight: FontWeight.bold,
             ),
