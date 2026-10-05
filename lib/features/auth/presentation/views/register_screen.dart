@@ -29,7 +29,7 @@ class RegisterScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Account Created Successfully!'),
-                      backgroundColor: Colors.green,
+                      backgroundColor: AppColors.green,
                     ),
                   );
                   Navigator.pushReplacement(context, AppRoutes.login());
@@ -37,7 +37,7 @@ class RegisterScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.errorMessage),
-                      backgroundColor: Colors.red,
+                      backgroundColor: AppColors.red,
                     ),
                   );
                 }
