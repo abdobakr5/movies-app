@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart';
 
 class MovieCard extends StatelessWidget {
@@ -22,8 +23,8 @@ class MovieCard extends StatelessWidget {
             movie.largeCoverImage,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(
-              color: Colors.grey[800],
-              child: const Icon(Icons.movie, color: Colors.white54, size: 40),
+              color: AppColors.grey800,
+              child: const Icon(Icons.movie, color: AppColors.white54, size: 40),
             ),
           ),
           Positioned(
@@ -32,7 +33,7 @@ class MovieCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.65),
+                color: AppColors.black.withValues(alpha: 0.65),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -41,7 +42,7 @@ class MovieCard extends StatelessWidget {
                   Text(
                     '${movie.rating}',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -49,7 +50,7 @@ class MovieCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   const Icon(
                     Icons.star,
-                    color: Color(0xFFE5A00D),
+                    color: AppColors.starYellow,
                     size: 14,
                   ),
                 ],

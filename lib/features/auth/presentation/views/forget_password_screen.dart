@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 
 // --------------------------------- Colors -----------------------------------------
-const Color kBackgroundColor = Color(0xFF1E1E1E);
-const Color kYellowColor = Color(0xFFF5C518);
-const Color kFieldColor = Color(0xFF2B2B2B);
-const Color kHintColor = Color(0xFF9A9A9A);
+const Color kBackgroundColor = AppColors.surfaceColor;
+const Color kYellowColor = AppColors.kYellowColor;
+const Color kFieldColor = AppColors.fieldColor;
+const Color kHintColor = AppColors.hintColor;
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -97,7 +98,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       textInputAction: TextInputAction.done,
       cursorColor: kYellowColor,
       style: const TextStyle(
-        color: Colors.white,
+        color: AppColors.white,
         fontSize: 15,
       ),
       validator: (value) {
@@ -149,14 +150,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: Colors.red,
+            color: AppColors.red,
             width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: Colors.red,
+            color: AppColors.red,
             width: 1,
           ),
         ),
@@ -170,7 +171,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       height: 34,
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: const Icon(Icons.email, size: 18, color: kBackgroundColor),
@@ -186,7 +187,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: kYellowColor,
           disabledBackgroundColor: kYellowColor.withValues(alpha: 0.6),
-          foregroundColor: Colors.black,
+          foregroundColor: AppColors.black,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -198,7 +199,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 width: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  color: Colors.black,
+                  color: AppColors.black,
                 ),
               )
             : const Text(
@@ -244,7 +245,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           content: Text(
             'Password reset email sent! Check your inbox.',
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: AppColors.green,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -290,7 +291,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.red,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -306,7 +307,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           content: Text(
             'Something went wrong. Please try again.',
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.red,
           behavior: SnackBarBehavior.floating,
         ),
       );

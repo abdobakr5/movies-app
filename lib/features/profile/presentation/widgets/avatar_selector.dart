@@ -43,7 +43,7 @@ class _AvatarSelectorState extends State<AvatarSelector> {
                   onTap: () => _selectAvatar(index),
                   child: CircleAvatar(
                     radius: isSelected ? 52 : 36,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: AppColors.transparent,
                     backgroundImage: AssetImage(widget.avatarPaths[index]),
                   ),
                 ),
