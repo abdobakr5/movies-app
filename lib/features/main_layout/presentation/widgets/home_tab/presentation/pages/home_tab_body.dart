@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart'
@@ -184,6 +185,12 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                               selectedMovie = selected.first;
                             });
                           }
+                        },
+                        onMovieTap: (movie) {
+                          Navigator.push(
+                            context,
+                            AppRoutes.movieDetails(movie.id),
+                          );
                         },
                       ),
                       const SizedBox(height: 16),

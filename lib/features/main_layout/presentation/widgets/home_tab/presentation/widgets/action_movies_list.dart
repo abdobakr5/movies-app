@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart';
 import 'movie_card.dart';
 
@@ -19,13 +20,20 @@ class ActionMoviesList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: movies.length,
         itemBuilder: (context, index) {
+          final movie = movies[index];
           return Padding(
             padding: const EdgeInsets.only(right: 14.0),
             child: SizedBox(
               width: 125,
               child: MovieCard(
-                movie: movies[index],
+                movie: movie,
                 borderRadius: 18,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    AppRoutes.movieDetails(movie.id),
+                  );
+                },
               ),
             ),
           );
