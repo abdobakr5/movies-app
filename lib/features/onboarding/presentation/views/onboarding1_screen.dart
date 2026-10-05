@@ -81,9 +81,9 @@ class Onboarding1Screen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text(
-                          'Explore Now',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.exploreNow,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
