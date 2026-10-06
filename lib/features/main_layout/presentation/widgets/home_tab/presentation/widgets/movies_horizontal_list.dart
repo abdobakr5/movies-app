@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart';
 import 'movie_card.dart';
 
-class ActionMoviesList extends StatelessWidget {
+class MoviesHorizontalList extends StatelessWidget {
   final List<MovieModel> movies;
 
-  const ActionMoviesList({
+  const MoviesHorizontalList({
     super.key,
     required this.movies,
   });

@@ -6,7 +6,13 @@ class GetMoviesUseCase {
 
   GetMoviesUseCase(this.repository);
 
-  Future<List<MovieEntity>> call({String? query}) {
-    return repository.getMovies(query: query);
+  Future<List<MovieEntity>> call({
+    String? query,
+    String? genre,
+  }) {
+    return repository.getMovies(
+      query: query,
+      genre: genre,
+    );
   }
 }

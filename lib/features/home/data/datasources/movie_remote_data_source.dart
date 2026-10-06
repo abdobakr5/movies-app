@@ -8,12 +8,16 @@ class MovieRemoteDataSource {
 
   MovieRemoteDataSource(this.apiManager);
 
-  Future<List<MovieModel>> getMovies({String? query}) async {
+  Future<List<MovieModel>> getMovies({
+    String? query,
+    String? genre,
+  }) async {
     final response = await apiManager.getRequest(
       ApiConstants.listMovies,
-      queryParameters: query == null || query.isEmpty
-          ? null
-          : {'query_term': query},
+      queryParameters: {
+        if (query != null && query.isNotEmpty) 'query_term': query,
+        if (genre != null && genre.isNotEmpty) 'genre': genre,
+      },
     );
 
     if (response.statusCode == 200) {
