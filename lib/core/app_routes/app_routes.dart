@@ -16,6 +16,8 @@ import 'package:movies_app/features/onboarding/presentation/views/onboarding4_sc
 import 'package:movies_app/features/onboarding/presentation/views/onboarding5_screen.dart';
 import 'package:movies_app/features/onboarding/presentation/views/onboarding6_screen.dart';
 import 'package:movies_app/features/profile/presentation/views/update_profile_screen.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/views/movie_details_screen.dart';
 
 class AppRoutes {
   static Route onboarding1() =>
@@ -65,4 +67,11 @@ class AppRoutes {
 
   static Route mainLayout() =>
       MaterialPageRoute(builder: (_) => const MainLayoutScreen());
+
+  static Route movieDetails(int movieId) => MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) => getIt<MovieDetailsCubit>()..loadMovieDetails(movieId),
+          child: MovieDetailsScreen(movieId: movieId),
+        ),
+      );
 }
