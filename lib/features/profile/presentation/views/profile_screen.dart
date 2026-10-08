@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'history_tab.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   static const String routeName = 'profile';
 
@@ -13,7 +12,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   int selectedTab = 0; // 0 = Watch List, 1 = History
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: buildBottomNavBar(),
+        // bottomNavigationBar: buildBottomNavBar(),
       ),
     );
   }
@@ -70,7 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CircleAvatar(
                     radius: 59,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage('assets/profile_images/gamer (1).png'),
+                    backgroundImage:
+                        AssetImage('assets/profile_images/gamer (1).png'),
                   ),
                   SizedBox(height: 12),
                   Text(
@@ -212,7 +211,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       hasScrollBody: false,
       child: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-        child: Center(child: Image.asset('assets/profile_images/Empty 1.png', width: 124)),
+        child: Center(
+            child:
+                Image.asset('assets/profile_images/Empty 1.png', width: 124)),
       ),
     );
   }
