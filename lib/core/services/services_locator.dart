@@ -11,6 +11,9 @@ import 'package:movies_app/features/home/data/repositories/movie_repository_impl
 import 'package:movies_app/features/home/domain/repositories/movie_repository.dart';
 import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_details_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_suggestions_usecase.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 import 'package:movies_app/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:movies_app/features/profile/domain/repositories/profile_repo_implementation.dart';
 import 'package:movies_app/features/profile/domain/repositories/profile_repository.dart';
@@ -109,5 +112,27 @@ void servicesLocator() {
 // Cubit
   getIt.registerFactory<BrowseCubit>(
     () => BrowseCubit(getIt<BrowseRepository>())..loadBrowseData(),
+  );
+}
+
+void setupServiceLocator() {
+  // ... التسجيلات الأخرى ...
+
+  // أضف هذا السطر لتسجيل MovieDetailsCubit
+
+  getIt.registerLazySingleton<GetMovieDetailsUseCase>(
+    () => GetMovieDetailsUseCase(getIt()), // يجلب الـ Repository تلقائياً
+  );
+
+  getIt.registerLazySingleton<GetMovieSuggestionsUseCase>(
+    () => GetMovieSuggestionsUseCase(getIt()), // يجلب الـ Repository تلقائياً
+  );
+
+  // ب) تسجيل الـ Cubit وتمرير الـ Named Parameters
+  getIt.registerFactory<MovieDetailsCubit>(
+    () => MovieDetailsCubit(
+      getMovieDetailsUseCase: getIt(),
+      getMovieSuggestionsUseCase: getIt(),
+    ),
   );
 }

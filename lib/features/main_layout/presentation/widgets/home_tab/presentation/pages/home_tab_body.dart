@@ -4,10 +4,10 @@ import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart'
-as home_model;
+    as home_model;
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
-as ui_model;
+    as ui_model;
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
@@ -24,9 +24,9 @@ class _HomeTabBodyState extends State<HomeTabBody> {
   bool isBackgroundReady = false;
 
   Future<void> _prepareBackground(
-      BuildContext context,
-      ui_model.MovieModel movie,
-      ) async {
+    BuildContext context,
+    ui_model.MovieModel movie,
+  ) async {
     try {
       await precacheImage(
         NetworkImage(movie.backgroundUrl),
@@ -105,9 +105,9 @@ class _HomeTabBodyState extends State<HomeTabBody> {
   }
 
   Widget _buildHomeContent(
-      List<ui_model.MovieModel> movies,
-      List<home_model.MovieModel> homeMovies,
-      ) {
+    List<ui_model.MovieModel> movies,
+    List<home_model.MovieModel> homeMovies,
+  ) {
     if (movies.isNotEmpty && !isBackgroundReady) {
       return const Scaffold(
         backgroundColor: Color(0xFF121318),
@@ -119,8 +119,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
 
     final List<home_model.MovieModel> banners = homeMovies;
 
-    final List<home_model.MovieModel> actions =
-    homeMovies.take(10).toList();
+    final List<home_model.MovieModel> actions = homeMovies.take(10).toList();
 
     return SafeArea(
       child: Scaffold(
@@ -135,12 +134,12 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                   Positioned.fill(
                     child: selectedMovie != null
                         ? Image.network(
-                      selectedMovie!.backgroundUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) {
-                        return const SizedBox.expand();
-                      },
-                    )
+                            selectedMovie!.backgroundUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) {
+                              return const SizedBox.expand();
+                            },
+                          )
                         : const SizedBox.expand(),
                   ),
                   Positioned.fill(
@@ -176,8 +175,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                         movies: banners,
                         onMovieChanged: (movie) {
                           final selected = movies.where(
-                                (uiMovie) =>
-                            uiMovie.id == movie.id.toString(),
+                            (uiMovie) => uiMovie.id == movie.id.toString(),
                           );
 
                           if (selected.isNotEmpty) {
