@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/auth/presentation/cubit/login_cubit.dart';
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else if (state is PasswordResetEmailSent) {
       _showMessage(
         context,
-        'A reset link has been sent to ${state.email}',
+        '${AppLocalizations.of(context)!.passwordResetEmailSent} ${state.email}',
         AppColors.primary,
       );
     } else if (state is LoginFailure) {
@@ -57,6 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -83,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 70),
                     CustomTextField(
                       controller: cubit.emailController,
-                      hintText: 'Email',
+                      hintText: l10n.email,
                       prefixIcon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -92,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 22),
                     CustomTextField(
                       controller: cubit.passwordController,
-                      hintText: 'Password',
+                      hintText: l10n.password,
                       prefixIcon: Icons.lock,
                       obscureText: _isPasswordHidden,
                       textInputAction: TextInputAction.done,
@@ -120,19 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     else
                       CustomButton(
-                        text: 'Login',
+                        text: l10n.login,
                         onPressed: cubit.loginWithEmail,
                       ),
                     const SizedBox(height: 22),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Don't Have Account ? ",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 14,
-                          ),
+                        Text(
+                          l10n.dontHaveAccount,
+                          style:
+                              const TextStyle(color: AppColors.white, fontSize: 14),
                         ),
                         GestureDetector(
                           onTap: isLoading
@@ -141,9 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     AppRoutes.register(),
                                   ),
-                          child: const Text(
-                            'Create One',
-                            style: TextStyle(
+                          child: Text(
+                            l10n.createOne,
+                            style: const TextStyle(
                               color: AppColors.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
@@ -154,31 +155,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 22),
                     Row(
-                      children: const [
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.primaryYellow,
-                          ),
-                        ),
+                      children: [
+                        const Expanded(
+                            child: Divider(color: AppColors.primaryYellow)),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
-                            'OR',
-                            style: TextStyle(
-                              color: AppColors.primaryYellow,
-                            ),
+                            l10n.or,
+                            style: const TextStyle(color: AppColors.primaryYellow),
                           ),
                         ),
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.primaryYellow,
-                          ),
-                        ),
+                        const Expanded(
+                            child: Divider(color: AppColors.primaryYellow)),
                       ],
                     ),
                     const SizedBox(height: 28),
                     CustomButton(
-                      text: 'Login With Google',
+                      text: l10n.loginWithGoogle,
                       onPressed: isLoading ? () {} : cubit.loginWithGoogle,
                       iconPath: AppAssets.google,
                     ),

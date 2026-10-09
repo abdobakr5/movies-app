@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_state.dart';
@@ -9,30 +10,45 @@ import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/pr
 
 class MainLayoutScreen extends StatelessWidget {
   const MainLayoutScreen({super.key});
-  static const List<Widget> _screens = [
-    HomeTabBody(),
-    Center(
-      child: Text(
-        'Search Screen',
-        style: TextStyle(
-          color: AppColors.white,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
+
+  List<Widget> _getScreens(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return [
+      const HomeTabBody(),
+      Center(
+        child: Text(
+          l10n.searchScreen,
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-    ),
-    BrowseTabBody(),
-    Center(
-      child: Text(
-        'Profile Screen',
-        style: TextStyle(
-          color: AppColors.white,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
+      Center(
+        child: Text(
+          l10n.exploreScreen,
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-    ),
-  ];
+      Center(
+        child: Text(
+          l10n.profileScreen,
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -44,7 +60,7 @@ class MainLayoutScreen extends StatelessWidget {
             extendBody: true,
             body: IndexedStack(
               index: state.currentIndex,
-              children: _screens,
+              children: _getScreens(context),
             ),
             bottomNavigationBar: CustomBottomNavBar(
               currentIndex: state.currentIndex,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
@@ -139,7 +140,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
       ) {
     if (movies.isNotEmpty && !isBackgroundReady) {
       return const Scaffold(
-        backgroundColor: Color(0xFF121318),
+        backgroundColor: AppColors.homeBackground,
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -150,7 +151,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFF121318),
+        backgroundColor: AppColors.homeBackground,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -171,7 +172,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                   ),
                   Positioned.fill(
                     child: Container(
-                      color: Colors.black.withValues(alpha: 0.55),
+                      color: AppColors.black.withValues(alpha: 0.55),
                     ),
                   ),
                   Positioned.fill(
@@ -179,9 +180,9 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color(0xBB121318),
-                            Colors.transparent,
-                            Color(0xFF121318),
+                            AppColors.homeBackgroundTranslucent,
+                            AppColors.transparent,
+                            AppColors.homeBackground,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,

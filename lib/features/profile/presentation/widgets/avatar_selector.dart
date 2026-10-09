@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 
 class AvatarSelector extends StatefulWidget {
@@ -64,9 +65,9 @@ class _AvatarSelectorState extends State<AvatarSelector> {
           }),
         ),
         const SizedBox(height: 8),
-        const Text(
-          'Avatar',
-          style: TextStyle(color: AppColors.textWhite, fontSize: 16),
+        Text(
+          AppLocalizations.of(context)!.avatar,
+          style: const TextStyle(color: AppColors.textWhite, fontSize: 16),
         ),
       ],
     );

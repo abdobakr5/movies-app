@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
-import 'package:movies_app/core/utils/app_strings.dart';
 import 'package:movies_app/core/utils/app_styles.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_state.dart';
@@ -116,119 +116,151 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<ProfileCubit>(
       create: (context) => getIt<ProfileCubit>()..fetchUserData(),
-      child: Builder(builder: (context) {
-        return BlocConsumer<ProfileCubit, ProfileState>(
+      child: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+
+          return BlocConsumer<ProfileCubit, ProfileState>(
             listener: (context, state) {
-          if (state is ProfileSuccess) {
-            _showNotificationMessage(
-                message: AppStrings.profileUpdatedSuccess,
-                color: AppColors.green);
-          } else if (state is ProfileDeleted) {
-            _showNotificationMessage(
-                message: AppStrings.accountDeletedSuccess,
-                color: AppColors.red);
-          } else if (state is ProfileError) {
-            _showNotificationMessage(
-                message: state.message, color: AppColors.red);
-          }
-        }, builder: (context, state) {
-          if (state is ProfileLoading) {
-            return Scaffold(
-              backgroundColor: AppColors.darkBackground,
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+              if (state is ProfileSuccess) {
+                _showNotificationMessage(
+                  message: l10n.profileUpdatedSuccessfully,
+                  color: AppColors.green,
+                );
+              } else if (state is ProfileDeleted) {
+                _showNotificationMessage(
+                  message: l10n.accountDeletedSuccessfully,
+                  color: AppColors.red,
+                );
+              } else if (state is ProfileError) {
+                _showNotificationMessage(
+                  message: state.message,
+                  color: AppColors.red,
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is ProfileLoading) {
+                return const Scaffold(
+                  backgroundColor: AppColors.darkBackground,
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
 
-          if (state is ProfileSuccess) {
-            nameController.text = state.user!.name;
-            phoneController.text = state.user!.phone;
-          }
+              if (state is ProfileSuccess) {
+                nameController.text = state.user!.name;
+                phoneController.text = state.user!.phone;
+              }
 
-          return Scaffold(
-            backgroundColor: AppColors.darkBackground,
-            appBar: AppBar(
-              backgroundColor: AppColors.darkBackground,
-              leading: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back,
-                    color: AppColors.primaryYellow),
-              ),
-              title: TextButton(
-                onPressed: _showAvatarBottomSheet,
-                child: const Text(
-                  AppStrings.pickAvatar,
-                  style: TextStyle(
-                    color: AppColors.primaryYellow,
-                    fontSize: 16,
+              return Scaffold(
+                backgroundColor: AppColors.darkBackground,
+                appBar: AppBar(
+                  backgroundColor: AppColors.darkBackground,
+                  leading: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
+                  ),
+                  title: TextButton(
+                    onPressed: _showAvatarBottomSheet,
+                    child: Text(
+                      l10n.pickAvatar,
+                      style: const TextStyle(
+                        color: AppColors.primaryYellow,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  centerTitle: true,
+                ),
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage(selectedAvatar),
+                        ),
+                        const SizedBox(height: 8),
+                        const SizedBox(height: 30),
+                        CustomTextField(
+                          controller: nameController,
+                          icon: Icons.person_outline,
+                          hintText: l10n.name,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          controller: phoneController,
+                          icon: Icons.phone_outlined,
+                          hintText: l10n.phoneNumber,
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                          decoration: BoxDecoration(
+                            color: AppColors.darkBackground,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(l10n.resetPassword, style: AppStyles.bodyStyle),
+                        ),
+                        const SizedBox(height: 260),
+                        CustomButton(
+                          backgroundColor: AppColors.red,
+                          onPressed: () {
+                            context.read<ProfileCubit>().deleteAccount();
+                          },
+                          text: l10n.deleteAccount,
+                          textColor: AppColors.textWhite,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomButton(
+                          backgroundColor: AppColors.primaryYellow,
+                          onPressed: () {
+                            context.read<ProfileCubit>().updateProfile(
+                              name: nameController.text,
+                              phone: phoneController.text,
+                              avatar: selectedAvatar,
+                            );
+                          },
+                          text: l10n.updateData,
+                          textColor: AppColors.surfaceColor,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomButton(
+                          backgroundColor: AppColors.primaryYellow,
+                          onPressed: () async {
+                            GetHistoryUsecase usecase = getIt<GetHistoryUsecase>();
+                            List<MovieEntity> result = await usecase();
+                            print('$result');
+                          },
+                          text: l10n.getHistory,
+                          textColor: AppColors.surfaceColor,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomButton(
+                          backgroundColor: AppColors.primaryYellow,
+                          onPressed: () {
+                            context.read<ProfileCubit>().updateProfile(
+                              name: nameController.text,
+                              phone: phoneController.text,
+                              avatar: selectedAvatar,
+                            );
+                          },
+                          text: l10n.updateData,
+                          textColor: AppColors.surfaceColor,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              centerTitle: true,
-            ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage(selectedAvatar),
-                    ),
-                    const SizedBox(height: 8),
-                    const SizedBox(height: 30),
-                    CustomTextField(
-                      controller: nameController,
-                      icon: Icons.person_outline,
-                      hintText: AppStrings.nameHint,
-                    ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      controller: phoneController,
-                      icon: Icons.phone_outlined,
-                      hintText: AppStrings.phoneHint,
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 18),
-                      decoration: BoxDecoration(
-                        color: AppColors.darkBackground,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(AppStrings.resetPassword,
-                          style: AppStyles.bodyStyle),
-                    ),
-                    const SizedBox(height: 260),
-                    CustomButton(
-                      backgroundColor: AppColors.red,
-                      onPressed: () {
-                        context.read<ProfileCubit>().deleteAccount();
-                      },
-                      text: AppStrings.deleteAccount,
-                      textColor: AppColors.textWhite,
-                    ),
-                    const SizedBox(height: 16),
-                    CustomButton(
-                      backgroundColor: AppColors.primaryYellow,
-                      onPressed: () {
-                        context.read<ProfileCubit>().updateProfile(
-                            name: nameController.text,
-                            phone: phoneController.text,
-                            avatar: selectedAvatar);
-                      },
-                      text: AppStrings.updateData,
-                      textColor: AppColors.surfaceColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+              );
+            },
           );
-        });
-      }),
+        },
+      ),
     );
   }
 }

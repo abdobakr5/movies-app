@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 
 class Onboarding1Screen extends StatelessWidget {
   const Onboarding1Screen({super.key});
@@ -18,7 +19,7 @@ class Onboarding1Screen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black],
+                  colors: [AppColors.transparent, AppColors.black],
                 ),
               ),
             ),
@@ -29,7 +30,7 @@ class Onboarding1Screen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                 decoration: const BoxDecoration(
-                  color: Color(0xff121312),
+                  color: AppColors.background,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -46,7 +47,7 @@ class Onboarding1Screen extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                     const SizedBox(height: 14),
@@ -58,7 +59,7 @@ class Onboarding1Screen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,
-                        color: Colors.white70,
+                        color: AppColors.white70,
                       ),
                     ),
                     const SizedBox(height: 18),
@@ -73,16 +74,16 @@ class Onboarding1Screen extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffffc107),
-                          foregroundColor: Colors.black,
+                          backgroundColor: AppColors.amberYellow,
+                          foregroundColor: AppColors.black,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text(
-                          'Explore Now',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.exploreNow,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

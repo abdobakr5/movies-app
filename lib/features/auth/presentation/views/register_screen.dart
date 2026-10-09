@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/core/utils/app_validator.dart';
@@ -50,118 +51,141 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.darkBackground,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: BlocConsumer<RegisterCubit, RegisterState>(
-            listener: (context, state) {
-              if (state is RegisterSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Account Created Successfully!'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                Navigator.pushReplacement(context, AppRoutes.login());
-              } else if (state is RegisterFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              final cubit = BlocProvider.of<RegisterCubit>(context);
+    return BlocProvider(
+      create: (_) => RegisterCubit(),
+      child: Scaffold(
+        backgroundColor: AppColors.darkBackground,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: BlocConsumer<RegisterCubit, RegisterState>(
+              listener: (context, state) {
+                if (state is RegisterSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!.accountCreatedSuccessfully),
+                      backgroundColor: AppColors.green,
+                    ),
+                  );
+                  Navigator.pushReplacement(context, AppRoutes.login());
+                } else if (state is RegisterFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.errorMessage),
+                      backgroundColor: AppColors.red,
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                final cubit = BlocProvider.of<RegisterCubit>(context);
+                final l10n = AppLocalizations.of(context)!;
 
-              return Column(
-                children: [
-                  _buildHeader(context),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 12),
-                            AvatarSelector(
-                              avatarPaths: AppAssets.allAvatars,
-                              onAvatarSelected: cubit.selectAvatar,
-                            ),
-                            const SizedBox(height: 24),
-                            CustomTextField(
-                              controller: _nameController,
-                              hintText: 'Name',
-                              icon: Icons.badge,
-                              validator: AppValidator.validateName,
-                            ),
-                            const SizedBox(height: 16),
-                            CustomTextField(
-                              controller: _emailController,
-                              hintText: 'Email',
-                              icon: Icons.email,
-                              keyboardType: TextInputType.emailAddress,
-                              validator: AppValidator.validateEmail,
-                            ),
-                            const SizedBox(height: 16),
-                            PasswordTextField(
-                              controller: _passwordController,
-                              hintText: 'Password',
-                              validator: AppValidator.validatePassword,
-                            ),
-                            const SizedBox(height: 16),
-                            PasswordTextField(
-                              controller: _confirmPasswordController,
-                              hintText: 'Confirm Password',
-                              validator: (value) =>
-                                  AppValidator.validateConfirmPassword(
-                                      value, _passwordController.text),
-                            ),
-                            const SizedBox(height: 16),
-                            CustomTextField(
-                              controller: _phoneController,
-                              hintText: 'Phone Number',
-                              icon: Icons.phone,
-                              keyboardType: TextInputType.phone,
-                              validator: AppValidator.validatePhone,
-                            ),
-                            const SizedBox(height: 28),
-                            state is RegisterLoading
-                                ? const Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.primaryYellow,
+                return Column(
+                  children: [
+                    _buildHeader(context),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: cubit.formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 12),
+                              AvatarSelector(
+                                avatarPaths: AppAssets.allAvatars,
+                                onAvatarSelected: cubit.selectAvatar,
                               ),
-                            )
-                                : CustomButton(
-                              text: 'Create Account',
-                              backgroundColor: AppColors.primaryYellow,
-                              textColor: AppColors.black,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  cubit.registerUser(
-                                    name: _nameController.text.trim(),
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim(),
-                                    phone: _phoneController.text.trim(),
-                                  );
-                                }
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            _buildLoginRow(context),
-                            const SizedBox(height: 20),
-                            Center(
-                              child: LanguageToggleButton(
-                                leftFlagPath: AppAssets.flagLeft,
-                                rightFlagPath: AppAssets.flagRight,
+                              const SizedBox(height: 24),
+                              CustomTextField(
+                                controller: cubit.nameController,
+                                hintText: l10n.name,
+                                icon: Icons.badge,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return l10n.pleaseEnterName;
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
+                              const SizedBox(height: 16),
+                              CustomTextField(
+                                controller: cubit.emailController,
+                                hintText: l10n.email,
+                                icon: Icons.email,
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return l10n.pleaseEnterEmail;
+                                  }
+                                  if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                      .hasMatch(value)) {
+                                    return l10n.pleaseEnterValidEmail;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              PasswordTextField(
+                                controller: cubit.passwordController,
+                                hintText: l10n.password,
+                                validator: (value) {
+                                  if (value == null || value.length < 6) {
+                                    return l10n.passwordMinLength;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              PasswordTextField(
+                                controller: cubit.confirmPasswordController,
+                                hintText: l10n.confirmPassword,
+                                validator: (value) {
+                                  if (value != cubit.passwordController.text) {
+                                    return l10n.passwordsDoNotMatch;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              CustomTextField(
+                                controller: cubit.phoneController,
+                                hintText: l10n.phoneNumber,
+                                icon: Icons.phone,
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return l10n.pleaseEnterPhone;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 28),
+                              state is RegisterLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.primaryYellow,
+                                      ),
+                                    )
+                                  : CustomButton(
+                                      text: l10n.createAccount,
+                                      backgroundColor: AppColors.primaryYellow,
+                                      textColor: AppColors.black,
+                                      onPressed: cubit.registerUser,
+                                    ),
+                              const SizedBox(height: 16),
+                              _buildLoginRow(context),
+                              const SizedBox(height: 20),
+                              Center(
+                                child: LanguageToggleButton(
+                                  leftFlagPath: AppAssets.flagLeft,
+                                  rightFlagPath: AppAssets.flagRight,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -176,17 +200,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       children: [
         IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
           icon: const Icon(Icons.arrow_back, color: AppColors.primaryYellow),
         ),
-        const Expanded(
+        Expanded(
           child: Center(
             child: Text(
-              'Register',
-              style: TextStyle(
+              l10n.register,
+              style: const TextStyle(
                 color: AppColors.primaryYellow,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -200,20 +226,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildLoginRow(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Already Have Account ? ',
-          style: TextStyle(color: AppColors.textWhite),
+        Text(
+          l10n.alreadyHaveAccount,
+          style: const TextStyle(color: AppColors.textWhite),
         ),
         GestureDetector(
           onTap: () {
             Navigator.pushReplacement(context, AppRoutes.login());
           },
-          child: const Text(
-            'Login',
-            style: TextStyle(
+          child: Text(
+            l10n.login,
+            style: const TextStyle(
               color: AppColors.primaryYellow,
               fontWeight: FontWeight.bold,
             ),
