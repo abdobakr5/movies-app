@@ -5,8 +5,6 @@ import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/core/utils/app_styles.dart';
-import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
-import 'package:movies_app/features/profile/domain/usecases/history_usecase.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_state.dart';
 import 'package:movies_app/features/profile/presentation/widgets/custom_button.dart';

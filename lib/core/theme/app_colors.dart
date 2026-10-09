@@ -11,6 +11,11 @@ class AppColors {
   static const Color starYellow = Color(0xFFE5A00D);
 
   // Backgrounds & Surfaces
+  static const Color circularProgressIndicator = Color(0xFFF6BD00);
+  static const Color genreSelected = Color(0xFFFFBB3B);
+  static const Color white54 = Color(0x8AFFFFFF);
+  static const Color navBarBackground = Color(0xFF282A28);
+  static const Color iconInactive = Colors.white;
   static const Color scaffoldBackground = Color(0xFF121312);
   static const Color background = Color(0xFF121312);
   static const Color darkBackground = Color(0xFF121312);
@@ -42,4 +47,7 @@ class AppColors {
 
   // Icons
   static const Color iconInactive = Color(0xFFFFFFFF);
+  static const Color white38 = Color(0x61FFFFFF);
+  static const Color grey = Color(0xFF212121);
+  static const Color transparent = Color(0x00000000);
 }

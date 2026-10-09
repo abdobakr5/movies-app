@@ -4,6 +4,7 @@ import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
+import 'package:movies_app/core/utils/app_validator.dart';
 import 'package:movies_app/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/register_state.dart';
 import 'package:movies_app/features/profile/presentation/widgets/avatar_selector.dart';
@@ -12,8 +13,41 @@ import 'package:movies_app/features/profile/presentation/widgets/custom_text_fie
 import 'package:movies_app/features/profile/presentation/widgets/language_toggle.dart';
 import 'package:movies_app/features/profile/presentation/widgets/password_text_field.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+  late final TextEditingController _phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    _phoneController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +189,10 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
