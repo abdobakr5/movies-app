@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart'
@@ -8,8 +9,8 @@ as home_model;
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/data/models/movie_model.dart'
 as ui_model;
-import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/action_movies_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/banner_carousel.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/movies_horizontal_list.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/widgets/section_header.dart';
 
 class HomeTabBody extends StatefulWidget {
@@ -49,6 +50,26 @@ class _HomeTabBodyState extends State<HomeTabBody> {
     }
   }
 
+  home_model.MovieModel _convertMovie(dynamic movie) {
+    return home_model.MovieModel(
+      id: movie.id,
+      titleEnglish: movie.titleEnglish,
+      titleLong: movie.titleLong,
+      title: movie.title,
+      year: movie.year,
+      runtime: movie.runtime,
+      rating: movie.rating,
+      summary: movie.summary,
+      descriptionFull: movie.descriptionFull,
+      genres: movie.genres,
+      backgroundImage: movie.backgroundImage,
+      backgroundImageOriginal: movie.backgroundImageOriginal,
+      smallCoverImage: movie.smallCoverImage,
+      mediumCoverImage: movie.mediumCoverImage,
+      largeCoverImage: movie.largeCoverImage,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -70,35 +91,40 @@ class _HomeTabBodyState extends State<HomeTabBody> {
             );
           }).toList();
 
-          final homeMovies = state.movies.map((movie) {
-            return home_model.MovieModel(
-              id: movie.id,
-              titleEnglish: movie.titleEnglish,
-              titleLong: movie.titleLong,
-              title: movie.title,
-              year: movie.year,
-              runtime: movie.runtime,
-              rating: movie.rating,
-              summary: movie.summary,
-              descriptionFull: movie.descriptionFull,
-              genres: movie.genres,
-              backgroundImage: movie.backgroundImage,
-              backgroundImageOriginal: movie.backgroundImageOriginal,
-              smallCoverImage: movie.smallCoverImage,
-              mediumCoverImage: movie.mediumCoverImage,
-              largeCoverImage: movie.largeCoverImage,
-            );
-          }).toList();
+          final homeMovies =
+          state.movies.map(_convertMovie).toList();
+
+          final actionMovies =
+          state.actionMovies.map(_convertMovie).toList();
+
+          final romanceMovies =
+          state.romanceMovies.map(_convertMovie).toList();
+
+          final dramaMovies =
+          state.dramaMovies.map(_convertMovie).toList();
+
+          final horrorMovies =
+          state.horrorMovies.map(_convertMovie).toList();
 
           if (uiMovies.isNotEmpty && selectedMovie == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted && selectedMovie == null) {
-                _prepareBackground(context, uiMovies.first);
+                _prepareBackground(
+                  context,
+                  uiMovies.first,
+                );
               }
             });
           }
 
-          return _buildHomeContent(uiMovies, homeMovies);
+          return _buildHomeContent(
+            uiMovies,
+            homeMovies,
+            actionMovies,
+            romanceMovies,
+            dramaMovies,
+            horrorMovies,
+          );
         },
       ),
     );
@@ -107,6 +133,10 @@ class _HomeTabBodyState extends State<HomeTabBody> {
   Widget _buildHomeContent(
       List<ui_model.MovieModel> movies,
       List<home_model.MovieModel> homeMovies,
+      List<home_model.MovieModel> actionMovies,
+      List<home_model.MovieModel> romanceMovies,
+      List<home_model.MovieModel> dramaMovies,
+      List<home_model.MovieModel> horrorMovies,
       ) {
     if (movies.isNotEmpty && !isBackgroundReady) {
       return const Scaffold(
@@ -118,9 +148,6 @@ class _HomeTabBodyState extends State<HomeTabBody> {
     }
 
     final List<home_model.MovieModel> banners = homeMovies;
-
-    final List<home_model.MovieModel> actions =
-    homeMovies.take(10).toList();
 
     return SafeArea(
       child: Scaffold(
@@ -186,6 +213,12 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                             });
                           }
                         },
+                        onMovieTap: (movie) {
+                          Navigator.push(
+                            context,
+                            AppRoutes.movieDetails(movie.id),
+                          );
+                        },
                       ),
                       const SizedBox(height: 16),
                       _buildHeaderGraphic(
@@ -202,8 +235,35 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                 onSeeMoreTap: () {},
               ),
               const SizedBox(height: 12),
-              ActionMoviesList(
-                movies: actions,
+              MoviesHorizontalList(
+                movies: actionMovies,
+              ),
+              const SizedBox(height: 24),
+              SectionHeader(
+                title: 'Romance',
+                onSeeMoreTap: () {},
+              ),
+              const SizedBox(height: 12),
+              MoviesHorizontalList(
+                movies: romanceMovies,
+              ),
+              const SizedBox(height: 24),
+              SectionHeader(
+                title: 'Drama',
+                onSeeMoreTap: () {},
+              ),
+              const SizedBox(height: 12),
+              MoviesHorizontalList(
+                movies: dramaMovies,
+              ),
+              const SizedBox(height: 24),
+              SectionHeader(
+                title: 'Horror',
+                onSeeMoreTap: () {},
+              ),
+              const SizedBox(height: 12),
+              MoviesHorizontalList(
+                movies: horrorMovies,
               ),
               const SizedBox(height: 24),
             ],

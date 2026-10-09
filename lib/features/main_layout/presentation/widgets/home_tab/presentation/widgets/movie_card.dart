@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/features/home/data/models/movie_model.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
   final double borderRadius;
+  final VoidCallback? onTap;
 
   const MovieCard({
     super.key,
     required this.movie,
     this.borderRadius = 16,
+    this.onTap,
   });
 
   @override
@@ -56,8 +59,8 @@ class MovieCard extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

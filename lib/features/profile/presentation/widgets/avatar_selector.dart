@@ -20,6 +20,8 @@ class AvatarSelector extends StatefulWidget {
 
 class _AvatarSelectorState extends State<AvatarSelector> {
   late int _selectedIndex = widget.initialIndex;
+  static const int _selectedFlex = 5;
+  static const int _unselectedFlex = 3;
 
   void _selectAvatar(int index) {
     setState(() => _selectedIndex = index);
@@ -28,29 +30,39 @@ class _AvatarSelectorState extends State<AvatarSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final avatars = widget.avatarPaths.length > 3
+        ? widget.avatarPaths.sublist(0, 3)
+        : widget.avatarPaths;
+
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(
-            widget.avatarPaths.length > 3 ? 3 : widget.avatarPaths.length,
-            (index) {
-              final bool isSelected = index == _selectedIndex;
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: List.generate(avatars.length, (index) {
+            final bool isSelected = index == _selectedIndex;
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: GestureDetector(
-                  onTap: () => _selectAvatar(index),
-                  child: CircleAvatar(
-                    radius: isSelected ? 52 : 36,
-                    backgroundColor: AppColors.transparent,
-                    backgroundImage: AssetImage(widget.avatarPaths[index]),
+            return Expanded(
+              flex: isSelected ? _selectedFlex : _unselectedFlex,
+              child: GestureDetector(
+                onTap: () => _selectAvatar(index),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage(avatars[index]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          }),
         ),
         const SizedBox(height: 8),
         Text(

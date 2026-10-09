@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movies_app/features/home/data/datasources/movie_remote_data_source.dart';
 import 'package:movies_app/features/home/data/repositories/movie_repository_impl.dart';
@@ -15,15 +13,23 @@ import 'package:movies_app/features/profile/domain/usecases/logout_usecase.dart'
 import 'package:movies_app/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:movies_app/features/profile/domain/usecases/wishlist_usecase.dart';
 import 'package:movies_app/features/profile/presentation/manager/profile_cubit.dart';
+
+import '../../features/profile/domain/usecases/get_user_data_usecase.dart';
+import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../network/api_manager.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:movies_app/features/browse/data/datasources/browse_remote_data_source.dart';
+import 'package:movies_app/features/browse/data/repositories/browse_repository_impl.dart';
+import 'package:movies_app/features/browse/domain/repositories/browse_repository.dart';
+import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
+import 'package:movies_app/features/browse/data/datasources/browse_firebase_data_source.dart';
 
 final getIt = GetIt.instance;
 
 void servicesLocator() {
 
-  getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
-  
-  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
 
   getIt.registerLazySingleton<ApiManager>(() => ApiManager());
@@ -44,6 +50,10 @@ void servicesLocator() {
     () => HomeCubit(getIt()),
   );
 
+  getIt.registerFactory<SearchCubit>(
+        () => SearchCubit(getIt()),
+  );
+
   getIt.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSourceImpl(
       firestore:getIt(),auth:getIt()
@@ -52,6 +62,10 @@ void servicesLocator() {
 
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepoImplementation(getIt()),
+  );
+
+  getIt.registerLazySingleton<GetUserDataUsecase>(
+        () => GetUserDataUsecase(getIt()),
   );
 
   getIt.registerLazySingleton(() => UpdateProfileUsecase(getIt()));
@@ -77,5 +91,29 @@ void servicesLocator() {
       getHistoryUseCase:getIt(),
     ),
   );
-  
+
+  // Data Sources
+  getIt.registerLazySingleton<BrowseRemoteDataSource>(
+    () => BrowseRemoteDataSourceImpl(getIt<ApiManager>()),
+  );
+  getIt.registerLazySingleton<BrowseFirebaseDataSource>(
+    () => BrowseFirebaseDataSourceImpl(
+      firestore: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+    ),
+  );
+
+// Repository
+  getIt.registerLazySingleton<BrowseRepository>(
+    () => BrowseRepositoryImpl(
+      remoteDataSource: getIt<BrowseRemoteDataSource>(),
+      firebaseDataSource: getIt<BrowseFirebaseDataSource>(),
+    ),
+  );
+
+// Cubit
+  getIt.registerFactory<BrowseCubit>(
+    () => BrowseCubit(getIt<BrowseRepository>())..loadBrowseData(),
+  );
+
 }

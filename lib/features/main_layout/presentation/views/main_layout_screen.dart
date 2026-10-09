@@ -4,6 +4,7 @@ import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_cubit.dart';
 import 'package:movies_app/features/main_layout/presentation/cubit/main_layout_state.dart';
+import 'package:movies_app/features/main_layout/presentation/widgets/browse_tab/presentation/pages/browse_tab_body.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:movies_app/features/main_layout/presentation/widgets/home_tab/presentation/pages/home_tab_body.dart';
 

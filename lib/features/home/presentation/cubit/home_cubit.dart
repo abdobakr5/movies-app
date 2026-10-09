@@ -11,8 +11,22 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
 
     try {
-      final movies = await getMoviesUseCase();
-      emit(HomeSuccess(movies));
+      final results = await Future.wait([
+        getMoviesUseCase(genre: 'action'),
+        getMoviesUseCase(genre: 'romance'),
+        getMoviesUseCase(genre: 'drama'),
+        getMoviesUseCase(genre: 'horror'),
+      ]);
+
+      emit(
+        HomeSuccess(
+          movies: results[0],
+          actionMovies: results[0],
+          romanceMovies: results[1],
+          dramaMovies: results[2],
+          horrorMovies: results[3],
+        ),
+      );
     } catch (e) {
       emit(HomeError(e.toString()));
     }
@@ -24,7 +38,11 @@ class HomeCubit extends Cubit<HomeState> {
 
       emit(
         HomeSuccess(
-          currentState.movies,
+          movies: currentState.movies,
+          actionMovies: currentState.actionMovies,
+          romanceMovies: currentState.romanceMovies,
+          dramaMovies: currentState.dramaMovies,
+          horrorMovies: currentState.horrorMovies,
           selectedMovie: movie,
         ),
       );
@@ -40,10 +58,19 @@ class HomeLoading extends HomeState {}
 
 class HomeSuccess extends HomeState {
   final List<MovieEntity> movies;
+  final List<MovieEntity> actionMovies;
+  final List<MovieEntity> romanceMovies;
+  final List<MovieEntity> dramaMovies;
+  final List<MovieEntity> horrorMovies;
+
   final MovieEntity? selectedMovie;
 
-  HomeSuccess(
-    this.movies, {
+  HomeSuccess({
+    required this.movies,
+    required this.actionMovies,
+    required this.romanceMovies,
+    required this.dramaMovies,
+    required this.horrorMovies,
     this.selectedMovie,
   });
 }
