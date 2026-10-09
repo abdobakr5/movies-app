@@ -42,4 +42,6 @@ class AppAssets {
     'assets/images/avatar8.png',
     'assets/images/avatar9.png',
   ];
+
+  static const String popcorn = 'assets/images/popcorn.png';
 }
