@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Positioned.fill(
                     child: Container(
-                      color: Colors.black.withValues(alpha: 0.5),
+                      color: AppColors.black.withValues(alpha: 0.5),
                     ),
                   ),
                   PageView.builder(
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               movie.title,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -73,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               '${movie.year} • ⭐ ${movie.rating}',
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: 16,
                               ),
                             ),

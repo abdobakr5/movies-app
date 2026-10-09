@@ -34,7 +34,7 @@ class _LanguageToggleButtonState extends State<LanguageToggleButton> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: isSelected ? AppColors.primaryYellow : Colors.transparent,
+          color: isSelected ? AppColors.primaryYellow : AppColors.transparent,
           width: 2,
         ),
       ),
@@ -43,7 +43,7 @@ class _LanguageToggleButtonState extends State<LanguageToggleButton> {
           path,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.flag, size: 16, color: Colors.white);
+            return const Icon(Icons.flag, size: 16, color: AppColors.white);
           },
         ),
       ),

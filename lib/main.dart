@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/profile/domain/usecases/wishlist_usecase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +46,7 @@ class MoviesApp extends StatelessWidget {
           locale: state.locale,
           theme: ThemeData(
             brightness: Brightness.dark,
-            scaffoldBackgroundColor: const Color(0xff1E1E1E),
+            scaffoldBackgroundColor: AppColors.surfaceColor,
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
