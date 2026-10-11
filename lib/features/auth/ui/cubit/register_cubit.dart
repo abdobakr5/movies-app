@@ -1,14 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/auth/data/repository/data_source/auth_remote_data_source.dart';
+import 'package:movies_app/features/auth/domain/usecase/register_usecase.dart';
 import 'package:movies_app/features/auth/ui/cubit/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  final AuthRepository authRepository;
+  final RegisterUseCase registerUseCase;
 
-  RegisterCubit({AuthRepository? authRepository})
-      : authRepository = authRepository ?? AuthRepository(),
-        super(RegisterInitial());
+  RegisterCubit(this.registerUseCase) : super(RegisterInitial());
 
   int selectedAvatarIndex = 1;
 
@@ -26,7 +24,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterLoading());
 
     try {
-      await authRepository.registerUser(
+      await registerUseCase(
         email: email,
         password: password,
         name: name,

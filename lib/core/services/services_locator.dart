@@ -1,4 +1,18 @@
 import 'package:get_it/get_it.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/add_bookmark_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/is_bookmarked_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/remove_bookmark_usecase.dart';
+import 'package:movies_app/features/movies/domain/usecase/add_to_history_usecase.dart';
+import 'package:movies_app/features/movies/domain/usecase/get_browse_movies_usecase.dart';
+import 'package:movies_app/features/auth/data/repository/auth_repo_impl.dart';
+import 'package:movies_app/features/auth/data/repository/data_source/auth_remote_data_source.dart';
+import 'package:movies_app/features/auth/domain/repository/auth_repo.dart';
+import 'package:movies_app/features/auth/domain/usecase/google_login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecase/login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecase/register_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecase/reset_password_usecase.dart';
+import 'package:movies_app/features/auth/ui/cubit/login_cubit.dart';
+import 'package:movies_app/features/auth/ui/cubit/register_cubit.dart';
 import 'package:movies_app/features/movie_details/data/repository/data_source/movie_details_remote_data_source.dart';
 import 'package:movies_app/features/movie_details/data/repository/data_source/watchlist_remote_data_source.dart';
 import 'package:movies_app/features/movie_details/data/repository/movie_details_repo_impl.dart';
@@ -42,6 +56,32 @@ void servicesLocator() {
   getIt.registerLazySingleton<ApiManager>(() => ApiManager());
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSource(auth: getIt(), firestore: getIt()),
+  );
+
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton(() => LoginUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => GoogleLoginUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => ResetPasswordUseCase(getIt()));
+
+  getIt.registerFactory(
+    () => LoginCubit(
+      loginUseCase: getIt(),
+      googleLoginUseCase: getIt(),
+      resetPasswordUseCase: getIt(),
+    ),
+  );
+
+  getIt.registerFactory(() => RegisterCubit(getIt()));
 
   getIt.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSource(getIt()),
@@ -121,8 +161,15 @@ void servicesLocator() {
   );
 
 // Cubit
+  getIt.registerLazySingleton(() => GetBrowseMoviesUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => AddToHistoryUseCase(getIt()));
+
   getIt.registerFactory<BrowseCubit>(
-    () => BrowseCubit(getIt<BrowseRepository>()),
+    () => BrowseCubit(
+      getBrowseMoviesUseCase: getIt(),
+      addToHistoryUseCase: getIt(),
+    ),
   );
 
   getIt.registerLazySingleton<MovieDetailsRemoteDataSource>(
@@ -130,12 +177,18 @@ void servicesLocator() {
   );
 
   getIt.registerLazySingleton<MovieDetailsRepository>(
-    () => MovieDetailsRepositoryImpl(getIt()),
+    () => MovieDetailsRepositoryImpl(getIt(), getIt()),
   );
 
   getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
 
   getIt.registerLazySingleton(() => GetMovieSuggestionsUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => IsBookmarkedUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => AddBookmarkUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => RemoveBookmarkUseCase(getIt()));
 
   getIt.registerFactory<MovieDetailsCubit>(
     () => MovieDetailsCubit(

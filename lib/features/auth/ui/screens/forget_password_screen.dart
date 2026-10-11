@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/features/auth/domain/usecase/reset_password_usecase.dart';
 
 // --------------------------------- Colors -----------------------------------------
 const Color kBackgroundColor = AppColors.surfaceColor;
@@ -236,9 +238,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     });
 
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: email,
-      );
+      await getIt<ResetPasswordUseCase>()(email);
 
       if (!mounted) return;
 

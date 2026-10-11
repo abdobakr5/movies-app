@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/browse_tab/cubit/browse_cubit.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 
 class BrowseMovieCard extends StatelessWidget {
-  final MovieModel movie;
+  final MovieEntity movie;
 
   const BrowseMovieCard({super.key, required this.movie});
 

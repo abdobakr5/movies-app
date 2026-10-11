@@ -4,4 +4,7 @@ import 'package:movies_app/features/movie_details/domain/entities/movie_details_
 abstract class MovieDetailsRepository {
   Future<MovieDetailsEntity> getMovieDetails(int movieId);
   Future<List<MovieEntity>> getMovieSuggestions(int movieId);
+  Future<bool> isBookmarked(int movieId);
+  Future<void> addBookmark(MovieDetailsEntity movie);
+  Future<void> removeBookmark(int movieId);
 }

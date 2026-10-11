@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/features/auth/ui/cubit/login_cubit.dart';
-import 'package:movies_app/features/auth/ui/cubit/register_cubit.dart';
 import 'package:movies_app/features/auth/ui/screens/forget_password_screen.dart';
 import 'package:movies_app/features/auth/ui/screens/login_screen.dart';
 import 'package:movies_app/features/auth/ui/screens/register_screen.dart';
@@ -40,17 +39,13 @@ class AppRoutes {
 
   static Route login() => MaterialPageRoute(
         builder: (_) => BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) => getIt<LoginCubit>(),
           child: const LoginScreen(),
         ),
       );
 
-  static Route register() => MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => RegisterCubit(),
-          child: const RegisterScreen(),
-        ),
-      );
+  static Route register() =>
+      MaterialPageRoute(builder: (_) => const RegisterScreen());
 
   static Route forgetPassword() =>
       MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());

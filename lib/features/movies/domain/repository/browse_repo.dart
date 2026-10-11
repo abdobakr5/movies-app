@@ -1,9 +1,9 @@
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 
 abstract class BrowseRepository {
   /// جلب قائمة الأفلام الأساسية من الـ API
-  Future<List<MovieModel>> getMovies();
+  Future<List<MovieEntity>> getMovies();
 
   /// إرسال الفيلم المزار إلى Firestore History
-  Future<void> addToHistory(MovieModel movie);
+  Future<void> addToHistory(MovieEntity movie);
 }

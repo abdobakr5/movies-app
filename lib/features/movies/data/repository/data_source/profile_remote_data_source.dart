@@ -1,17 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/user_entity.dart';
 
 
 abstract class ProfileRemoteDataSource {
   Future<List<MovieModel>> getWishlist();
   Future<List<MovieModel>> getHistory();
   Future<void> logout();
+  Future<UserEntity> getUserData();
   Future<void> excuteAccountAction({
     required bool isDelete,
     String?name,
     String?phone,
-    String?avatar,
+    int?avatarIndex,
 
   });
 }
@@ -33,7 +35,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
     required bool isDelete,
     String?name,
     String?phone,
-    String?avatar,
+    int?avatarIndex,
    })async{
     final user=auth.currentUser;
     // Guard Clause 
@@ -51,7 +53,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
       await userRef.update({
         'name':name??'',
         'phone':phone??'',
-        'avatar':avatar??'',
+        'avatarIndex':avatarIndex??0,
       });
       if(name!=null){
         
@@ -63,8 +65,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
 
     @override
     Future<List<MovieModel>>getHistory()async{
-    final userId=FirebaseAuth.instance.currentUser?.uid;
-    final result=await FirebaseFirestore.instance.
+    final userId=auth.currentUser?.uid;
+    final result=await firestore.
     collection('users').
     doc(userId).
     collection('history'). 
@@ -74,8 +76,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
 
     @override
    Future<List<MovieModel>> getWishlist()async {
-    final userId=FirebaseAuth.instance.currentUser?.uid;
-    final result=await FirebaseFirestore.instance.
+    final userId=auth.currentUser?.uid;
+    final result=await firestore.
     collection('users').
     doc(userId).
     collection('wishlist'). 
@@ -85,7 +87,18 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
 
    @override
     Future<void>logout()async{
-    await FirebaseAuth.instance.signOut();
+    await auth.signOut();
+   }
+
+   @override
+    Future<UserEntity> getUserData() async {
+    final doc = await firestore.collection('users').doc(auth.currentUser?.uid).get();
+    final data = doc.data()!;
+    return UserEntity(
+      name: data['name'] ?? '',
+      phone: data['phone'] ?? '',
+      avatarIndex: data['avatarIndex'] ?? 0,
+    );
    }
   
 }

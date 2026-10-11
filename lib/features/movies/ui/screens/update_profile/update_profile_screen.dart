@@ -36,15 +36,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     AppAssets.avatar9,
   ];
 
-  String selectedAvatar = AppAssets.avatar1;
+  int selectedAvatar = 0;
 
   void _showNotificationMessage({
     required String message,
     required Color color,
   }) {
-    SnackBar(
-      content: Text(message),
-      backgroundColor: color,
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
     );
   }
 
@@ -67,11 +69,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ),
             itemCount: avatars.length,
             itemBuilder: (context, index) {
-              final bool isSelected = selectedAvatar == avatars[index];
+              final bool isSelected = selectedAvatar == index;
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    selectedAvatar = avatars[index];
+                    selectedAvatar = index;
                   });
                   Navigator.pop(context);
                 },
@@ -102,12 +104,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getIt.get<ProfileCubit>().fetchUserData();
-  }
-
-  @override
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
@@ -124,7 +120,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
           return BlocConsumer<ProfileCubit, ProfileState>(
             listener: (context, state) {
-              if (state is ProfileSuccess) {
+              if (state is ProfileSuccess && state.user != null) {
+                nameController.text = state.user!.name;
+                phoneController.text = state.user!.phone;
+                setState(() {
+                  selectedAvatar = state.user!.avatarIndex;
+                });
+              } else if (state is ProfileSuccess) {
                 _showNotificationMessage(
                   message: l10n.profileUpdatedSuccessfully,
                   color: AppColors.green,
@@ -149,11 +151,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     child: CircularProgressIndicator(),
                   ),
                 );
-              }
-
-              if (state is ProfileSuccess) {
-                nameController.text = state.user!.name;
-                phoneController.text = state.user!.phone;
               }
 
               return Scaffold(
@@ -183,7 +180,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       children: [
                         CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage(selectedAvatar),
+                          backgroundImage: AssetImage(avatars[selectedAvatar]),
                         ),
                         const SizedBox(height: 8),
                         const SizedBox(height: 30),
@@ -224,7 +221,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             context.read<ProfileCubit>().updateProfile(
                               name: nameController.text,
                               phone: phoneController.text,
-                              avatar: selectedAvatar,
+                              avatarIndex: selectedAvatar,
                             );
                           },
                           text: l10n.updateData,
@@ -248,7 +245,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             context.read<ProfileCubit>().updateProfile(
                               name: nameController.text,
                               phone: phoneController.text,
-                              avatar: selectedAvatar,
+                              avatarIndex: selectedAvatar,
                             );
                           },
                           text: l10n.updateData,

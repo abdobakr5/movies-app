@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
-import 'package:movies_app/features/movie_details/data/repository/data_source/watchlist_remote_data_source.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/add_bookmark_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/is_bookmarked_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/remove_bookmark_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
 
 class MovieDetailsHeader extends StatefulWidget {
@@ -22,12 +24,10 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
   bool isLoadingStatus = true;
   bool isToggling = false;
 
-  late final WatchlistRemoteDataSource _watchlistRemoteDataSource;
 
   @override
   void initState() {
     super.initState();
-    _watchlistRemoteDataSource = getIt<WatchlistRemoteDataSource>();
     _checkBookmarkStatus();
   }
 
@@ -45,7 +45,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
     });
 
     final bookmarked =
-        await _watchlistRemoteDataSource.isBookmarked(widget.movie.id);
+        await getIt<IsBookmarkedUseCase>()(widget.movie.id);
 
     if (mounted) {
       setState(() {
@@ -75,7 +75,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
 
     try {
       if (isBookmarked) {
-        await _watchlistRemoteDataSource.removeBookmark(widget.movie.id);
+        await getIt<RemoveBookmarkUseCase>()(widget.movie.id);
         if (mounted) {
           setState(() {
             isBookmarked = false;
@@ -88,7 +88,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
           );
         }
       } else {
-        await _watchlistRemoteDataSource.addBookmark(widget.movie);
+        await getIt<AddBookmarkUseCase>()(widget.movie);
         if (mounted) {
           setState(() {
             isBookmarked = true;

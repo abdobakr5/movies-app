@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 
 abstract class BrowseState extends Equatable {
   const BrowseState();
@@ -13,10 +13,10 @@ class BrowseInitialState extends BrowseState {}
 class BrowseLoadingState extends BrowseState {}
 
 class BrowseSuccessState extends BrowseState {
-  final List<MovieModel> allMovies;
+  final List<MovieEntity> allMovies;
   final Set<String> genres;
   final String selectedGenre;
-  final List<MovieModel> filteredMovies;
+  final List<MovieEntity> filteredMovies;
 
   const BrowseSuccessState({
     required this.allMovies,

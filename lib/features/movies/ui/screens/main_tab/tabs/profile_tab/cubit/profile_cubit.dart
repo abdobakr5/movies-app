@@ -38,14 +38,14 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateProfile({
     required String name,
     required String phone,
-    required String avatar,
+    required int avatarIndex,
   }) async {
     emit(ProfileLoading());
     try {
       await updateProfileUsecase.call(
         name: name,
         phone: phone,
-        avatar: avatar,
+        avatarIndex: avatarIndex,
       );
       emit(ProfileSuccess());
     } catch (e) {

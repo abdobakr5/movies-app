@@ -2,10 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 
 abstract class BrowseFirebaseDataSource {
-  Future<void> addToHistory(MovieModel movie);
+  Future<void> addToHistory(MovieEntity movie);
 }
 
 class BrowseFirebaseDataSourceImpl implements BrowseFirebaseDataSource {
@@ -18,7 +18,7 @@ class BrowseFirebaseDataSourceImpl implements BrowseFirebaseDataSource {
   });
 
   @override
-  Future<void> addToHistory(MovieModel movie) async {
+  Future<void> addToHistory(MovieEntity movie) async {
     final user = auth.currentUser;
     if (user == null) return;
 

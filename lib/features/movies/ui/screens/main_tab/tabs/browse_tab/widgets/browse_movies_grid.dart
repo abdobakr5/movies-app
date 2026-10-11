@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_strings.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/browse_tab/widgets/browse_movie_card.dart';
 
 class BrowseMoviesGrid extends StatelessWidget {
-  final List<MovieModel> movies;
+  final List<MovieEntity> movies;
 
   const BrowseMoviesGrid({super.key, required this.movies});
 

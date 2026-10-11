@@ -1,16 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:movies_app/features/auth/domain/usecase/google_login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecase/login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecase/reset_password_usecase.dart';
 
 import 'package:movies_app/features/auth/ui/cubit/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginInitial());
+  final LoginUseCase loginUseCase;
+  final GoogleLoginUseCase googleLoginUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
 
-  final auth = FirebaseAuth.instance;
-  final firestore = FirebaseFirestore.instance;
+  LoginCubit({
+    required this.loginUseCase,
+    required this.googleLoginUseCase,
+    required this.resetPasswordUseCase,
+  }) : super(LoginInitial());
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -38,11 +45,11 @@ class LoginCubit extends Cubit<LoginState> {
 
     emit(LoginLoading());
     try {
-      final result = await auth.signInWithEmailAndPassword(
+      await loginUseCase(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
-      emit(LoginSuccess(result.user!));
+      emit(LoginSuccess());
     } on FirebaseAuthException catch (e) {
       emit(LoginFailure(errorMessage(e)));
     } catch (e) {
@@ -53,16 +60,8 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> loginWithGoogle() async {
     emit(LoginLoading());
     try {
-      await GoogleSignIn.instance.initialize();
-      final account = await GoogleSignIn.instance.authenticate();
-
-      final credential = GoogleAuthProvider.credential(
-        idToken: account.authentication.idToken,
-      );
-      final result = await auth.signInWithCredential(credential);
-
-      await saveUser(result.user!, account);
-      emit(LoginSuccess(result.user!));
+      await googleLoginUseCase();
+      emit(LoginSuccess());
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled) {
         emit(LoginInitial());
@@ -85,25 +84,11 @@ class LoginCubit extends Cubit<LoginState> {
 
     emit(LoginLoading());
     try {
-      await auth.sendPasswordResetEmail(email: email);
+      await resetPasswordUseCase(email);
       emit(PasswordResetEmailSent(email));
     } on FirebaseAuthException catch (e) {
       emit(LoginFailure(errorMessage(e)));
     }
-  }
-
-  Future<void> saveUser(User user, GoogleSignInAccount account) async {
-    final doc = firestore.collection('users').doc(user.uid);
-    if ((await doc.get()).exists) return;
-
-    await doc.set({
-      'uid': user.uid,
-      'name': account.displayName ?? '',
-      'email': account.email,
-      'phone': '',
-      'avatarIndex': 1,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
   }
 
   String errorMessage(FirebaseAuthException e) {

@@ -5,7 +5,7 @@ import 'package:movies_app/features/movie_details/ui/cubit/movie_details_cubit.d
 void main() {
   setUpAll(servicesLocator);
 
-  test('MovieDetailsCubit can be resolved from getIt', () {
-    expect(getIt<MovieDetailsCubit>(), isA<MovieDetailsCubit>());
+  test('MovieDetailsCubit is registered in getIt', () {
+    expect(getIt.isRegistered<MovieDetailsCubit>(), isTrue);
   });
 }

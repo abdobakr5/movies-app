@@ -1,14 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/movies/domain/repository/browse_repo.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/usecase/add_to_history_usecase.dart';
+import 'package:movies_app/features/movies/domain/usecase/get_browse_movies_usecase.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/browse_tab/cubit/browse_state.dart';
 
 class BrowseCubit extends Cubit<BrowseState> {
-  final BrowseRepository browseRepository;
+  final GetBrowseMoviesUseCase getBrowseMoviesUseCase;
+  final AddToHistoryUseCase addToHistoryUseCase;
 
-  BrowseCubit(this.browseRepository) : super(BrowseInitialState());
+  BrowseCubit({
+    required this.getBrowseMoviesUseCase,
+    required this.addToHistoryUseCase,
+  }) : super(BrowseInitialState());
 
-  List<MovieModel> _allMovies = [];
+  List<MovieEntity> _allMovies = [];
   Set<String> _genres = {};
   String _selectedGenre = '';
 
@@ -16,7 +21,7 @@ class BrowseCubit extends Cubit<BrowseState> {
     emit(BrowseLoadingState());
     try {
       // 1. جلب قائمة الأفلام من الـ Repository
-      _allMovies = await browseRepository.getMovies();
+      _allMovies = await getBrowseMoviesUseCase();
 
       // 2. عمل Loop وتجميع كافة الـ Genres في Set لإزالة التكرار تلقائياً
       _genres = {};
@@ -63,9 +68,9 @@ class BrowseCubit extends Cubit<BrowseState> {
   }
 
   /// حفظ الفيلم المزار في Firestore History عند ضغط الكرت
-  Future<void> addToHistory(MovieModel movie) async {
+  Future<void> addToHistory(MovieEntity movie) async {
     try {
-      await browseRepository.addToHistory(movie);
+      await addToHistoryUseCase(movie);
     } catch (_) {
       // معالجة الخطأ بشفافية لتجنب تعطيل تجربة المستخدم أثناء التنقل
     }

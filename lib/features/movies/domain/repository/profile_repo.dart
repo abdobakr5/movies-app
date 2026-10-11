@@ -5,7 +5,7 @@ abstract class ProfileRepository {
 Future<void> updateProfile({
   required String name,
   required String phone,
-  required String avatar,
+  required int avatarIndex,
 });
 Future<void>deleteAccount();
 Future<UserEntity> getUserData();

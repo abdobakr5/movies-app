@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/auth/ui/cubit/register_cubit.dart';
@@ -51,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RegisterCubit(),
+      create: (_) => getIt<RegisterCubit>(),
       child: Scaffold(
         backgroundColor: AppColors.darkBackground,
         body: SafeArea(

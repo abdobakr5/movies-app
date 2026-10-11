@@ -6,9 +6,9 @@ class UpdateProfileUsecase {
   Future<void> call({
     required String name,
     required String phone,
-    required String avatar,
+    required int avatarIndex,
   }) async {
     return await repository.updateProfile(
-        name: name, phone: phone, avatar: avatar);
+        name: name, phone: phone, avatarIndex: avatarIndex);
   }
 }
