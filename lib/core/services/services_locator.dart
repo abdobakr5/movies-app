@@ -33,6 +33,8 @@ void servicesLocator() {
 
 
   getIt.registerLazySingleton<ApiManager>(() => ApiManager());
+  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
 
   getIt.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSource(getIt()),

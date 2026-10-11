@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/features/movies/domain/usecase/logout_usecase.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -70,7 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: buildBottomNavBar(),
       ),
     );
   }
@@ -118,6 +120,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Edit Profile',
                   color: AppColors.yellow,
                   textColor: AppColors.black,
+                  onPressed: () =>
+                      Navigator.push(context, AppRoutes.updateProfile()),
                 ),
               ),
               const SizedBox(width: 12),
@@ -127,6 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: AppColors.red,
                   textColor: Colors.white,
                   icon: Icons.logout_rounded,
+                  onPressed: logout,
                 ),
               ),
             ],
@@ -134,6 +139,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> logout() async {
+    await getIt<LogoutUsecase>()();
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(AppRoutes.login(), (_) => false);
   }
 
   Widget buildStatItem(String number, String label) {
@@ -168,12 +179,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required String text,
     required Color color,
     required Color textColor,
+    required VoidCallback onPressed,
     IconData? icon,
   }) {
     return SizedBox(
       height: 56,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: textColor,
@@ -237,42 +249,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
             child:
                 Image.asset('assets/profile_images/Empty 1.png', width: 124)),
-      ),
-    );
-  }
-
-  // ---------------- Bottom Navigation Bar ----------------
-
-  Widget buildBottomNavBar() {
-    return SafeArea(
-      top: false,
-      child: Container(
-        height: 61,
-        margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-        decoration: BoxDecoration(
-          color: AppColors.navBarBackground,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            buildNavIcon(Icons.home_rounded),
-            buildNavIcon(Icons.search_rounded),
-            buildNavIcon(Icons.explore_rounded),
-            buildNavIcon(Icons.account_circle_outlined, isSelected: true),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildNavIcon(IconData icon, {bool isSelected = false}) {
-    return IconButton(
-      onPressed: () {},
-      icon: Icon(
-        icon,
-        size: 30,
-        color: isSelected ? AppColors.yellow : Colors.white,
       ),
     );
   }
