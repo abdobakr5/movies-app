@@ -113,7 +113,7 @@ void servicesLocator() {
 
 // Cubit
   getIt.registerFactory<BrowseCubit>(
-    () => BrowseCubit(getIt<BrowseRepository>())..loadBrowseData(),
+    () => BrowseCubit(getIt<BrowseRepository>()),
   );
 
 }

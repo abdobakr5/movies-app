@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
-import 'package:movies_app/features/profile/domain/usecases/wishlist_usecase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/cubit/app_cubit.dart';
@@ -14,16 +13,6 @@ void main() async {
   await Firebase.initializeApp();
 
   servicesLocator();
-
-  // test the logic of profile screen
-  try {
-    final WishlistUsecase = getIt<GetWishlistUsecase>();
-    final result = await WishlistUsecase.call();
-    print(" success");
-    print(result);
-  } catch (e) {
-    print("Error:$e");
-  }
 
   runApp(
     BlocProvider(

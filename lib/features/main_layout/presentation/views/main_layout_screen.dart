@@ -26,16 +26,7 @@ class MainLayoutScreen extends StatelessWidget {
           ),
         ),
       ),
-      Center(
-        child: Text(
-          l10n.exploreScreen,
-          style: const TextStyle(
-            color: AppColors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      const BrowseTabBody(),
       Center(
         child: Text(
           l10n.profileScreen,

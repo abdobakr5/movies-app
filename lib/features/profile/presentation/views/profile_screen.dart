@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import 'history_tab.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -58,7 +57,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 toolbarHeight: 0,
                 automaticallyImplyLeading: false,
                 backgroundColor: AppColors.grey,
-                backgroundColor: AppColors.darkGrey,
                 surfaceTintColor: Colors.transparent,
                 scrolledUnderElevation: 0,
                 bottom: buildTabBar(),

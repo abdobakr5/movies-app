@@ -4,7 +4,6 @@ import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
-import 'package:movies_app/core/utils/app_validator.dart';
 import 'package:movies_app/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/register_state.dart';
 import 'package:movies_app/features/profile/presentation/widgets/avatar_selector.dart';
@@ -63,7 +62,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (state is RegisterSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(AppLocalizations.of(context)!.accountCreatedSuccessfully),
+                      content: Text(AppLocalizations.of(context)!
+                          .accountCreatedSuccessfully),
                       backgroundColor: AppColors.green,
                     ),
                   );
@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Form(
-                          key: cubit.formKey,
+                          key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               const SizedBox(height: 24),
                               CustomTextField(
-                                controller: cubit.nameController,
+                                controller: _nameController,
                                 hintText: l10n.name,
                                 icon: Icons.badge,
                                 validator: (value) {
@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               const SizedBox(height: 16),
                               CustomTextField(
-                                controller: cubit.emailController,
+                                controller: _emailController,
                                 hintText: l10n.email,
                                 icon: Icons.email,
                                 keyboardType: TextInputType.emailAddress,
@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               const SizedBox(height: 16),
                               PasswordTextField(
-                                controller: cubit.passwordController,
+                                controller: _passwordController,
                                 hintText: l10n.password,
                                 validator: (value) {
                                   if (value == null || value.length < 6) {
@@ -139,10 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               const SizedBox(height: 16),
                               PasswordTextField(
-                                controller: cubit.confirmPasswordController,
+                                controller: _confirmPasswordController,
                                 hintText: l10n.confirmPassword,
                                 validator: (value) {
-                                  if (value != cubit.passwordController.text) {
+                                  if (value != _passwordController.text) {
                                     return l10n.passwordsDoNotMatch;
                                   }
                                   return null;
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               const SizedBox(height: 16),
                               CustomTextField(
-                                controller: cubit.phoneController,
+                                controller: _phoneController,
                                 hintText: l10n.phoneNumber,
                                 icon: Icons.phone,
                                 keyboardType: TextInputType.phone,
@@ -172,7 +172,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       text: l10n.createAccount,
                                       backgroundColor: AppColors.primaryYellow,
                                       textColor: AppColors.black,
-                                      onPressed: cubit.registerUser,
+                                      onPressed: () {
+                                        if (!_formKey.currentState!.validate()) {
+                                          return;
+                                        }
+                                        cubit.registerUser(
+                                          name: _nameController.text.trim(),
+                                          email: _emailController.text.trim(),
+                                          password: _passwordController.text,
+                                          phone: _phoneController.text.trim(),
+                                        );
+                                      },
                                     ),
                               const SizedBox(height: 16),
                               _buildLoginRow(context),
@@ -189,10 +199,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
