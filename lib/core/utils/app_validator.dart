@@ -1,4 +1,4 @@
-import 'app_regex.dart';
+import 'package:movies_app/core/utils/app_regex.dart';
 
 class AppValidator {
   static String? validateName(String? value) {

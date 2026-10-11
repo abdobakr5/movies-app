@@ -1,4 +1,4 @@
-import 'cast_entity.dart';
+import 'package:movies_app/features/movie_details/domain/entities/cast_entity.dart';
 
 class MovieDetailsEntity {
   final int id;

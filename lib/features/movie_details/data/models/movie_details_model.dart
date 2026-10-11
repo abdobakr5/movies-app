@@ -1,5 +1,5 @@
 import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
-import 'cast_model.dart';
+import 'package:movies_app/features/movie_details/data/models/cast_model.dart';
 
 class MovieDetailsModel extends MovieDetailsEntity {
   const MovieDetailsModel({

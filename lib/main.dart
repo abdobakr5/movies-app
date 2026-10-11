@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'core/cubit/app_cubit.dart';
-import 'core/localization/app_localizations.dart';
-import 'features/splash/presentation/views/splash_screen.dart';
-import 'core/services/services_locator.dart';
+import 'package:movies_app/core/cubit/app_cubit.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
+import 'package:movies_app/features/splash/ui/screens/splash_screen.dart';
+import 'package:movies_app/core/services/services_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

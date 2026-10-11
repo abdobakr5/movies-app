@@ -1,4 +1,4 @@
-import 'app_localizations.dart';
+import 'package:movies_app/core/localization/app_localizations.dart';
 
 // ignore_for_file: type=lint
 
