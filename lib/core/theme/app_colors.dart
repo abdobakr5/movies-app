@@ -22,7 +22,6 @@ class AppColors {
   static const Color homeBackground = Color(0xFF121318);
   static const Color homeBackgroundTranslucent = Color(0xBB121318);
   static const Color surfaceColor = Color(0xFF1E1E1E);
-  static const Color navBarBackground = Color(0xFF282A28);
   static const Color inputFill = Color(0xFF282A28);
   static const Color fieldColor = Color(0xFF2B2B2B);
 
@@ -39,15 +38,14 @@ class AppColors {
   static const Color teal = Color(0xFF009688);
   static const Color orange = Color(0xFFFF9800);
   static const Color grey800 = Color(0xFF424242);
+  static const Color darkGrey = Color(0xFF212121);
 
   // Opacity Variations
   static const Color white70 = Color(0xB3FFFFFF);
-  static const Color white54 = Color(0x8AFFFFFF);
+  static const Color op70black = Color(0xB3121312);
   static const Color transparent = Color(0x00000000);
 
   // Icons
-  static const Color iconInactive = Color(0xFFFFFFFF);
   static const Color white38 = Color(0x61FFFFFF);
   static const Color grey = Color(0xFF212121);
-  static const Color transparent = Color(0x00000000);
 }
