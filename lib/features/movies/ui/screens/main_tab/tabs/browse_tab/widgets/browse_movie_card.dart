@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
-import 'package:movies_app/core/utils/app_strings.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/browse_tab/cubit/browse_cubit.dart';
 import 'package:movies_app/features/movies/data/models/movie_model.dart';
 
@@ -18,11 +18,7 @@ class BrowseMovieCard extends StatelessWidget {
         context.read<BrowseCubit>().addToHistory(movie);
 
         // 2. الانتقال لشاشة التفاصيل
-        Navigator.pushNamed(
-          context,
-          AppStrings.movieDetails,
-          arguments: movie,
-        );
+        Navigator.push(context, AppRoutes.movieDetails(movie.id));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),

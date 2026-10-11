@@ -1,4 +1,11 @@
 import 'package:get_it/get_it.dart';
+import 'package:movies_app/features/movie_details/data/repository/data_source/movie_details_remote_data_source.dart';
+import 'package:movies_app/features/movie_details/data/repository/data_source/watchlist_remote_data_source.dart';
+import 'package:movies_app/features/movie_details/data/repository/movie_details_repo_impl.dart';
+import 'package:movies_app/features/movie_details/domain/repository/movie_details_repo.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/get_movie_details_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/get_movie_suggestions_usecase.dart';
+import 'package:movies_app/features/movie_details/ui/cubit/movie_details_cubit.dart';
 import 'package:movies_app/features/movies/data/repository/data_source/movie_remote_data_source.dart';
 import 'package:movies_app/features/movies/data/repository/movie_repo_impl.dart';
 import 'package:movies_app/features/movies/domain/repository/movie_repo.dart';
@@ -118,4 +125,26 @@ void servicesLocator() {
     () => BrowseCubit(getIt<BrowseRepository>()),
   );
 
+  getIt.registerLazySingleton<MovieDetailsRemoteDataSource>(
+    () => MovieDetailsRemoteDataSource(getIt()),
+  );
+
+  getIt.registerLazySingleton<MovieDetailsRepository>(
+    () => MovieDetailsRepositoryImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => GetMovieSuggestionsUseCase(getIt()));
+
+  getIt.registerFactory<MovieDetailsCubit>(
+    () => MovieDetailsCubit(
+      getMovieDetailsUseCase: getIt(),
+      getMovieSuggestionsUseCase: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<WatchlistRemoteDataSource>(
+    () => WatchlistRemoteDataSource(firestore: getIt(), auth: getIt()),
+  );
 }
