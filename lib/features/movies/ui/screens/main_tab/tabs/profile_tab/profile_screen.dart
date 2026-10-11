@@ -103,26 +103,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 bloc: cubit,
                 builder: (context, state) {
                   final user = state is ProfileSuccess ? state.user : null;
-                  return Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 59,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: user == null
-                            ? null
-                            : AssetImage(
-                                AppAssets.allAvatars[user.avatarIndex]),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        user?.name ?? '',
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  return SizedBox(
+                    width: 118,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 59,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: user == null
+                              ? null
+                              : AssetImage(
+                                  AppAssets.allAvatars[user.avatarIndex]),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 12),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            user?.name ?? '',
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
