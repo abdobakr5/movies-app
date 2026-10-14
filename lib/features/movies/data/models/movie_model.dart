@@ -20,6 +20,26 @@ class MovieModel extends MovieEntity {
     required super.largeCoverImage,
   });
 
+  factory MovieModel.fromFirestore(Map<String, dynamic> json) {
+    return MovieModel(
+      id: json['id'] ?? json['movieId'] ?? 0,
+      title: json['title'] ?? '',
+      titleEnglish: '',
+      titleLong: '',
+      year: json['year'] ?? 0,
+      rating: (json['rating'] ?? 0).toDouble(),
+      runtime: json['runtime'] ?? 0,
+      genres: List<String>.from(json['genres'] ?? []),
+      summary: json['summary'] ?? '',
+      descriptionFull: json['descriptionFull'] ?? '',
+      backgroundImage: '',
+      backgroundImageOriginal: '',
+      smallCoverImage: '',
+      mediumCoverImage: json['mediumCoverImage'] ?? '',
+      largeCoverImage: json['largeCoverImage'] ?? json['posterPath'] ?? '',
+    );
+  }
+
   MovieEntity toEntity() {
     return MovieEntity(
       id: id,

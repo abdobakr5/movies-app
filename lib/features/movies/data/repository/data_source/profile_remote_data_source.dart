@@ -69,9 +69,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
     final result=await firestore.
     collection('users').
     doc(userId).
-    collection('history'). 
+    collection('history').
+    orderBy('visitedAt', descending: true).
     get();
-    return result.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
+    return result.docs.map((doc) => MovieModel.fromFirestore(doc.data())).toList();
    }
 
     @override
@@ -80,9 +81,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
     final result=await firestore.
     collection('users').
     doc(userId).
-    collection('watchlist'). 
+    collection('watchlist').
+    orderBy('createdAt', descending: true).
     get();
-    return result.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
+    return result.docs.map((doc) => MovieModel.fromFirestore(doc.data())).toList();
    }
 
    @override

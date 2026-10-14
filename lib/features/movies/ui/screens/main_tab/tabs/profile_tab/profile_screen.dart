@@ -8,7 +8,9 @@ import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/cubit/profile_state.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/cubit/main_layout_cubit.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/cubit/main_layout_state.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/movies/domain/usecase/logout_usecase.dart';
+import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/widgets/movie_card.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -86,10 +88,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
 
                 // 3. Content of the selected tab
-                if (selectedTab == 0)
-                  buildEmptyWatchList()
-                else
-                  const HistoryTab(),
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  bloc: listsCubit,
+                  buildWhen: (_, state) =>
+                      state is ProfileWishlistAndHistoryLoaded,
+                  builder: (context, state) {
+                    final movies = state is ProfileWishlistAndHistoryLoaded
+                        ? (selectedTab == 0 ? state.wishlist : state.history)
+                        : <MovieEntity>[];
+                    if (movies.isEmpty) {
+                      return selectedTab == 0
+                          ? buildEmptyWatchList()
+                          : const HistoryTab();
+                    }
+                    return buildMoviesGrid(movies);
+                  },
+                ),
               ],
             ),
           ),
@@ -298,6 +312,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
           text: 'History',
         ),
       ],
+    );
+  }
+
+  Widget buildMoviesGrid(List<MovieEntity> movies) {
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      sliver: SliverGrid.builder(
+        itemCount: movies.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.68,
+        ),
+        itemBuilder: (context, index) => MovieCard(
+          movie: movies[index],
+          onTap: () async {
+            await Navigator.push(
+                context, AppRoutes.movieDetails(movies[index].id));
+            listsCubit.getWishlistAndHistory();
+          },
+        ),
+      ),
     );
   }
 
