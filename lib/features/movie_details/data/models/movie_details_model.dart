@@ -20,6 +20,7 @@ class MovieDetailsModel extends MovieDetailsEntity {
     required super.largeCoverImage,
     required super.screenshots,
     required super.cast,
+    required super.ytTrailerCode,
   });
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +59,7 @@ class MovieDetailsModel extends MovieDetailsEntity {
       largeCoverImage: json['large_cover_image'] ?? '',
       screenshots: screenshotsList,
       cast: castList,
+      ytTrailerCode: json['yt_trailer_code'] ?? '',
     );
   }
 
@@ -80,6 +82,7 @@ class MovieDetailsModel extends MovieDetailsEntity {
       largeCoverImage: largeCoverImage,
       screenshots: screenshots,
       cast: cast,
+      ytTrailerCode: ytTrailerCode,
     );
   }
 }

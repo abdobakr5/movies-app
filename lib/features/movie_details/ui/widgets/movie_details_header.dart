@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/add_bookmark_usecase.dart';
@@ -117,6 +118,20 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
         });
       }
     }
+  }
+
+  Future<void> _watchTrailer() async {
+    if (widget.movie.ytTrailerCode.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No trailer available for this movie')),
+      );
+      return;
+    }
+
+    await launchUrl(
+      Uri.parse('https://www.youtube.com/watch?v=${widget.movie.ytTrailerCode}'),
+      mode: LaunchMode.externalApplication,
+    );
   }
 
   @override
@@ -304,7 +319,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
         SizedBox(
           height: 48,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: _watchTrailer,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFE51937),
               elevation: 0,

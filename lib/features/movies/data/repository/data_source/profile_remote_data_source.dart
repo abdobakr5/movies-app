@@ -80,7 +80,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
     final result=await firestore.
     collection('users').
     doc(userId).
-    collection('wishlist'). 
+    collection('watchlist'). 
     get();
     return result.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
    }
