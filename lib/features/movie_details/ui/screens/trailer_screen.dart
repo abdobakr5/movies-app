@@ -16,7 +16,10 @@ class _TrailerScreenState extends State<TrailerScreen> {
       YoutubePlayerController.fromVideoId(
     videoId: widget.videoId,
     autoPlay: true,
-    params: const YoutubePlayerParams(showFullscreenButton: true),
+    params: const YoutubePlayerParams(
+      showFullscreenButton: true,
+      origin: 'https://www.youtube-nocookie.com',
+    ),
   );
 
   @override
