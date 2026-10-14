@@ -18,6 +18,7 @@ class MovieDetailsEntity {
   final String largeCoverImage;
   final List<String> screenshots;
   final List<CastEntity> cast;
+  final String ytTrailerCode;
 
   const MovieDetailsEntity({
     required this.id,
@@ -37,5 +38,6 @@ class MovieDetailsEntity {
     required this.largeCoverImage,
     required this.screenshots,
     required this.cast,
+    required this.ytTrailerCode,
   });
 }

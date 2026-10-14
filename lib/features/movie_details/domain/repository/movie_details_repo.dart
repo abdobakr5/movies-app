@@ -7,4 +7,5 @@ abstract class MovieDetailsRepository {
   Future<bool> isBookmarked(int movieId);
   Future<void> addBookmark(MovieDetailsEntity movie);
   Future<void> removeBookmark(int movieId);
+  Future<void> addToHistory(MovieDetailsEntity movie);
 }

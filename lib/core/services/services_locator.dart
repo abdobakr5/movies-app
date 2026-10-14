@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/add_bookmark_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/is_bookmarked_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/remove_bookmark_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/save_to_history_usecase.dart';
 import 'package:movies_app/features/movies/domain/usecase/add_to_history_usecase.dart';
 import 'package:movies_app/features/movies/domain/usecase/get_browse_movies_usecase.dart';
 import 'package:movies_app/features/auth/data/repository/auth_repo_impl.dart';
@@ -190,10 +191,13 @@ void servicesLocator() {
 
   getIt.registerLazySingleton(() => RemoveBookmarkUseCase(getIt()));
 
+  getIt.registerLazySingleton(() => SaveToHistoryUseCase(getIt()));
+
   getIt.registerFactory<MovieDetailsCubit>(
     () => MovieDetailsCubit(
       getMovieDetailsUseCase: getIt(),
       getMovieSuggestionsUseCase: getIt(),
+      saveToHistoryUseCase: getIt(),
     ),
   );
 

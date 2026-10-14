@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/app_routes/app_routes.dart';
-import 'package:movies_app/features/movies/data/models/movie_model.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 
 class MovieCard extends StatelessWidget {
-  final MovieModel movie;
+  final MovieEntity movie;
   final double borderRadius;
   final VoidCallback? onTap;
 

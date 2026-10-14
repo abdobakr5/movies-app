@@ -54,6 +54,24 @@ class WatchlistRemoteDataSource {
     });
   }
 
+  Future<void> addToHistory(MovieDetailsEntity movie) async {
+    final uid = _currentUserId;
+    if (uid == null) return;
+
+    await _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('history')
+        .doc(movie.id.toString())
+        .set({
+      'id': movie.id,
+      'title': movie.title,
+      'posterPath': movie.largeCoverImage,
+      'rating': movie.rating,
+      'visitedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+  }
+
   Future<void> removeBookmark(int movieId) async {
     final watchlistRef = _getUserWatchlistRef();
     if (watchlistRef == null) {

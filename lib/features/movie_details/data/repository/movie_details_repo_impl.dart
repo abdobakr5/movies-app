@@ -34,4 +34,9 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
   Future<void> removeBookmark(int movieId) {
     return watchlistDataSource.removeBookmark(movieId);
   }
+
+  @override
+  Future<void> addToHistory(MovieDetailsEntity movie) {
+    return watchlistDataSource.addToHistory(movie);
+  }
 }

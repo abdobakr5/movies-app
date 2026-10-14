@@ -3,15 +3,18 @@ import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/get_movie_details_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/get_movie_suggestions_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecase/save_to_history_usecase.dart';
 import 'package:movies_app/features/movie_details/ui/cubit/movie_details_state.dart';
 
 class MovieDetailsCubit extends Cubit<MovieDetailsState> {
   final GetMovieDetailsUseCase getMovieDetailsUseCase;
   final GetMovieSuggestionsUseCase getMovieSuggestionsUseCase;
+  final SaveToHistoryUseCase saveToHistoryUseCase;
 
   MovieDetailsCubit({
     required this.getMovieDetailsUseCase,
     required this.getMovieSuggestionsUseCase,
+    required this.saveToHistoryUseCase,
   }) : super(MovieDetailsInitial());
 
   Future<void> loadMovieDetails(int movieId) async {
@@ -30,6 +33,8 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
         movieDetails: movieDetails,
         movieSuggestions: movieSuggestions,
       ));
+
+      saveToHistoryUseCase(movieDetails).catchError((_) {});
     } catch (e) {
       emit(MovieDetailsError(e.toString()));
     }

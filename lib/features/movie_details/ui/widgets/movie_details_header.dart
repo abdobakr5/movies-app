@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/features/movie_details/domain/usecase/add_bookmark_usecase.dart';
@@ -24,7 +25,6 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
   bool isLoadingStatus = true;
   bool isToggling = false;
 
-
   @override
   void initState() {
     super.initState();
@@ -44,8 +44,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
       isLoadingStatus = true;
     });
 
-    final bookmarked =
-        await getIt<IsBookmarkedUseCase>()(widget.movie.id);
+    final bookmarked = await getIt<IsBookmarkedUseCase>()(widget.movie.id);
 
     if (mounted) {
       setState(() {
@@ -117,6 +116,17 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
         });
       }
     }
+  }
+
+  void _watchTrailer() {
+    if (widget.movie.ytTrailerCode.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No trailer available for this movie')),
+      );
+      return;
+    }
+
+    Navigator.push(context, AppRoutes.trailer(widget.movie.ytTrailerCode));
   }
 
   @override
@@ -242,24 +252,27 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
             // Center Play Button Overlay
             Positioned.fill(
               child: Center(
-                child: Container(
-                  width: 65,
-                  height: 65,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF6BD00),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black38,
-                        blurRadius: 12,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.white,
-                    size: 42,
+                child: GestureDetector(
+                  onTap: _watchTrailer,
+                  child: Container(
+                    width: 65,
+                    height: 65,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF6BD00),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black38,
+                          blurRadius: 12,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                      size: 42,
+                    ),
                   ),
                 ),
               ),
@@ -304,7 +317,7 @@ class _MovieDetailsHeaderState extends State<MovieDetailsHeader> {
         SizedBox(
           height: 48,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: _watchTrailer,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFE51937),
               elevation: 0,

@@ -17,6 +17,7 @@ import 'package:movies_app/features/onboarding/ui/screens/onboarding6_screen.dar
 import 'package:movies_app/features/movies/ui/screens/update_profile/update_profile_screen.dart';
 import 'package:movies_app/features/movie_details/ui/cubit/movie_details_cubit.dart';
 import 'package:movies_app/features/movie_details/ui/screens/movie_details_screen.dart';
+import 'package:movies_app/features/movie_details/ui/screens/trailer_screen.dart';
 
 class AppRoutes {
   static Route onboarding1() =>
@@ -69,4 +70,7 @@ class AppRoutes {
           child: MovieDetailsScreen(movieId: movieId),
         ),
       );
+
+  static Route trailer(String videoId) =>
+      MaterialPageRoute(builder: (_) => TrailerScreen(videoId: videoId));
 }

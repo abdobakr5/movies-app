@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/localization/app_localizations.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/core/utils/app_styles.dart';
-import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
-import 'package:movies_app/features/movies/domain/usecase/history_usecase.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/cubit/profile_cubit.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/cubit/profile_state.dart';
 import 'package:movies_app/core/widgets/custom_button.dart';
@@ -136,6 +135,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   message: l10n.accountDeletedSuccessfully,
                   color: AppColors.red,
                 );
+                Navigator.of(context)
+                    .pushAndRemoveUntil(AppRoutes.login(), (_) => false);
               } else if (state is ProfileError) {
                 _showNotificationMessage(
                   message: state.message,
@@ -213,30 +214,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           },
                           text: l10n.deleteAccount,
                           textColor: AppColors.textWhite,
-                        ),
-                        const SizedBox(height: 16),
-                        CustomButton(
-                          backgroundColor: AppColors.primaryYellow,
-                          onPressed: () {
-                            context.read<ProfileCubit>().updateProfile(
-                              name: nameController.text,
-                              phone: phoneController.text,
-                              avatarIndex: selectedAvatar,
-                            );
-                          },
-                          text: l10n.updateData,
-                          textColor: AppColors.surfaceColor,
-                        ),
-                        const SizedBox(height: 16),
-                        CustomButton(
-                          backgroundColor: AppColors.primaryYellow,
-                          onPressed: () async {
-                            GetHistoryUsecase usecase = getIt<GetHistoryUsecase>();
-                            List<MovieEntity> result = await usecase();
-                            print('$result');
-                          },
-                          text: l10n.getHistory,
-                          textColor: AppColors.surfaceColor,
                         ),
                         const SizedBox(height: 16),
                         CustomButton(

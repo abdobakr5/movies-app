@@ -6,7 +6,11 @@ import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/cubit/profile_cubit.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/profile_tab/cubit/profile_state.dart';
+import 'package:movies_app/features/movies/ui/screens/main_tab/cubit/main_layout_cubit.dart';
+import 'package:movies_app/features/movies/ui/screens/main_tab/cubit/main_layout_state.dart';
+import 'package:movies_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/movies/domain/usecase/logout_usecase.dart';
+import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/widgets/movie_card.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -42,46 +46,66 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileCubit cubit = getIt<ProfileCubit>()..fetchUserData();
+  final ProfileCubit listsCubit = getIt<ProfileCubit>()
+    ..getWishlistAndHistory();
 
   @override
   void dispose() {
     cubit.close();
+    listsCubit.close();
     super.dispose();
   }
 
   int selectedTab = 0; // 0 = Watch List, 1 = History
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: AppColors.black,
-        extendBody: true,
-        body: SafeArea(
-          bottom: false,
-          child: CustomScrollView(
-            slivers: [
-              // 1. Header
-              SliverToBoxAdapter(child: buildHeader()),
+    return BlocListener<MainLayoutCubit, MainLayoutState>(
+      listener: (context, state) {
+        if (state.currentIndex == 3) listsCubit.getWishlistAndHistory();
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: AppColors.black,
+          extendBody: true,
+          body: SafeArea(
+            bottom: false,
+            child: CustomScrollView(
+              slivers: [
+                // 1. Header
+                SliverToBoxAdapter(child: buildHeader()),
 
-              // 2. Tabs (pinned: true = they stick to the top)
-              SliverAppBar(
-                pinned: true,
-                primary: false,
-                toolbarHeight: 0,
-                automaticallyImplyLeading: false,
-                backgroundColor: AppColors.grey,
-                surfaceTintColor: Colors.transparent,
-                scrolledUnderElevation: 0,
-                bottom: buildTabBar(),
-              ),
+                // 2. Tabs (pinned: true = they stick to the top)
+                SliverAppBar(
+                  pinned: true,
+                  primary: false,
+                  toolbarHeight: 0,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: AppColors.grey,
+                  surfaceTintColor: Colors.transparent,
+                  scrolledUnderElevation: 0,
+                  bottom: buildTabBar(),
+                ),
 
-              // 3. Content of the selected tab
-              if (selectedTab == 0)
-                buildEmptyWatchList()
-              else
-                const HistoryTab(),
-            ],
+                // 3. Content of the selected tab
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  bloc: listsCubit,
+                  buildWhen: (_, state) =>
+                      state is ProfileWishlistAndHistoryLoaded,
+                  builder: (context, state) {
+                    final movies = state is ProfileWishlistAndHistoryLoaded
+                        ? (selectedTab == 0 ? state.wishlist : state.history)
+                        : <MovieEntity>[];
+                    if (movies.isEmpty) {
+                      return selectedTab == 0
+                          ? buildEmptyWatchList()
+                          : const HistoryTab();
+                    }
+                    return buildMoviesGrid(movies);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -132,8 +156,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 },
               ),
-              Expanded(child: buildStatItem('12', 'Wish List')),
-              Expanded(child: buildStatItem('10', 'History')),
+              Expanded(
+                child: BlocBuilder<ProfileCubit, ProfileState>(
+                  bloc: listsCubit,
+                  buildWhen: (_, state) =>
+                      state is ProfileWishlistAndHistoryLoaded,
+                  builder: (context, state) {
+                    final count = state is ProfileWishlistAndHistoryLoaded
+                        ? state.wishlist.length
+                        : 0;
+                    return buildStatItem('$count', 'Wish List');
+                  },
+                ),
+              ),
+              Expanded(
+                child: BlocBuilder<ProfileCubit, ProfileState>(
+                  bloc: listsCubit,
+                  buildWhen: (_, state) =>
+                      state is ProfileWishlistAndHistoryLoaded,
+                  builder: (context, state) {
+                    final count = state is ProfileWishlistAndHistoryLoaded
+                        ? state.history.length
+                        : 0;
+                    return buildStatItem('$count', 'History');
+                  },
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -264,6 +312,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
           text: 'History',
         ),
       ],
+    );
+  }
+
+  Widget buildMoviesGrid(List<MovieEntity> movies) {
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      sliver: SliverGrid.builder(
+        itemCount: movies.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.68,
+        ),
+        itemBuilder: (context, index) => MovieCard(
+          movie: movies[index],
+          onTap: () async {
+            await Navigator.push(
+                context, AppRoutes.movieDetails(movies[index].id));
+            listsCubit.getWishlistAndHistory();
+          },
+        ),
+      ),
     );
   }
 
