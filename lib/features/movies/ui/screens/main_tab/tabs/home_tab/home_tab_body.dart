@@ -5,10 +5,10 @@ import 'package:movies_app/core/app_routes/app_routes.dart';
 import 'package:movies_app/core/services/services_locator.dart';
 import 'package:movies_app/core/utils/app_assets.dart';
 import 'package:movies_app/features/movies/data/models/movie_model.dart'
-as home_model;
+    as home_model;
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/cubit/home_cubit.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/models/home_movie_model.dart'
-as ui_model;
+    as ui_model;
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/widgets/banner_carousel.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/widgets/movies_horizontal_list.dart';
 import 'package:movies_app/features/movies/ui/screens/main_tab/tabs/home_tab/widgets/section_header.dart';
@@ -25,9 +25,9 @@ class _HomeTabBodyState extends State<HomeTabBody> {
   bool isBackgroundReady = false;
 
   Future<void> _prepareBackground(
-      BuildContext context,
-      ui_model.MovieModel movie,
-      ) async {
+    BuildContext context,
+    ui_model.MovieModel movie,
+  ) async {
     try {
       await precacheImage(
         NetworkImage(movie.backgroundUrl),
@@ -91,20 +91,15 @@ class _HomeTabBodyState extends State<HomeTabBody> {
             );
           }).toList();
 
-          final homeMovies =
-          state.movies.map(_convertMovie).toList();
+          final homeMovies = state.movies.map(_convertMovie).toList();
 
-          final actionMovies =
-          state.actionMovies.map(_convertMovie).toList();
+          final actionMovies = state.actionMovies.map(_convertMovie).toList();
 
-          final romanceMovies =
-          state.romanceMovies.map(_convertMovie).toList();
+          final romanceMovies = state.romanceMovies.map(_convertMovie).toList();
 
-          final dramaMovies =
-          state.dramaMovies.map(_convertMovie).toList();
+          final dramaMovies = state.dramaMovies.map(_convertMovie).toList();
 
-          final horrorMovies =
-          state.horrorMovies.map(_convertMovie).toList();
+          final horrorMovies = state.horrorMovies.map(_convertMovie).toList();
 
           if (uiMovies.isNotEmpty && selectedMovie == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -131,13 +126,13 @@ class _HomeTabBodyState extends State<HomeTabBody> {
   }
 
   Widget _buildHomeContent(
-      List<ui_model.MovieModel> movies,
-      List<home_model.MovieModel> homeMovies,
-      List<home_model.MovieModel> actionMovies,
-      List<home_model.MovieModel> romanceMovies,
-      List<home_model.MovieModel> dramaMovies,
-      List<home_model.MovieModel> horrorMovies,
-      ) {
+    List<ui_model.MovieModel> movies,
+    List<home_model.MovieModel> homeMovies,
+    List<home_model.MovieModel> actionMovies,
+    List<home_model.MovieModel> romanceMovies,
+    List<home_model.MovieModel> dramaMovies,
+    List<home_model.MovieModel> horrorMovies,
+  ) {
     if (movies.isNotEmpty && !isBackgroundReady) {
       return const Scaffold(
         backgroundColor: AppColors.homeBackground,
@@ -162,12 +157,12 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                   Positioned.fill(
                     child: selectedMovie != null
                         ? Image.network(
-                      selectedMovie!.backgroundUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) {
-                        return const SizedBox.expand();
-                      },
-                    )
+                            selectedMovie!.backgroundUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const SizedBox.expand();
+                            },
+                          )
                         : const SizedBox.expand(),
                   ),
                   Positioned.fill(
@@ -203,8 +198,7 @@ class _HomeTabBodyState extends State<HomeTabBody> {
                         movies: banners,
                         onMovieChanged: (movie) {
                           final selected = movies.where(
-                                (uiMovie) =>
-                            uiMovie.id == movie.id.toString(),
+                            (uiMovie) => uiMovie.id == movie.id.toString(),
                           );
 
                           if (selected.isNotEmpty) {

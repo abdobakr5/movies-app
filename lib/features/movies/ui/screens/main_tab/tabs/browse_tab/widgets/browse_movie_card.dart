@@ -28,7 +28,7 @@ class BrowseMovieCard extends StatelessWidget {
             Image.network(
               movie.mediumCoverImage,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (context, error, stackTrace) => Container(
                 color: AppColors.grey,
                 child: const Icon(Icons.broken_image, color: AppColors.white38),
               ),
